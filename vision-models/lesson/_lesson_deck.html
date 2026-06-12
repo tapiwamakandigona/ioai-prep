@@ -1,0 +1,300 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap");
+
+@page { size: 1920px 1080px; margin: 0; }
+:root {
+  --c-ink: #000000; --c-surface: #FFFFFF;
+  --c-dim: rgba(0,0,0,0.55); --c-faint: rgba(0,0,0,0.35);
+  --c-line: rgba(0,0,0,0.12); --c-fill-subtle: rgba(0,0,0,0.04);
+  --font-display: "Satoshi", sans-serif; --font-mono: "Roboto Mono", monospace;
+}
+html, body { margin:0; padding:0; }
+body { font-family: var(--font-display); font-weight:400; color:var(--c-ink);
+       background:#fff; font-feature-settings:"tnum" 1,"lnum" 1,"ss01" 1; }
+.slide { position:relative; width:1920px; height:1080px; padding:80px 120px;
+         box-sizing:border-box; overflow:hidden; background:#fff; color:#000;
+         page-break-after:always; }
+.slide--dark { background:#000; color:#fff; }
+.slide--dark .eyebrow { color:rgba(255,255,255,0.55); }
+.slide--dark .pagenum { color:rgba(255,255,255,0.35); }
+p, .dek, figcaption { text-wrap:pretty; } h1,h2,.title { text-wrap:balance; }
+.eyebrow { font-family:var(--font-mono); font-size:13px; letter-spacing:0.16em;
+           text-transform:uppercase; color:var(--c-dim); }
+.title { font-size:96px; line-height:1.02; font-weight:500; letter-spacing:-0.03em;
+         margin:28px 0 0 0; }
+.statement { font-size:144px; line-height:1.0; font-weight:500; letter-spacing:-0.03em; margin:0; }
+.dek { font-size:34px; line-height:1.3; color:var(--c-dim); margin:0; }
+.pagenum { position:absolute; right:120px; top:84px; font-family:var(--font-mono);
+           font-size:13px; letter-spacing:0.16em; color:var(--c-faint); }
+.bullets { margin:0; padding:0; list-style:none; }
+.bullets li { font-size:30px; line-height:1.35; margin-bottom:26px; padding-left:44px;
+              position:relative; }
+.bullets li:before { content:"\2192"; position:absolute; left:0; color:var(--c-faint); }
+.cap { font-family:var(--font-mono); font-size:13px; letter-spacing:0.16em;
+       text-transform:uppercase; color:var(--c-dim); }
+.capn { font-size:20px; color:var(--c-dim); line-height:1.35; }
+img { image-rendering:auto; }
+img.px { image-rendering:pixelated; }
+.code { font-family:var(--font-mono); font-size:26px; line-height:1.6;
+        background:var(--c-fill-subtle); padding:44px 52px; white-space:pre; }
+.code .cm { color:var(--c-dim); }
+.interact { position:absolute; left:120px; bottom:80px; font-family:var(--font-mono);
+            font-size:13px; letter-spacing:0.16em; text-transform:uppercase; }
+.interact b { font-weight:500; background:#000; color:#fff; padding:6px 12px; margin-right:14px; }
+</style></head>
+<body>
+<div class="slide"><div class="eyebrow">A LESSON &middot; COMPUTER VISION &middot; BY A STUDENT, FOR STUDENTS</div>
+<h1 class="statement" style="font-size:176px; margin-top:330px;">How a computer<br>sees</h1>
+</div><div class="slide"><div class="pagenum">02</div><div class="eyebrow">ONE HOUR &middot; ONE STORY</div><h1 class="title" style="font-size:84px">The plan</h1>
+<div style="margin-top:108px; max-width:1240px;">
+  <div style="display:grid; grid-template-columns:170px 1fr; row-gap:54px; column-gap:0;">
+    <div class="cap" style="padding-top:8px;">ACT 1</div>
+    <div style="font-size:34px; line-height:1.35;">How a computer sees &mdash; we compute what a network computes, <span style="white-space:nowrap;">by hand.</span></div>
+    <div class="cap" style="padding-top:8px;">ACT 2</div>
+    <div style="font-size:34px; line-height:1.35;">How it learns &mdash; nobody programs it; it practices. With my own&nbsp;results.</div>
+    <div class="cap" style="padding-top:8px;">ACT 3</div>
+    <div style="font-size:34px; line-height:1.35;">What this unlocks &mdash; finding objects, cutting them out, words, generating&nbsp;images.</div>
+  </div>
+  <p class="dek" style="margin-top:96px; max-width:1100px;">The promise: in one hour you can explain how a photo becomes the word&nbsp;&ldquo;cat.&rdquo;</p>
+</div></div><div class="slide slide--dark"><div class="pagenum">03</div><div class="eyebrow">ACT 1 &middot; HOW A COMPUTER SEES</div>
+<h1 class="statement" style="margin-top:320px;">A computer has never<br>seen a cat.</h1>
+</div><div class="slide"><div class="pagenum">04</div><div class="eyebrow">STEP 1 &middot; WHAT THE COMPUTER ACTUALLY RECEIVES</div><h1 class="title" style="font-size:84px">A photo is just a grid of numbers</h1>
+<div style="display:flex; gap:90px; margin-top:96px; align-items:flex-start;">
+  <div style="width:640px;">
+    <img src="assets/chelsea_marked.png" width="640" height="426"/>
+    <div class="cap" style="margin-top:18px;">A REAL PHOTO &middot; WHITE BOX = 10&times;10 PIXELS ON HER EYE</div>
+    <ul class="bullets" style="margin-top:54px;">
+      <li>Each square is a <b>pixel</b>: one brightness number. 0&nbsp;=&nbsp;black, 255&nbsp;=&nbsp;white.</li>
+      <li>Color photos: three grids &mdash; red, green, blue.</li>
+    </ul>
+  </div>
+  <div>
+    <div style="display:grid; grid-template-columns:repeat(10,52px); grid-template-rows:repeat(10,52px); font-family:var(--font-mono); font-size:15px; border:1px solid rgba(0,0,0,0.25);"><div style="background:rgb(67,67,67); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">67</div><div style="background:rgb(59,59,59); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">59</div><div style="background:rgb(53,53,53); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">53</div><div style="background:rgb(51,51,51); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">51</div><div style="background:rgb(48,48,48); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">48</div><div style="background:rgb(38,38,38); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">38</div><div style="background:rgb(21,21,21); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">21</div><div style="background:rgb(7,7,7); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">7</div><div style="background:rgb(10,10,10); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">10</div><div style="background:rgb(14,14,14); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">14</div><div style="background:rgb(64,64,64); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">64</div><div style="background:rgb(68,68,68); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">68</div><div style="background:rgb(61,61,61); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">61</div><div style="background:rgb(58,58,58); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">58</div><div style="background:rgb(49,49,49); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">49</div><div style="background:rgb(28,28,28); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">28</div><div style="background:rgb(16,16,16); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">16</div><div style="background:rgb(9,9,9); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">9</div><div style="background:rgb(9,9,9); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">9</div><div style="background:rgb(6,6,6); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">6</div><div style="background:rgb(73,73,73); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">73</div><div style="background:rgb(70,70,70); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">70</div><div style="background:rgb(70,70,70); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">70</div><div style="background:rgb(63,63,63); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">63</div><div style="background:rgb(46,46,46); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">46</div><div style="background:rgb(20,20,20); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">20</div><div style="background:rgb(12,12,12); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">12</div><div style="background:rgb(9,9,9); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">9</div><div style="background:rgb(10,10,10); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">10</div><div style="background:rgb(7,7,7); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">7</div><div style="background:rgb(86,86,86); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">86</div><div style="background:rgb(91,91,91); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">91</div><div style="background:rgb(84,84,84); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">84</div><div style="background:rgb(67,67,67); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">67</div><div style="background:rgb(48,48,48); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">48</div><div style="background:rgb(25,25,25); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">25</div><div style="background:rgb(17,17,17); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">17</div><div style="background:rgb(16,16,16); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">16</div><div style="background:rgb(11,11,11); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">11</div><div style="background:rgb(8,8,8); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">8</div><div style="background:rgb(95,95,95); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">95</div><div style="background:rgb(91,91,91); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">91</div><div style="background:rgb(89,89,89); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">89</div><div style="background:rgb(65,65,65); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">65</div><div style="background:rgb(53,53,53); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">53</div><div style="background:rgb(50,50,50); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">50</div><div style="background:rgb(42,42,42); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">42</div><div style="background:rgb(36,36,36); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">36</div><div style="background:rgb(25,25,25); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">25</div><div style="background:rgb(18,18,18); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">18</div><div style="background:rgb(72,72,72); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">72</div><div style="background:rgb(64,64,64); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">64</div><div style="background:rgb(58,58,58); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">58</div><div style="background:rgb(58,58,58); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">58</div><div style="background:rgb(62,62,62); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">62</div><div style="background:rgb(75,75,75); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">75</div><div style="background:rgb(80,80,80); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">80</div><div style="background:rgb(72,72,72); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">72</div><div style="background:rgb(61,61,61); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">61</div><div style="background:rgb(50,50,50); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">50</div><div style="background:rgb(52,52,52); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">52</div><div style="background:rgb(52,52,52); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">52</div><div style="background:rgb(87,87,87); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">87</div><div style="background:rgb(44,44,44); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">44</div><div style="background:rgb(52,52,52); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">52</div><div style="background:rgb(63,63,63); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">63</div><div style="background:rgb(72,72,72); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">72</div><div style="background:rgb(79,79,79); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">79</div><div style="background:rgb(84,84,84); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">84</div><div style="background:rgb(77,77,77); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">77</div><div style="background:rgb(45,45,45); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">45</div><div style="background:rgb(95,95,95); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">95</div><div style="background:rgb(153,153,153); color:#000000; display:flex; align-items:center; justify-content:center;">153</div><div style="background:rgb(50,50,50); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">50</div><div style="background:rgb(30,30,30); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">30</div><div style="background:rgb(30,30,30); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">30</div><div style="background:rgb(39,39,39); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">39</div><div style="background:rgb(49,49,49); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">49</div><div style="background:rgb(58,58,58); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">58</div><div style="background:rgb(62,62,62); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">62</div><div style="background:rgb(44,44,44); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">44</div><div style="background:rgb(114,114,114); color:#000000; display:flex; align-items:center; justify-content:center;">114</div><div style="background:rgb(172,172,172); color:#000000; display:flex; align-items:center; justify-content:center;">172</div><div style="background:rgb(68,68,68); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">68</div><div style="background:rgb(40,40,40); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">40</div><div style="background:rgb(32,32,32); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">32</div><div style="background:rgb(29,29,29); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">29</div><div style="background:rgb(26,26,26); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">26</div><div style="background:rgb(30,30,30); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">30</div><div style="background:rgb(29,29,29); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">29</div><div style="background:rgb(46,46,46); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">46</div><div style="background:rgb(130,130,130); color:#000000; display:flex; align-items:center; justify-content:center;">130</div><div style="background:rgb(185,185,185); color:#000000; display:flex; align-items:center; justify-content:center;">185</div><div style="background:rgb(79,79,79); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">79</div><div style="background:rgb(50,50,50); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">50</div><div style="background:rgb(46,46,46); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">46</div><div style="background:rgb(43,43,43); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">43</div><div style="background:rgb(36,36,36); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">36</div><div style="background:rgb(29,29,29); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">29</div><div style="background:rgb(19,19,19); color:#FFFFFF; display:flex; align-items:center; justify-content:center;">19</div></div>
+    <div class="cap" style="margin-top:18px;">THAT BOX, ZOOMED ALL THE WAY IN &middot; REAL VALUES</div>
+    <div class="capn" style="margin-top:10px; max-width:520px;">This grid is ALL the computer gets. No cat, no eye &mdash; just these numbers.</div>
+  </div>
+</div><div class="interact"><b>LIVE</b>ASK THE CHAT: WHICH CORNER HAS THE BIG NUMBERS &mdash; FUR OR PUPIL?</div></div><div class="slide"><div class="pagenum">05</div><div class="eyebrow">STEP 2 &middot; THE ONE TRICK BEHIND ALL OF COMPUTER VISION</div><h1 class="title" style="font-size:84px">Convolution: multiply, add &mdash; done by hand</h1>
+<div style="display:flex; gap:56px; margin-top:90px; align-items:flex-start;">
+  <div style="flex:0 0 auto;">
+    <div style="position:relative; width:400px; height:400px; border:1px solid rgba(0,0,0,0.3); box-sizing:content-box;"><div style="display:grid; grid-template-columns:repeat(5,80px); grid-template-rows:repeat(5,80px); gap:0; width:400px; font-family:var(--font-mono); font-size:30px;"><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:rgba(0,0,0,0.16); display:flex; align-items:center; justify-content:center;">2</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div></div><div style="position:absolute; left:0px; top:80px; width:232px; height:232px; border:4px solid #000;"></div></div>
+    <div class="cap" style="margin-top:16px;">IMAGE &middot; BRIGHT STRIPE (2s), DARK (0s)</div>
+  </div>
+  <div style="flex:0 0 auto; font-size:56px; padding-top:150px; color:var(--c-dim);">&times;</div>
+  <div style="flex:0 0 auto;">
+    <div style="position:relative; width:240px; height:240px; border:1px solid rgba(0,0,0,0.3); box-sizing:content-box;"><div style="display:grid; grid-template-columns:repeat(3,80px); grid-template-rows:repeat(3,80px); gap:0; width:240px; font-family:var(--font-mono); font-size:30px;"><div style="background:#fff; display:flex; align-items:center; justify-content:center;">1</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">-1</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">1</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">-1</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">1</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">0</div><div style="background:#fff; display:flex; align-items:center; justify-content:center;">-1</div></div></div>
+    <div class="cap" style="margin-top:16px;">FILTER &middot; A 3&times;3 STENCIL</div>
+  </div>
+  <div style="flex:0 0 auto; font-size:56px; padding-top:150px; color:var(--c-dim);">=</div>
+  <div style="padding-top:6px; max-width:600px; flex:0 0 600px;">
+    <div style="font-family:var(--font-mono); font-size:25px; line-height:1.75;">
+      2&middot;1 + 2&middot;0 + 0&middot;(&minus;1)&nbsp;=&nbsp;2<br>
+      2&middot;1 + 2&middot;0 + 0&middot;(&minus;1)&nbsp;=&nbsp;2<br>
+      2&middot;1 + 2&middot;0 + 0&middot;(&minus;1)&nbsp;=&nbsp;2
+    </div>
+    <div style="font-size:62px; font-weight:500; margin-top:30px;">sum&nbsp;=&nbsp;6 &nbsp;<span style="font-size:30px; color:var(--c-dim); font-weight:400;">loud &mdash; &ldquo;edge here!&rdquo;</span></div>
+    <div style="border-top:1px solid var(--c-line); margin-top:34px; padding-top:30px;
+                font-size:28px; color:var(--c-dim); line-height:1.45;">
+      Slide the stencil onto the flat dark area: every product is 0.<br>
+      <span style="color:#000; font-weight:500;">sum&nbsp;=&nbsp;0</span> &mdash; silent. The filter only shouts on <i>its</i>&nbsp;pattern.</div>
+  </div>
+</div><div class="interact"><b>LIVE</b>WE COMPUTE THE NINE PRODUCTS TOGETHER, OUT LOUD, BEFORE THE ANSWER</div></div><div class="slide"><div class="pagenum">06</div><div class="eyebrow">STEP 3 &middot; ONE FILTER, RUN EVERYWHERE</div><h1 class="title" style="font-size:84px">A filter is a pattern detector</h1>
+<div style="display:flex; gap:60px; margin-top:104px;">
+  <figure style="margin:0;">
+    <img src="assets/chelsea_gray.png" width="500" height="333"/>
+    <figcaption class="cap" style="margin-top:16px;">INPUT PHOTO</figcaption>
+  </figure>
+  <figure style="margin:0;">
+    <img src="assets/fmap_vertical.png" width="500" height="333"/>
+    <figcaption class="cap" style="margin-top:16px;">OUR FILTER FROM LAST SLIDE &middot; VERTICAL EDGES</figcaption>
+  </figure>
+  <figure style="margin:0;">
+    <img src="assets/fmap_horizontal.png" width="500" height="333"/>
+    <figcaption class="cap" style="margin-top:16px;">SAME FILTER, ROTATED &middot; HORIZONTAL EDGES</figcaption>
+  </figure>
+</div>
+<p class="dek" style="margin-top:74px; max-width:1480px;">White = the stencil shouted &ldquo;my pattern is here.&rdquo; Whiskers and eye outlines glow.
+Real output &mdash; this exact code ran on this exact photo.</p>
+</div><div class="slide"><div class="pagenum">07</div><div class="eyebrow">STEP 4 &middot; STACKING FILTERS</div><h1 class="title" style="font-size:84px">Edges &rarr; textures &rarr; parts &rarr; objects</h1>
+<div style="display:flex; gap:100px; margin-top:96px; align-items:flex-start;">
+  <div style="width:560px;">
+    <div style="display:grid; grid-template-columns:200px 1fr; row-gap:38px; font-size:29px; line-height:1.3;">
+      <div class="cap" style="padding-top:6px;">LAYER 1</div><div>edges &amp; color blobs</div>
+      <div class="cap" style="padding-top:6px;">LAYER 2</div><div>textures &mdash; fur, stripes, mesh</div>
+      <div class="cap" style="padding-top:6px;">DEEPER</div><div>parts &mdash; ear, eye, wheel</div>
+      <div class="cap" style="padding-top:6px;">LAST</div><div>whole objects &mdash; &ldquo;cat&rdquo;</div>
+    </div>
+    <p class="capn" style="margin-top:52px; max-width:520px;">Each layer looks at the previous layer&rsquo;s maps,
+    not the raw photo. This stack is a <b>convolutional neural network</b> &mdash; a&nbsp;CNN.</p>
+  </div>
+  <div>
+    <img src="assets/resnet_filters.png" width="1016" height="248" class="px"/>
+    <div class="cap" style="margin-top:18px;">ALL 64 FIRST-LAYER FILTERS OF RESNET18 &middot; LEARNED FROM 1.28M PHOTOS</div>
+    <div class="capn" style="margin-top:12px; max-width:980px;">Nobody drew these. The network discovered, by itself,
+    that edge and color stencils are the right place to start &mdash; the same idea you just computed by hand.</div>
+  </div>
+</div></div><div class="slide"><div class="pagenum">08</div><div class="eyebrow">CODE CARD 1 OF 4 &middot; PYTORCH</div><h1 class="title" style="font-size:84px">The whole &ldquo;eye&rdquo; is one line</h1>
+<div style="margin-top:108px; max-width:1320px;">
+<div class="code">import torch.nn as nn
+
+layer = nn.Conv2d(in_channels=3,    <span class="cm"># red, green, blue</span>
+                  out_channels=32,  <span class="cm"># learn 32 different stencils</span>
+                  kernel_size=3)    <span class="cm"># each stencil is 3&times;3</span></div>
+<p class="dek" style="margin-top:60px;">One line of Python = 32 sliding stencils &mdash;
+exactly the operation you did by&nbsp;hand.</p>
+</div></div><div class="slide slide--dark"><div class="pagenum">09</div><div class="eyebrow">ACT 2 &middot; HOW IT LEARNS</div>
+<h1 class="statement" style="margin-top:320px;">Nobody programs the filters.<br>The network finds them.</h1>
+</div><div class="slide"><div class="pagenum">10</div><div class="eyebrow">STEP 5 &middot; NO EQUATIONS, PROMISE</div><h1 class="title" style="font-size:84px">Learning = guess, get told how wrong, adjust</h1>
+<div style="margin-top:100px;">
+<svg width="1560" height="430" viewBox="0 0 1560 430" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+ orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#000000"/></marker></defs>
+<image href="assets/aug_original.png" x="0" y="60" width="190" height="190"/>
+<text x="95" y="290" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.55" text-anchor="middle">PHOTO</text>
+<line x1="206" y1="155" x2="280" y2="155" stroke="#000000" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="292" y="105" width="260" height="100" fill="#000000"/>
+<text x="422" y="148" font-family="Satoshi" font-size="26" fill="#FFFFFF" text-anchor="middle">network</text>
+<text x="422" y="182" font-family="Roboto Mono" font-size="12" letter-spacing="1.5" fill="#FFFFFF" fill-opacity="0.6" text-anchor="middle">RANDOM STENCILS AT FIRST</text>
+<line x1="566" y1="155" x2="640" y2="155" stroke="#000000" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="652" y="105" width="300" height="100" fill="#000000" fill-opacity="0.05" stroke="#000000" stroke-opacity="0.4"/>
+<text x="802" y="146" font-family="Satoshi" font-size="25" fill="#000000" text-anchor="middle">guess: &#8220;70% dog&#8221;</text>
+<text x="802" y="182" font-family="Roboto Mono" font-size="12" letter-spacing="1.5" fill="#000000" fill-opacity="0.45" text-anchor="middle">TRUTH: CAT</text>
+<line x1="966" y1="155" x2="1040" y2="155" stroke="#000000" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="1052" y="105" width="280" height="100" fill="#000000" fill-opacity="0.05" stroke="#000000" stroke-opacity="0.4"/>
+<text x="1192" y="146" font-family="Satoshi" font-size="25" fill="#000000" text-anchor="middle">loss = how wrong</text>
+<text x="1192" y="182" font-family="Roboto Mono" font-size="12" letter-spacing="1.5" fill="#000000" fill-opacity="0.45" text-anchor="middle">ONE NUMBER &middot; BIG = ICE COLD</text>
+<path d="M 1192 215 C 1192 380, 422 380, 422 215" fill="none" stroke="#000000" stroke-width="2.5" stroke-dasharray="8 7" marker-end="url(#arr)"/>
+<text x="807" y="358" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" text-anchor="middle">NUDGE EVERY STENCIL A TINY STEP THAT SHRINKS THE LOSS &middot; REPEAT A MILLION TIMES</text>
+</svg></div>
+<p class="dek" style="margin-top:48px; max-width:1500px;">The hot-and-cold game: guess, get told &ldquo;colder,&rdquo; adjust.
+After enough rounds, random noise has turned into the edge detectors you&nbsp;saw.</p>
+</div><div class="slide"><div class="pagenum">11</div><div class="eyebrow">CODE CARD 2 OF 4 &middot; DATA AUGMENTATION</div><h1 class="title" style="font-size:84px">Free extra photos: one cat, five lessons</h1>
+<div style="display:flex; gap:70px; margin-top:88px;"><figure style="margin:0;"><img src="assets/aug_original.png" width="280" height="280"/><figcaption class="cap" style="margin-top:14px;">ORIGINAL</figcaption></figure><figure style="margin:0;"><img src="assets/aug_flip.png" width="280" height="280"/><figcaption class="cap" style="margin-top:14px;">MIRRORED</figcaption></figure><figure style="margin:0;"><img src="assets/aug_crop.png" width="280" height="280"/><figcaption class="cap" style="margin-top:14px;">RANDOM CROP</figcaption></figure><figure style="margin:0;"><img src="assets/aug_jitter.png" width="280" height="280"/><figcaption class="cap" style="margin-top:14px;">COLOR SHIFT</figcaption></figure><figure style="margin:0;"><img src="assets/aug_noise.png" width="280" height="280"/><figcaption class="cap" style="margin-top:14px;">NOISE</figcaption></figure></div>
+<div style="display:flex; gap:90px; margin-top:64px; align-items:flex-start;">
+  <div class="code" style="font-size:23px; flex:0 0 880px;">train_tf = transforms.Compose([
+    transforms.RandomCrop(32, padding=4),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+])</div>
+  <p style="font-size:28px; line-height:1.45; color:var(--c-dim); max-width:620px; margin:6px 0 0 0;">
+  A mirrored cat is still a cat. Every epoch each photo arrives slightly different,
+  so the network can&rsquo;t memorize &mdash; it must learn what cats <i>look like</i>.
+  <span style="color:#000;">These are the exact lines from my training&nbsp;code.</span></p>
+</div></div><div class="slide"><div class="pagenum">12</div><div class="eyebrow">REAL NUMBERS &middot; MY NOTEBOOKS &middot; CIFAR-10 TEST SET</div><h1 class="title" style="font-size:84px">I trained this. Here&rsquo;s what happened.</h1>
+<div style="display:flex; gap:70px; margin-top:80px; align-items:flex-start;">
+  <div style="flex:0 0 1180px;">
+<svg width="1180" height="640" viewBox="0 0 1180 640" xmlns="http://www.w3.org/2000/svg">
+
+<rect x="10" y="496" width="210" height="44" fill="#000000" fill-opacity="0.22"/>
+<text x="115" y="472" font-family="Roboto Mono" font-size="38" fill="#000000" fill-opacity="0.45" text-anchor="middle">10%</text>
+<text x="115" y="586" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.55" text-anchor="middle">RANDOM GUESSING</text>
+<text x="115" y="612" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.35" text-anchor="middle">NO MODEL AT ALL</text>
+
+<rect x="320" y="320" width="210" height="220" fill="#000000" fill-opacity="1.0"/>
+<text x="425" y="296" font-family="Roboto Mono" font-size="38" fill="#000000" fill-opacity="1" text-anchor="middle">50.0%</text>
+<text x="425" y="586" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.55" text-anchor="middle">MY SMALL CNN</text>
+<text x="425" y="612" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.35" text-anchor="middle">FROM SCRATCH &middot; 4,000 PHOTOS</text>
+
+<rect x="630" y="214" width="210" height="326" fill="#000000" fill-opacity="1.0"/>
+<text x="735" y="190" font-family="Roboto Mono" font-size="38" fill="#000000" fill-opacity="1" text-anchor="middle">74.2%</text>
+<text x="735" y="586" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.55" text-anchor="middle">RESNET18, FINETUNED</text>
+<text x="735" y="612" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.35" text-anchor="middle">ONLY 1,000 PHOTOS</text>
+
+<rect x="940" y="151" width="210" height="389" fill="#000000" fill-opacity="1.0"/>
+<text x="1045" y="127" font-family="Roboto Mono" font-size="38" fill="#000000" fill-opacity="1" text-anchor="middle">88.5%</text>
+<text x="1045" y="586" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.55" text-anchor="middle">CLIP, ZERO-SHOT</text>
+<text x="1045" y="612" font-family="Roboto Mono" font-size="13" letter-spacing="1.5" fill="#000000" fill-opacity="0.35" text-anchor="middle">0 TRAINING PHOTOS</text>
+<line x1="0" y1="540" x2="1180" y2="540" stroke="#000000" stroke-width="2"/>
+</svg></div>
+  <div style="max-width:400px; padding-top:60px;">
+    <p style="font-size:28px; line-height:1.5; margin:0;">Same task: tiny photos, 10 categories (CIFAR-10).
+    Accuracy on photos the models never saw.</p>
+    <p style="font-size:28px; line-height:1.5; color:var(--c-dim); margin-top:36px;">All three are my runs,
+    on an ordinary CPU. The notebooks rerun everything tonight if you&nbsp;want.</p>
+    <p style="font-size:28px; line-height:1.5; margin-top:36px;">Lesson: in modern AI you stand on
+    giants&rsquo;&nbsp;shoulders.</p>
+  </div>
+</div><div class="interact"><b>LIVE</b>BEFORE THE REVEAL: CHAT GUESSES MY FROM-SCRATCH ACCURACY &middot; CLOSEST WINS</div></div><div class="slide"><div class="pagenum">13</div><div class="eyebrow">CODE CARD 3 OF 4 &middot; TRANSFER LEARNING</div><h1 class="title" style="font-size:84px">Borrowing a giant&rsquo;s eyes</h1>
+<div style="margin-top:108px; max-width:1500px;">
+<div class="code">from torchvision.models import resnet18, ResNet18_Weights
+
+model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+model.fc = nn.Linear(512, 10)  <span class="cm"># swap the last layer: my 10 classes</span></div>
+<p class="dek" style="margin-top:60px; max-width:1400px;">Keep every learned filter; replace only the final layer.
+This is <b>transfer learning</b> &mdash; the 74.2%&nbsp;recipe.</p>
+</div></div><div class="slide slide--dark"><div class="pagenum">14</div><div class="eyebrow">ACT 3 &middot; WHAT THIS UNLOCKS</div>
+<h1 class="statement" style="margin-top:320px;">Same trick.<br>Four superpowers.</h1>
+</div><div class="slide"><div class="pagenum">15</div><div class="eyebrow">TRAILER 1 OF 4 &middot; OBJECT DETECTION</div><h1 class="title" style="font-size:84px">Find it and box it</h1>
+<div style="display:flex; gap:60px; margin-top:90px; align-items:flex-start;">
+  <figure style="margin:0;">
+    <img src="assets/det_chelsea.png" width="560" height="373"/>
+    <figcaption class="cap" style="margin-top:16px;">REAL OUTPUT &middot; CAT &middot; 97% CONFIDENT</figcaption>
+  </figure>
+  <figure style="margin:0; margin-top:0;">
+    <img src="assets/det_astronaut.png" width="500" height="500"/>
+    <figcaption class="cap" style="margin-top:16px;">REAL OUTPUT &middot; PERSON &middot; 91% CONFIDENT</figcaption>
+  </figure>
+  <div style="max-width:440px; flex:0 0 440px; min-width:0;">
+    <ul class="bullets" style="font-size:28px;">
+      <li>Classification says &ldquo;there&rsquo;s a cat <i>somewhere</i>.&rdquo; Detection says <b>where</b> &mdash; with a box.</li>
+      <li>One pass predicts boxes + labels + confidence &mdash; fast enough for live video.</li>
+      <li>Self-driving cameras; your phone finding faces before it focuses.</li>
+    </ul>
+  </div>
+</div></div><div class="slide"><div class="pagenum">16</div><div class="eyebrow">TRAILER 2 OF 4 &middot; SEGMENTATION</div><h1 class="title" style="font-size:84px">Cut out the exact shape</h1>
+<div style="display:flex; gap:56px; margin-top:96px;">
+  <figure style="margin:0;"><img src="assets/seg_photo.png" width="500" height="333"/>
+    <figcaption class="cap" style="margin-top:16px;">PHOTO</figcaption></figure>
+  <figure style="margin:0;"><img src="assets/seg_mask.png" width="500" height="333" style="border:1px solid rgba(0,0,0,0.25); box-sizing:border-box;"/>
+    <figcaption class="cap" style="margin-top:16px;">PREDICTED MASK &middot; WHITE = &ldquo;CAT PIXEL&rdquo;</figcaption></figure>
+  <figure style="margin:0;"><img src="assets/seg_cutout.png" width="500" height="333" style="border:1px solid rgba(0,0,0,0.12); box-sizing:border-box;"/>
+    <figcaption class="cap" style="margin-top:16px;">MASK USED AS SCISSORS</figcaption></figure>
+</div>
+<p class="dek" style="margin-top:70px; max-width:1560px;">Every single pixel gets a label: cat or not-cat.
+Real model output &mdash; and exactly how this video call blurs my background right&nbsp;now.</p>
+</div><div class="slide"><div class="pagenum">17</div><div class="eyebrow">TRAILER 3 OF 4 &middot; CLIP</div><h1 class="title" style="font-size:84px">A model that speaks image and text</h1>
+<div style="display:flex; gap:64px; margin-top:84px; align-items:flex-start;">
+  <figure style="margin:0; flex:0 0 400px;"><img src="assets/chelsea_400.png" width="400" height="266"/>
+    <figcaption class="cap" style="margin-top:16px;">I GAVE CLIP THIS PHOTO + 4 SENTENCES</figcaption></figure>
+  <div style="flex:0 0 660px;"><svg width="660" height="416" viewBox="0 0 660 416" xmlns="http://www.w3.org/2000/svg">
+<text x="0" y="24" font-family="Satoshi" font-size="25" fill="#000000">&#8220;a photo of a cat&#8221;</text>
+<rect x="0" y="40" width="460" height="34" fill="#000000" fill-opacity="1"/>
+<text x="476" y="65" font-family="Roboto Mono" font-size="20" fill="#000000">97.9%</text>
+<text x="0" y="128" font-family="Satoshi" font-size="25" fill="#000000">&#8220;a photo of a tiger&#8221;</text>
+<rect x="0" y="144" width="7" height="34" fill="#000000" fill-opacity="0.25"/>
+<text x="23" y="169" font-family="Roboto Mono" font-size="20" fill="#000000">1.6%</text>
+<text x="0" y="232" font-family="Satoshi" font-size="25" fill="#000000">&#8220;a photo of a dog&#8221;</text>
+<rect x="0" y="248" width="3" height="34" fill="#000000" fill-opacity="0.25"/>
+<text x="19" y="273" font-family="Roboto Mono" font-size="20" fill="#000000">0.5%</text>
+<text x="0" y="336" font-family="Satoshi" font-size="25" fill="#000000">&#8220;a photo of a pizza&#8221;</text>
+<rect x="0" y="352" width="3" height="34" fill="#000000" fill-opacity="0.25"/>
+<text x="19" y="377" font-family="Roboto Mono" font-size="20" fill="#000000">0.0%</text></svg></div>
+  <div style="max-width:480px; flex:1; min-width:0;">
+    <p style="font-size:27px; line-height:1.45; margin:0;">CLIP learned from <b>400 million</b> internet photos
+    with their captions. It scores how well a sentence matches an image &mdash; so you classify with
+    <b>sentences</b>, no training. That&rsquo;s &ldquo;zero-shot.&rdquo;</p>
+    <div class="code" style="font-size:19px; margin-top:40px; padding:30px 34px;">inputs = processor(
+    text=["a cat","a dog","a pizza"],
+    images=photo, return_tensors="pt")
+probs = model(**inputs) \
+    .logits_per_image.softmax(dim=1)</div>
+    <div class="cap" style="margin-top:16px;">CODE CARD 4 OF 4 &middot; THE 88.5% MODEL</div>
+  </div>
+</div></div><div class="slide"><div class="pagenum">18</div><div class="eyebrow">TRAILER 4 OF 4 &middot; IMAGE GENERATION</div><h1 class="title" style="font-size:84px">Start from static</h1>
+<div style="margin-top:100px;">
+  <div class="cap" style="margin-bottom:22px;">TRAINING: RUIN THE PHOTO, STEP BY STEP &nbsp;&rarr;&nbsp; (REAL NOISE, REALLY ADDED)</div>
+  <div style="display:flex; align-items:center;"><img src="assets/diff_0.png" width="250" height="250" style="margin-right:64px;"/><img src="assets/diff_1.png" width="250" height="250" style="margin-right:64px;"/><img src="assets/diff_2.png" width="250" height="250" style="margin-right:64px;"/><img src="assets/diff_3.png" width="250" height="250" style="margin-right:64px;"/><img src="assets/diff_4.png" width="250" height="250" style="margin-right:0px;"/></div>
+  <div class="cap" style="margin-top:22px; text-align:right; width:1506px;">&larr; GENERATION: START FROM PURE STATIC, LEARN TO UNDO ONE STEP AT A TIME</div>
+</div>
+<p class="dek" style="margin-top:80px; max-width:1500px;">The network practices one humble skill &mdash; remove a little noise.
+Apply it over and over to fresh static and an image crystallizes. That&rsquo;s <b>diffusion</b>,
+the engine of AI image&nbsp;generators.</p>
+</div><div class="slide"><div class="pagenum">19</div><div class="eyebrow">RECAP &middot; PIXELS &rarr; FILTERS &rarr; LEARNING &rarr; SUPERPOWERS</div><h1 class="title" style="font-size:84px">Not magic. A syllabus.</h1>
+<div style="margin-top:104px; max-width:1340px;">
+  <ul class="bullets" style="font-size:33px;">
+    <li>Everything today is on the official <b>IOAI 2026 syllabus</b> &mdash; the high-school AI olympiad I&rsquo;m training&nbsp;for.</li>
+    <li>My two notebooks rerun it all: the CNN, the 50.0 &rarr; 74.2 &rarr; 88.5 ladder. They&rsquo;re&nbsp;yours.</li>
+    <li>You multiplied small numbers and ran a convolution. So yes &mdash; you can do&nbsp;this.</li>
+  </ul>
+  <p class="dek" style="margin-top:90px;">Questions &mdash; then I&rsquo;ll open the notebooks live.</p>
+</div></div></body></html>
