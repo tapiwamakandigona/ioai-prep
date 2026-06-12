@@ -9,7 +9,7 @@ import html as html_mod
 from pathlib import Path
 
 HERE = Path(__file__).parent
-A = HERE / "assets"
+A = HERE.parent / "assets"
 
 pix = json.load(open(A / "pixel_grid.json"))["values"]
 clip = json.load(open(A / "clip_results.json"))
@@ -1283,7 +1283,7 @@ def main():
     out_html.write_text(html)
     print(f"slides: {len(SLIDES)}")
     from weasyprint import HTML
-    HTML(str(out_html), base_url=str(HERE)).write_pdf(str(HERE / "how_machines_learn_to_see.pdf"))
+    HTML(str(out_html), base_url=str(HERE.parent)).write_pdf(str(HERE.parent / "presentation" / "how_machines_learn_to_see.pdf"))
     print("PDF written")
 
 if __name__ == "__main__":
