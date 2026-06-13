@@ -3,3 +3,28 @@ vision-models/notebooks/data/
 preview_*.png
 __pycache__/
 .ipynb_checkpoints/
+
+# Python / virtual environments
+*.pyc
+*.pyo
+.venv/
+venv/
+.eggs/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# ML artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+wandb/
+runs/
+.cache/
