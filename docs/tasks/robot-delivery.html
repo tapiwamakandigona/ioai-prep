@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot Delivery Academy · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css"></head>
+<body><div class="layout">
+<nav class="sidebar"><a class="brand" href="../index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item" href="../tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item active" href="../tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="../tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item" href="../tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="../tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="../tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="../tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="../tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="../tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="../tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="../tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="../tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="../tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="../tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="../tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="../tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item" href="../gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="../plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
+<main class="content"><header class="task-head"><div class="crumb">🚨 2026 Home Tasks — the real ones</div><h1>🤖 Robot Delivery Academy</h1><p class="tagline">Teach a robot to deliver packages by copying an expert — and learn why copying is harder than it looks.</p><div class="tags"><span class="tag">Behavioral cloning</span><span class="tag">PyTorch</span><span class="tag">CNN</span><span class="tag">Imitation learning</span><span class="tag diff">★★★☆ conceptually subtle</span></div></header><section class="sec"><h2><span class="sec-ico">📜</span>The task, in plain English</h2>
+<p>A delivery robot lives on an <b>8×8 grid city</b>. Each episode: start somewhere, drive to the depot holding a
+package, <code>pickup</code>, drive to the destination depot, <code>dropoff</code>. Walls block movement, and every
+map is a bit different. You must train a model that <b>learns this behavior purely from expert demonstrations</b> —
+supervised pairs of <code>observation → action</code>. Writing a path-finding algorithm (A*, BFS, planning) is
+<b>explicitly forbidden</b>: they're testing whether a <i>model can learn</i> the behavior, not whether you can code a solver.</p>
+<table>
+<tr><th>Input (one observation)</th><td><code>grid</code>: 6×8×8 tensor (channels: walls, depots, robot, package, destination, carrying-flag) · <code>vector</code>: 13 numeric features · <code>action_mask</code>: which of the 6 actions are legal right now</td></tr>
+<tr><th>Output</th><td>One action id 0–5: south / north / east / west / pickup / dropoff</td></tr>
+<tr><th>Training data</th><td><code>train_demos.pkl</code> — successful expert trajectories (observation + action at each step)</td></tr>
+<tr><th>Metric</th><td><b>Episode Success Rate</b>: package delivered within 120 steps, replayed in the provided simulator</td></tr>
+<tr><th>Submission</th><td><code>predictions.zip</code> → <code>predictions.jsonl</code>, one line per test scenario: <code>{"layout_id": ..., "episode_seed": ..., "actions": [1,1,2,4,0,5]}</code></td></tr>
+</table>
+<div class="callout warn"><div class="co-title">The trap in the metric</div>
+You train per-step (predict the expert's next action) but you're scored per-episode. A model that's 95% right per
+step still makes ~1 error every 20 steps — and one early wrong turn puts the robot in states the expert never
+visited, where it has no idea what to do. Errors <b>compound</b>. This is the classic imitation-learning lesson:
+<b>action accuracy ≠ episode success</b>.</div>
+</section><section class="sec"><h2><span class="sec-ico">🔧</span>The baseline you're given</h2>
+<p>A complete, honest baseline is provided — and its own description lists its flaws:</p>
+<ol>
+<li><b>Dataset:</b> flattens every observation — the 6×8×8 grid is reshaped into a 384-long vector and concatenated with the 13 features → 397 numbers.</li>
+<li><b>Model:</b> a two-hidden-layer MLP (397 → 128 → 128 → 6), cross-entropy loss, Adam, 30 epochs.</li>
+<li><b>Inference:</b> picks the argmax action; the <code>action_mask</code> is applied only at inference time, not during training.</li>
+<li><b>Evaluation:</b> full-episode rollouts in the provided simulator, with GIF replays of episodes so you can literally watch it fail.</li>
+</ol>
+<p>Stated limitations (= your to-do list, verbatim from the notebook): flattening destroys spatial structure;
+rare actions (<code>pickup</code>/<code>dropoff</code> occur ~2× per episode vs dozens of moves) are under-learned;
+the mask isn't used in training; the architecture is deliberately small.</p>
+</section><section class="sec"><h2><span class="sec-ico">🚀</span>Baseline vs. solution</h2><div class="vs-grid"><div class="vs-card vs-base"><div class="vs-label">⚠️ The baseline (what you are given)</div><ul>
+<li>Grid flattened to 384 numbers — the model can't "see" that a wall is <i>next to</i> the robot</li>
+<li>MLP treats position 27 and position 28 as unrelated inputs</li>
+<li><code>pickup</code>/<code>dropoff</code> drowned out by thousands of move actions</li>
+<li>Trains on all logits incl. illegal actions</li>
+<li>Only per-action accuracy watched during training</li>
+</ul></div><div class="vs-card vs-soln"><div class="vs-label">✅ The winning approach</div><ul>
+<li><b>Small CNN on the 6×8×8 grid</b> (2–3 conv layers) so spatial patterns — "wall ahead", "depot two cells east" — are visible; concatenate the 13-dim vector after the conv features</li>
+<li><b>Weight rare actions</b>: class weights in the loss or oversample pickup/dropoff steps</li>
+<li><b>Mask during training too</b>: set illegal-action logits to −∞ so the model never wastes capacity on them</li>
+<li><b>Evaluate with episode success rate</b> after every change, not accuracy — replay failures in the simulator and categorize them (lost before pickup? circling near walls? wrong dropoff?)</li>
+<li>Light data augmentation if legal (e.g., exploiting grid symmetry) and longer training with early stopping on episode SR</li>
+</ul></div></div>
+<div class="callout win"><div class="co-title">Why the CNN matters most</div>
+Convolutions slide a small window across the grid, so "wall directly north of robot" produces the same feature
+wherever it happens on the map. The MLP has to re-learn that fact separately for all 64 positions. Same data,
+same labels — but the CNN generalizes to maps it never saw, which is exactly what the test measures.</div>
+</section><section class="sec"><h2><span class="sec-ico">🧒</span>Explain it like I'm brand new</h2>
+<p><b>Analogy:</b> learning to drive by watching dashcam videos of a perfect driver. You learn "in this exact
+situation, she turned left." Two problems: (1) if you only ever memorize photo→action pairs, you never learn the
+<i>concept</i> of a road; (2) the moment you make one mistake she never made — you drift onto the shoulder — you're
+in a situation that appeared in zero videos, and you panic. That's behavioral cloning and its compounding-error
+problem in a nutshell.</p>
+<ul>
+<li><b>Why a CNN?</b> An image (or a grid) has <i>local structure</i> — nearby cells matter to each other. A CNN is a model that looks through a small sliding window, so it learns "wall next to me" once, instead of 64 times.</li>
+<li><b>Why do rare actions need help?</b> If 95% of your flashcards say "drive forward," you'll answer "drive forward" to everything and still score 95% — while failing every pickup. Weighting tells the loss: the rare cards count more.</li>
+<li><b>What's an action mask?</b> A list of which moves are legal right now. Using it during training is like removing impossible answers from a multiple-choice exam <i>before</i> studying.</li>
+</ul>
+</section><section class="sec"><h2><span class="sec-ico">💬</span>The Gemma 4 playthrough (2000-token limit)</h2><div class="chat"><div class="chat-divider"><span>Chat 1 · Understand the baseline (paste code, ask for reading help)</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Beginner here. This is the Dataset + model from a baseline I must improve (behavioral cloning, 8x8 grid, 6 actions). Explain in 8 bullet points max what it does and its 3 biggest weaknesses:
+&lt;paste the ~40 lines of Dataset + MLP code&gt;</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>• Collects (observation, action) pairs from every expert trajectory step
+• Flattens the 6×8×8 grid + 13-dim vector into one 397-dim input
+• 2-layer MLP classifies the next action, cross-entropy loss
+• Action mask applied only at inference
+Weaknesses:
+1. Flattening discards spatial structure a CNN would exploit
+2. pickup/dropoff are rare classes — will be under-predicted
+3. Per-action accuracy is optimized but episode success is scored</pre></div></div><div class="chat-divider"><span>Chat 2 · CNN in one piece</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Write ONLY a PyTorch nn.Module: input a (B,6,8,8) grid tensor and a (B,13) vector. Two Conv2d layers (6→32→64, 3x3, padding=1, ReLU), flatten, concat the vector, then Linear(64*64+13 → 128) → ReLU → Linear(128 → 6). Code only, max 35 lines.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>import torch, torch.nn as nn
+
+class GridPolicy(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(6, 32, 3, padding=1), nn.ReLU(),
+            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(),
+        )
+        self.head = nn.Sequential(
+            nn.Linear(64*8*8 + 13, 128), nn.ReLU(),
+            nn.Linear(128, 6),
+        )
+    def forward(self, grid, vec):
+        z = self.conv(grid).flatten(1)
+        return self.head(torch.cat([z, vec], dim=1))</pre></div></div><div class="chat-note">Verify: x = torch.randn(2,6,8,8); v = torch.randn(2,13); print(GridPolicy()(x,v).shape) → torch.Size([2, 6]). ALWAYS this ritual before wiring it in.</div><div class="chat-divider"><span>Chat 3 · Rare-action weighting</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>My action labels are ints 0-5 in a list y_all. Actions 4 and 5 are rare. Give ONLY code to compute inverse-frequency class weights and use them in nn.CrossEntropyLoss. Max 10 lines.</pre></div></div><div class="chat-divider"><span>Chat 4 · Mask in training</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Each sample has action_mask, a (6,) 0/1 array of legal actions. Modify this line of my training step so illegal logits become -1e9 before the loss:
+loss = criterion(model(grid, vec), y)
+Give only the replacement lines.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>logits = model(grid, vec)
+logits = logits.masked_fill(mask == 0, -1e9)
+loss = criterion(logits, y)</pre></div></div><div class="chat-divider"><span>Chat 5 · Debugging a failed episode (the real skill)</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>My per-action accuracy is 0.96 but episode success rate is only 0.55. Replays show the robot reaches the package depot but oscillates north-south next to it without pressing pickup. 3 most likely causes + fastest fix for each, no code.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>1. pickup under-predicted (rare class) → increase its class weight / oversample pickup steps
+2. Model can't tell 'on depot' vs 'next to depot' → check the carrying/depot channels reach the conv input correctly
+3. Deterministic argmax loops between two equal logits → add the action mask at inference and break ties, or sample from softmax with low temperature</pre></div></div></div></section><section class="sec"><h2><span class="sec-ico">🎯</span>Takeaways & what Day 1 might do with this</h2>
+<ul>
+<li><b>Pattern family:</b> supervised classification wearing a robot costume — plus the imitation-learning lesson (distribution drift).</li>
+<li><b>The notebook's stated limitations are the answer key.</b> CNN, rare-action weighting, mask-in-training: all three are literally listed for you.</li>
+<li><b>Diagnose by replaying episodes</b>, not by staring at accuracy. The simulator + GIF tools are given to you for exactly this.</li>
+<li><b>Format discipline:</b> <code>predictions.jsonl</code> inside <code>predictions.zip</code>, exact field names. Submit the plain baseline's zip in the first 30 minutes.</li>
+<li><b>Likely Day-1 extension:</b> the notebook calls itself the "preparatory program for the <i>Robot Training</i> task" — expect bigger maps, partial observability, noisier demos, or multi-package episodes. The CNN + weighting + mask toolkit transfers directly.</li>
+</ul>
+</section><div class="pager"><a class="pager-link" href="night-watch.html">← 🌃 Operation Night Watch</a><a class="pager-link next" href="john-wilkins.html">🗄️ The Analytical Language of John Wilkins →</a></div></main>
+</div></body></html>

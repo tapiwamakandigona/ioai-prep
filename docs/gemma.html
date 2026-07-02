@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemma 4 Playbook · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body><div class="layout">
+<nav class="sidebar"><a class="brand" href="index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item" href="tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item" href="tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item" href="tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item active" href="gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
+<main class="content">
+<header class="task-head"><div class="crumb">Guide</div>
+<h1>💬 The Gemma 4 Playbook</h1>
+<p class="tagline">2000 output tokens per reply. Unlimited new chats. Here's how that becomes a superpower.</p></header>
+
+<section class="sec"><h2>The two constraints, decoded</h2>
+<ul>
+<li><b>2000 output tokens ≈ ~120 lines of code or ~1200 words.</b> Long answers get cut off mid-line. So never ask for "the whole solution" — ask for <i>pieces</i>.</li>
+<li><b>Unlimited new chats = unlimited retries with a clean slate.</b> Fresh chats are free. Use them aggressively; never argue with a confused model in a long thread.</li>
+</ul></section>
+
+<section class="sec"><h2>Core rules</h2>
+<ol class="flow-steps">
+<li><b>Chunk everything.</b> Ask for ONLY the Dataset class → ONLY the model → ONLY the training loop → ONLY the submission writer. Magic phrases: <i>"Code only, no explanation." · "Max 30 lines." · "Continue exactly from this line: …"</i> (when cut off).</li>
+<li><b>One chat = one job.</b> Explainer chat, bug-fixer chat, strategy chat, API-lookup chat. Contexts stay clean, answers stay sharp.</li>
+<li><b>Paste context, always.</b> Gemma can't see your screen. Every prompt: the task in 1–2 sentences, the smallest relevant code, exact error/traceback, tensor shapes, one specific question.</li>
+<li><b>Verify everything.</b> Read the code before running (does it use variables that exist?) → run on a tiny slice → <code>print(x.shape)</code> liberally → if a fix fails twice, fresh chat with the new traceback.</li>
+<li><b>You are the manager.</b> You choose the plan (the 8-step flow); Gemma writes boilerplate, fixes bugs, explains baselines, and recalls API signatures.</li>
+</ol></section>
+
+<section class="sec"><h2>Contest-day prompt bank</h2>
+<pre>“Summarize this task statement in 5 bullets: input, output, metric, submission format: &lt;paste&gt;”
+“Baseline does X and scores Y. List 5 improvements ordered by (impact ÷ time) for a 6-hour contest.”
+“Explain what this code does, line by line, for a beginner: &lt;paste baseline chunk&gt;”
+“This code raises this error. Code + full traceback below. Give the minimal fix only.”
+“Rewrite this training loop to add early stopping on validation loss. Change nothing else.”
+“My model overfits (train 0.99 / val 0.70). The 3 fastest fixes for a CNN in torch?”
+“Write code to save predictions as CSV, one 0/1 per line, no header, from tensor preds.”
+“How do I load a pre-cached Hugging Face model from a local path, no internet?”</pre></section>
+
+<section class="sec"><h2>Time economics (6 hours, 3 tasks)</h2>
+<ul>
+<li><b>First 5 min:</b> read all 3 statements; rank by expected points-per-hour.</li>
+<li><b>First 30 min per task:</b> baseline running and submitted.</li>
+<li><b>While models train:</b> a Gemma chat plans the next improvement in parallel.</li>
+<li><b>Last 45 min:</b> freeze experiments; verify formats; confirm your best submissions are the selected ones.</li>
+</ul>
+<div class="callout win"><div class="co-title">Practice this NOW</div>
+During the 30-day prep, study with any free chatbot but impose contest rules on yourself: pretend replies are
+capped, ask in chunks, fresh chat per topic, verify by running. By August, driving an LLM under constraints is
+muscle memory. Every task page's 💬 section on this site is a rehearsal script.</div></section>
+</main>
+</div></body></html>

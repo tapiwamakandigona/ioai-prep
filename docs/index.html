@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body><div class="layout">
+<nav class="sidebar"><a class="brand" href="index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item" href="tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item" href="tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item" href="tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item" href="gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
+<main class="content">
+<div class="hero">
+<div class="crumb">GAITE · Astana, Kazakhstan · August 2–8, 2026</div>
+<h1>The IOAI Field Manual</h1>
+<p>Every IOAI task from 2024 to the <b>actual 2026 home tasks</b>, decoded for someone starting from zero:
+what the task really asks, how the given baseline works, how the winning solution differs, and exactly how you'd
+get there driving <b>Gemma 4 under a 2000-token limit</b>.</p>
+<div class="hero-stats">
+<div class="stat"><b>16</b><span>tasks decoded</span></div>
+<div class="stat"><b>3</b><span>real 2026 tasks</span></div>
+<div class="stat"><b>6h</b><span>per contest day</span></div>
+<div class="stat"><b>2000</b><span>tokens per Gemma reply</span></div>
+</div>
+</div>
+
+<div class="section-band">How every task page works</div>
+<p>Each page has the same six sections: <b>📜 the task in plain English</b> (story stripped, metric extracted) ·
+<b>🔧 the baseline you're given</b> · <b>🚀 baseline vs. solution</b> side by side · <b>🧒 a from-zero explanation</b>
+of the concepts · <b>💬 a simulated Gemma 4 playthrough</b> — the literal chats that would solve it under the
+token cap · <b>🎯 takeaways</b> and likely Day-1 extensions.</p>
+
+<div class="section-band">The 8-step solution flow (works on every task)</div>
+<ol class="flow-steps">
+<li><b>Metric first.</b> Find the scoring cell before reading the story. The metric defines the game.</li>
+<li><b>Run the baseline untouched → submit it.</b> Points on the board; format verified; scores are normalized against the baseline, so any improvement counts.</li>
+<li><b>Diagnose before improving.</b> Confusion matrix, failed-episode replays, per-class accuracy — find <i>where</i> points are lost.</li>
+<li><b>Read the hints; rank fixes by points-per-hour.</b> GAITE statements contain the intended solution.</li>
+<li><b>One change at a time, measure each.</b> Keep a scrappy log: change → score.</li>
+<li><b>Name the lesson.</b> Every task secretly teaches one failure mode (forgetting, drift, noisy oracle). Name it and you know the solution family.</li>
+<li><b>Guard the clock.</b> Baseline submitted in 30 min; freeze experiments 45 min before the end.</li>
+<li><b>Never leave a task at zero.</b></li>
+</ol>
+
+<div class="section-band">🚨 The real 2026 Home Tasks — start here</div><div class="grid-cards"><a class="tcard" href="tasks/night-watch.html"><span class="t-emoji">🌃</span><h3>Operation Night Watch</h3><p>Teach an audio model 13 new sounds without it forgetting the 16 it already knows.</p><div class="t-meta">★★★☆ deep-learning heavy</div></a><a class="tcard" href="tasks/robot-delivery.html"><span class="t-emoji">🤖</span><h3>Robot Delivery Academy</h3><p>Teach a robot to deliver packages by copying an expert — and learn why copying is harder than it looks.</p><div class="t-meta">★★★☆ conceptually subtle</div></a><a class="tcard" href="tasks/john-wilkins.html"><span class="t-emoji">🗄️</span><h3>The Analytical Language of John Wilkins</h3><p>20 Questions against an LLM oracle: find 1 animal among ~1,400 in 15 yes/no questions.</p><div class="t-meta">★★☆☆ pure thinking — your kind of task</div></a></div><div class="section-band">2025 At-Home Round — practice material</div><div class="grid-cards"><a class="tcard" href="tasks/chameleon.html"><span class="t-emoji">🦎</span><h3>Chameleon</h3><p>Guess the secret word from a sequence of icons — embeddings and semantic similarity.</p><div class="t-meta">★★☆☆ great first embeddings task</div></a><a class="tcard" href="tasks/radar.html"><span class="t-emoji">📡</span><h3>Radar</h3><p>Detect humans in radar heatmaps — image classification on data that isn't photos.</p><div class="t-meta">★★☆☆ core CNN reps</div></a><a class="tcard" href="tasks/weather.html"><span class="t-emoji">🌧️</span><h3>Weather</h3><p>Predict rain from satellite images plus context features — fusing two data types in one model.</p><div class="t-meta">★★★☆ fusion practice</div></a></div><div class="section-band">2025 Contest Days</div><div class="grid-cards"><a class="tcard" href="tasks/concepts.html"><span class="t-emoji">💡</span><h3>Concepts (Chameleon's Day-1 extension)</h3><p>The at-home guessing game returns — now with an official LLM judge API and a call budget.</p><div class="t-meta">★★★☆ shows how Day 1 extends at-home</div></a><a class="tcard" href="tasks/antique.html"><span class="t-emoji">🏺</span><h3>Antique</h3><p>500 rows, 5 features, some labels unknown — classical sklearn beats deep learning here.</p><div class="t-meta">★★☆☆ your Week-2 checkpoint</div></a><a class="tcard" href="tasks/chicken-counting.html"><span class="t-emoji">🐔</span><h3>Chicken Counting</h3><p>Count chickens via density maps — with a frozen encoder you're not allowed to touch.</p><div class="t-meta">★★★☆ pure model surgery</div></a><a class="tcard" href="tasks/restroom.html"><span class="t-emoji">🚻</span><h3>Restroom</h3><p>Match male↔female restroom icons from the same restroom — embeddings for images.</p><div class="t-meta">★★☆☆ embeddings, visual edition</div></a><a class="tcard" href="tasks/pixel.html"><span class="t-emoji">🔲</span><h3>Pixel</h3><p>Choose the most informative pixels under a budget — probe what models actually look at.</p><div class="t-meta">★★★☆ open-ended thinking</div></a></div><div class="section-band">2025 GAITE extras — friendliest tasks</div><div class="grid-cards"><a class="tcard" href="tasks/word-segmentation.html"><span class="t-emoji">🇩🇪</span><h3>Word Segmentation</h3><p>Split German compound words character by character — sequence labeling made friendly.</p><div class="t-meta">★★☆☆ GAITE-calibrated</div></a><a class="tcard" href="tasks/speech-detector.html"><span class="t-emoji">🎙️</span><h3>Synthetic Speech Detector</h3><p>Spot AI-generated speech from spectrograms — the statement literally tells you the solution.</p><div class="t-meta">★☆☆☆ friendliest task on this site</div></a></div><div class="section-band">2024 — where the patterns started</div><div class="grid-cards"><a class="tcard" href="tasks/help-bobai.html"><span class="t-emoji">🩹</span><h3>Help BOBAI (fix the model)</h3><p>A model is broken or must grow new abilities — repair and extend instead of rebuilding.</p><div class="t-meta">★★★☆ historical</div></a><a class="tcard" href="tasks/lost-in-hyperspace.html"><span class="t-emoji">🌌</span><h3>Lost in Hyperspace</h3><p>Navigate embedding space itself — vectors, distances, and what 'nearby' means.</p><div class="t-meta">★★☆☆ historical</div></a><a class="tcard" href="tasks/madarian-cow.html"><span class="t-emoji">🐄</span><h3>Madarian Cow (edit the weights)</h3><p>Make an image generator draw zebras when asked for giraffes — surgery inside the model.</p><div class="t-meta">★★★★ historical, most exotic</div></a></div>
+
+<div class="section-band">Guides</div>
+<div class="grid-cards">
+<a class="tcard" href="gemma.html"><span class="t-emoji">💬</span><h3>Gemma 4 Playbook</h3>
+<p>Chunked prompting under the 2000-token cap, one-chat-per-job, verification rituals, the contest-day prompt bank.</p>
+<div class="t-meta">read before any mock</div></a>
+<a class="tcard" href="plan.html"><span class="t-emoji">🗓️</span><h3>The 30-Day Plan</h3>
+<p>July 3 → August 1, day by day: Python literacy → sklearn → PyTorch → the real 2026 tasks under contest conditions.</p>
+<div class="t-meta">your daily map</div></a>
+</div>
+</main>
+</div></body></html>
