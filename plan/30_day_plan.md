@@ -45,19 +45,19 @@ Goal: not "build networks from scratch" but *understand and modify a training lo
 - **Day 20 — Embeddings + similarity (IOAI's favorite trick).** sentence-transformers: encode texts, cosine similarity, nearest-neighbor search. Exercise: build a mini "guess the word from a description" system — this is literally Chameleon.
 - **Day 21 — Checkpoint: real olympiad task.** Solve **GAITE 2025 Synthetic Speech Detector** (spectrogram classification — it's just images!). Follow its own hints: ResNet18, few epochs. Then read the reference solution.
 
-## Week 4 (Days 22–28): Contest simulation — past tasks under real conditions
-Goal: speed, submission discipline, LLM-driving under constraints. From now on: **impose contest rules on yourself** (only docs websites + one LLM chat, chunked answers).
+## Week 4 (Days 22–28): THE REAL 2026 HOME TASKS + contest simulation
+> The actual 2026 At-Home tasks are public in github.com/IOAI-official/IOAI-2026 (`Home Task/`, Colab-ready).
+> Contest Day 1 extends these three. See `research/04_2026_home_tasks_deep_dive.md`. From now on: **impose contest rules on yourself** (only docs websites + one LLM chat, chunked answers, verify everything by running it).
 
-- **Day 22 — At-Home task 1: Chameleon** (IOAI 2025). Time-boxed 4h: read statement → summarize with LLM → run baseline → one improvement → produce submission file.
-- **Day 23 — At-Home task 2: Radar.** Same drill. Radar heatmaps = images; reuse Week-3 recipes.
-- **Day 24 — At-Home task 3: Weather.** Same drill. Image + tabular features combined.
-- **Day 25 — GAITE Word Segmentation** (char-level sequence labeling) OR a NEOAI Kaggle task (Tricky Table / Underfitting CV). Pick your weakest area.
-- **Day 26 — FULL 6-HOUR MOCK, Day-1 style.** 3 tasks (pick 3 you haven't fully solved: e.g., Restroom, Chicken Counting, a NEOAI task). Score yourself: did you submit *something* for all 3? Where did time vanish?
-- **Day 27 — Review the mock.** Read official solutions for all 3. Build your personal **snippets file** (`plan/snippets.md`): training loop, transfer-learning recipe, CSV submission writer, early stopping, embedding similarity — code you can retype fast.
-- **Day 28 — Audio + odd data types day.** Mel spectrograms (librosa concept, torchaudio), treating signals as images, padding variable-length sequences. Skim: what Whisper/HuBERT are (names appear in the 2026 syllabus).
+- **Days 22–23 — Home Task 1: Operation Night Watch** (audio continual learning, AST). Day 22: run the whole notebook top to bottom, have the LLM explain every cell; reproduce the baseline score; *watch catastrophic forgetting happen* by naively fine-tuning. Day 23: expand head 16→29, try experience replay ratios, read confusion matrices. 
+- **Day 24 — Home Task 2: Robot Delivery Academy** (behavioral cloning). Run baseline MLP, replay failed episodes in the simulator, then the notebook's own hint: swap flattened input for a small CNN on the 6×8×8 grid; oversample rare pickup/dropoff actions.
+- **Day 25 — Home Task 3: John Wilkins** (LLM 20-questions). Mostly logic, light on ML: precompute the animal×question table, implement greedy information-gain question picking, add robustness to a wrong oracle bit.
+- **Day 26 — FULL 6-HOUR MOCK, Day-1 style.** 3 unseen 2025 tasks (e.g., Restroom, Chicken Counting, Radar). Score yourself: did you submit *something* for all 3? Where did time vanish?
+- **Day 27 — Review the mock.** Read official 2025 solutions. Grow your personal **snippets file** (`plan/snippets.md`) with anything you had to look up twice.
+- **Day 28 — Second pass on your weakest 2026 home task.** Squeeze more score; note remaining open questions to discuss with your team leader.
 
 ## Final stretch (Days 29–30 + travel)
-- **Day 29 — 2026 At-Home Round.** The real at-home tasks are released ~1 month before the contest — **ask your team leader for them TODAY if you don't have them yet**; they are the direct basis of Contest Day 1. Work them seriously; ask Gemma/LLM to explain every line of their baselines.
+- **Day 29 — Polish + package.** Get all three 2026 home-task submissions into their exact required formats (zip/jsonl/csv). Reread `research/05_solution_flow.md` — the 8-step flow should feel like instinct by now.
 - **Day 30 — Light review + logistics.** Reread `research/01_competition_intel.md` (rules!), your snippets file, and the Gemma playbook. Sleep. Do not cram new theory.
 - **On-site practice session:** use it to learn the Yandex Contest platform + JupyterLab + how the Gemma 4 chat behaves (test the 2000-token limit immediately).
 
