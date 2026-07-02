@@ -115,43 +115,65 @@ muscle memory. Every task page's 💬 section on this site is a rehearsal script
 def plan_body():
     return """
 <header class="task-head"><div class="crumb">Guide</div>
-<h1>🗓️ The 30-Day Plan</h1>
-<p class="tagline">July 3 → August 1. Code literacy, not code authorship — then the real 2026 tasks.</p></header>
+<h1>🗓️ The 30-Day Plan <span style="font-size:.55em;opacity:.6">(v2 · baseline-first)</span></h1>
+<p class="tagline">July 3 → August 1. You'll never start from a blank cell — so we don't train like you will.</p></header>
 
-<section class="sec">
-<div class="callout"><div class="co-title">The philosophy</div>
-You never need to write models from a blank cell — every IOAI task ships a baseline. You DO need to <b>read</b>
-baselines, <b>assemble</b> Gemma's fragments, and <b>debug</b> shapes and tracebacks. Weeks 1–3 build exactly that
-literacy; Week 4 spends it on the real 2026 tasks. Daily: ~2–4 focused hours beat 8 distracted ones.</div>
+<section class="sec"><h2>Why v2? Two facts change everything</h2>
+<ul>
+<li><b>Every IOAI task ships a runnable baseline.</b> Contest day begins with working code that already scores points.</li>
+<li><b>Gemma 4 writes code for you.</b> You never need to <i>author</i> code — you need to read, assemble, verify, and direct.</li>
+</ul>
+<div class="callout"><div class="co-title">The Baseline Improvement Loop (BIL) — the only drill that matters</div>
+<b>1.</b> Run the baseline untouched → confirm score &amp; submission format &nbsp;<b>2.</b> Understand every cell
+(LLM explains, you re-explain) &nbsp;<b>3.</b> Diagnose <i>where</i> points are lost (confusion matrix, failed cases)
+&nbsp;<b>4.</b> Ask Gemma for ONE targeted change (chunked, ≤30 lines) &nbsp;<b>5.</b> Verify → run → measure →
+keep or revert &nbsp;<b>6.</b> Repeat. <br><br>The 30 days = this loop on progressively harder baselines. The two
+skills being trained: <b>diagnosis</b> and <b>Gemma-driving</b>. Python literacy exists only to serve them.</div>
+<p><b>Daily rhythm:</b> every session is LLM-paired <b>under contest rules from Day 1</b> — one chat = one job,
+chunked asks ("code only, max 30 lines"), pretend replies are capped, verify by running. ~50% baselines,
+~30% LLM-paired reading, ~20% journaling + growing your snippets file. Everything in Kaggle/Colab.</p>
 
-<div class="week"><h3>Week 1 · Days 1–7 — Python + data literacy</h3>
-<p>Kaggle Learn: Python → pandas → numpy basics. Goal: read/manipulate a DataFrame without fear, slice arrays,
-write functions. Everything in Kaggle/Colab notebooks (that's the contest environment's cousin). Daily ritual:
-one chatbot "explain like I'm 15" session on the day's concept.</p></div>
+<div class="week"><h3>Week 1 · Days 1–7 — Read code before you write code</h3>
+<p><b>Day 1 is demystification day:</b> press "Run All" on a finished Titanic notebook, then run the <i>real 2026
+<a href="tasks/night-watch.html">Night Watch</a> baseline</i> untouched. You understand nothing yet — fine. Lesson:
+the baseline already works; contest day starts from here. Days 2–3: Python <i>by interrogation</i> — paste real
+notebook cells into an LLM ("explain line by line"), break the notebook on purpose, read tracebacks bottom-up.
+Day 4: numpy + the <code>print(x.shape)</code> ritual. Days 5–6: pandas by asking→reading→running→explaining back.
+<b>Checkpoint Day 7:</b> explain every cell of an unseen notebook; make 3 modifications with predicted outcomes.</p></div>
 
-<div class="week"><h3>Week 2 · Days 8–14 — scikit-learn workflow</h3>
-<p>fit/predict, train/val split, cross-validation, accuracy/F1/AUC, RandomForest & gradient boosting, pipelines.
-<b>Checkpoint: the <a href="tasks/antique.html">Antique</a> task</b> — tiny data, pure sklearn. If you can run the
-model bake-off + self-training there, Week 2 is done.</p></div>
+<div class="week"><h3>Week 2 · Days 8–14 — The sklearn improvement loop</h3>
+<p>Day 8: metric-first reading + first full BIL on Titanic. Day 9: metrics — the confusion matrix is your diagnosis
+tool. Day 10: validation. Day 11: the 4-model bake-off via ONE chunked prompt. Day 12: feature engineering as loop
+iterations (change → measure → keep/revert). Day 13: embeddings as a black box + cosine similarity (IOAI's favorite
+pattern — usable without understanding transformers). <b>Checkpoint Day 14: <a href="tasks/antique.html">Antique</a></b>
+— full BIL: baseline → diagnose → bake-off → self-training. Pass = beat the baseline and say <i>why</i>.</p></div>
 
-<div class="week"><h3>Week 3 · Days 15–21 — PyTorch literacy</h3>
-<p>Dataset/DataLoader, nn.Module, the training loop, transfer learning (the ResNet recipe), embeddings + cosine
-similarity. <b>Checkpoint: <a href="tasks/speech-detector.html">Synthetic Speech Detector</a></b> end-to-end in
-under two hours. Learn the debugging rituals: shape printing, overfit-10-samples, tiny-slice-first.</p></div>
+<div class="week"><h3>Week 3 · Days 15–21 — PyTorch = surgery, not authorship</h3>
+<p>Day 15: tensors + shapes. Day 16: the sacred training loop, <i>assembled from 3 chunked asks</i> (data / model /
+loop), then explained back. Day 17: <b>surgery drills</b> — head swap, backbone freeze (+ param-count check), loss
+change, class weights: four moves that solve half of IOAI history. Day 18: the transfer-learning recipe. Day 19:
+training hygiene + the wiring tests (overfit-10-samples, tiny-slice-first). Day 20: embeddings + Hungarian matching.
+<b>Checkpoint Day 21: <a href="tasks/speech-detector.html">Speech Detector</a> in under 2 hours, contest rules,
+zero hand-authored code.</b></p></div>
 
-<div class="week w4"><h3>Week 4 · Days 22–28 — THE REAL 2026 TASKS + mock contest</h3>
-<p>Days 22–23: <a href="tasks/night-watch.html">Operation Night Watch</a> (watch catastrophic forgetting happen,
-then fix it). Day 24: <a href="tasks/robot-delivery.html">Robot Delivery</a> (CNN + rare actions + mask).
-Day 25: <a href="tasks/john-wilkins.html">John Wilkins</a> (precompute + info gain).
-<b>Day 26: full 6-hour mock</b> on three unseen 2025 tasks, contest rules enforced. Day 27: review + grow your
-snippets file. Day 28: second pass on your weakest 2026 task.</p></div>
+<div class="week w4"><h3>Week 4 · Days 22–28 — THE REAL 2026 TASKS + dress rehearsal</h3>
+<p><b>Hard rule from here:</b> only whitelisted docs + one LLM chat with self-imposed 2000-token discipline — every
+line of code comes from the baseline or from Gemma. Days 22–23: <a href="tasks/night-watch.html">Night Watch</a>
+(watch forgetting happen, then head expansion + replay). Day 24: <a href="tasks/robot-delivery.html">Robot
+Delivery</a> (CNN + rare actions + mask). Day 25: <a href="tasks/john-wilkins.html">John Wilkins</a> (precompute +
+info gain). <b>Day 26: full 6-hour mock</b> on 3 unseen 2025 tasks — baselines submitted in the first 30 min each?
+Day 27: post-mortem, grow snippets + prompt bank. Day 28: second pass on your weakest 2026 task.</p></div>
 
 <div class="week"><h3>Days 29–30 — Package & rest</h3>
 <p>All three 2026 submissions in exact required formats. Reread the rules and the
 <a href="gemma.html">Gemma playbook</a>. Sleep. No new theory.</p></div>
 
-<div class="callout win"><div class="co-title">If you fall behind</div>
-Priority order: sklearn workflow → PyTorch reading fluency → the three 2026 home tasks → everything else.
-The 2026 tasks are non-negotiable; a skipped Day-14 exercise is.</div>
+<div class="callout win"><div class="co-title">Milestones (honest self-check)</div>
+<b>W1:</b> I can read an unfamiliar notebook, explain every cell, and I've already run a real 2026 baseline ·
+<b>W2:</b> I can run the full improvement loop on a tabular baseline and beat it ·
+<b>W3:</b> I can do model surgery using only chunked Gemma-style asks ·
+<b>W4:</b> 6-hour mock → 3 valid submissions, each beating baseline, zero hand-authored code.<br><br>
+<b>If you fall behind, never cut:</b> the checkpoints (Days 14, 21), surgery drills (17–18), the three 2026 tasks,
+the mock (26).</div>
 </section>
 """
