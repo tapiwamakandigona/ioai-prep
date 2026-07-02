@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chameleon · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css"></head>
+<body><div class="layout">
+<nav class="sidebar"><a class="brand" href="../index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item" href="../tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item" href="../tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="../tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item active" href="../tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="../tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="../tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="../tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="../tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="../tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="../tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="../tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="../tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="../tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="../tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="../tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="../tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item" href="../gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="../plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
+<main class="content"><header class="task-head"><div class="crumb">2025 At-Home Round</div><h1>🦎 Chameleon</h1><p class="tagline">Guess the secret word from a sequence of icons — embeddings and semantic similarity.</p><div class="tags"><span class="tag">NLP</span><span class="tag">Embeddings</span><span class="tag">sentence-transformers</span><span class="tag diff">★★☆☆ great first embeddings task</span></div></header><section class="sec"><h2><span class="sec-ico">📜</span>The task, in plain English</h2>
+<p>A word-guessing game: you see an <b>ordered sequence of icons</b> (each icon comes with a text description),
+chosen by a "clue-giver" to hint at a secret word. Your model must predict the secret word. Example: icons for
+<i>water</i> + <i>fall</i> + <i>mist</i> → "waterfall". The order and combination of clues carry meaning.</p>
+<table>
+<tr><th>Input</th><td>Sequence of icons with text descriptions</td></tr>
+<tr><th>Output</th><td>The secret word (from a vocabulary)</td></tr>
+<tr><th>Really tests</th><td>Text <b>embeddings</b> + semantic similarity: mapping words and descriptions into vector space and measuring closeness</td></tr>
+</table>
+</section><section class="sec"><h2><span class="sec-ico">🔧</span>The baseline you're given</h2>
+<p>The baseline embeds icon descriptions and candidate words with a pretrained sentence encoder
+(<code>sentence-transformers</code>) and picks the candidate whose embedding is most similar (cosine) to a simple
+average of the clue embeddings. Limitations: naive averaging treats clues as an unordered bag, ignores that some
+clues matter more, and never adapts the embedding space to the game.</p>
+</section><section class="sec"><h2><span class="sec-ico">🚀</span>Baseline vs. solution</h2><div class="vs-grid"><div class="vs-card vs-base"><div class="vs-label">⚠️ The baseline (what you are given)</div><ul><li>Mean of clue embeddings → nearest word</li>
+<li>Ignores clue order and importance</li>
+<li>Off-the-shelf encoder, no task adaptation</li></ul></div><div class="vs-card vs-soln"><div class="vs-label">✅ The winning approach</div><ul><li>Better pooling: weighted combination of clues (position weighting, max-sim per clue)</li>
+<li>Score candidates by <b>sum of similarities to each clue</b> rather than similarity to the average — combinations like water+fall need both parts to match</li>
+<li>Try stronger sentence encoders from the provided model list; ensemble two encoders' rankings</li>
+<li>Validate on the provided games; inspect misses — most fixes come from reading errors, not more math</li></ul></div></div></section><section class="sec"><h2><span class="sec-ico">🧒</span>Explain it like I'm brand new</h2>
+<p><b>What's an embedding?</b> A function that turns text into a list of ~400 numbers such that <i>similar meanings
+get nearby numbers</i>. "dog" and "puppy" land close together; "dog" and "carburetor" don't. Once everything is a
+point in space, "which word do these clues point at?" becomes geometry: measure distances (cosine similarity) and
+pick the closest. That one idea — <b>embed, then compare</b> — solves Chameleon, Restroom, Concepts, and appears at
+IOAI every year.</p>
+</section><section class="sec"><h2><span class="sec-ico">💬</span>The Gemma 4 playthrough (2000-token limit)</h2><div class="chat"><div class="chat-divider"><span>Chat 1 · Recipe</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>I have clue descriptions (list of strings) and candidate words (list of strings). Using sentence-transformers (model already cached locally), write ONLY code to embed both, and rank candidates by the SUM of cosine similarities to each clue. Code only, max 25 lines.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>from sentence_transformers import SentenceTransformer
+import torch
+
+model = SentenceTransformer('/path/to/local/model')
+E_clues = model.encode(clues, convert_to_tensor=True, normalize_embeddings=True)
+E_cand  = model.encode(candidates, convert_to_tensor=True, normalize_embeddings=True)
+
+sims = E_cand @ E_clues.T          # (n_cand, n_clues)
+scores = sims.sum(dim=1)
+best = [candidates[i] for i in scores.argsort(descending=True)[:5]]
+print(best)</pre></div></div><div class="chat-note">Verify on 3 games where you know the answer before trusting the pipeline.</div></div></section><section class="sec"><h2><span class="sec-ico">🎯</span>Takeaways & what Day 1 might do with this</h2>
+<ul><li><b>Pattern family:</b> embeddings + cosine similarity — the most reliably recurring IOAI pattern.</li>
+<li>On the real Day 1 of 2025, this at-home task evolved into <a href="concepts.html">Concepts</a> — same semantic-similarity core with an LLM judge added. Master the simple version and the extension is incremental.</li></ul>
+</section><div class="pager"><a class="pager-link" href="john-wilkins.html">← 🗄️ The Analytical Language of John Wilkins</a><a class="pager-link next" href="radar.html">📡 Radar →</a></div></main>
+</div></body></html>

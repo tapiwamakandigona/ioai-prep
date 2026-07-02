@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operation Night Watch · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css"></head>
+<body><div class="layout">
+<nav class="sidebar"><a class="brand" href="../index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item active" href="../tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item" href="../tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="../tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item" href="../tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="../tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="../tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="../tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="../tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="../tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="../tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="../tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="../tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="../tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="../tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="../tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="../tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item" href="../gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="../plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
+<main class="content"><header class="task-head"><div class="crumb">🚨 2026 Home Tasks — the real ones</div><h1>🌃 Operation Night Watch</h1><p class="tagline">Teach an audio model 13 new sounds without it forgetting the 16 it already knows.</p><div class="tags"><span class="tag">Audio</span><span class="tag">Transformers</span><span class="tag">Continual learning</span><span class="tag">Hugging Face</span><span class="tag diff">★★★☆ deep-learning heavy</span></div></header><section class="sec"><h2><span class="sec-ico">📜</span>The task, in plain English</h2>
+<p>You are given a deployed sound-recognition model — an <b>Audio Spectrogram Transformer (AST)</b> — that already
+recognizes <b>16 sound classes</b> (city sounds). Your city now needs it to also recognize <b>13 new classes</b>:
+chainsaws, gunshots, and four insect species among them. The catch: after adding the new classes, the model
+will be tested on <b>all 29 classes together</b>, and old and new count equally.</p>
+<table>
+<tr><th>Input</th><td>5-second mono audio clips, 16 kHz (.wav files)</td></tr>
+<tr><th>Output</th><td>One of 29 class labels per clip</td></tr>
+<tr><th>Training data</th><td><code>train.csv</code> — a small <i>retained</i> subset of the old 16 classes · <code>fine_tune.csv</code> — the 13 new classes, imbalanced (24–60 clips each)</td></tr>
+<tr><th>Metric</th><td><code>Score = ½ · Accuracy(old 16) + ½ · Accuracy(new 13)</code> on a hidden 29-class test set</td></tr>
+<tr><th>Compute</th><td>Free Colab T4 is enough</td></tr>
+</table>
+<div class="callout warn"><div class="co-title">The trap in the metric</div>
+The 50/50 weighting is the whole game. If you fine-tune only on new sounds, the model learns them fast — and
+<b>destroys</b> the old 16 classes within a few hundred training steps. New-class accuracy 90%, old-class accuracy 10% → score ≈ 50.
+Keeping BOTH high is the actual exam. This failure mode has a name: <b>catastrophic forgetting</b>.</div>
+</section><section class="sec"><h2><span class="sec-ico">🔧</span>The baseline you're given</h2>
+<p>The notebook walks you through: loading the pretrained AST from Hugging Face
+(<code>ASTForAudioClassification</code>), turning waveforms into 128-band log-mel spectrograms with the
+feature extractor, and running the standard fine-tuning loop on the new data. Structure:</p>
+<ol>
+<li><b>Feature extraction</b> — waveform → spectrogram "image" → 16×16 patches → 12 transformer layers (~86M params) → tiny linear classification head.</li>
+<li><b>The naive path</b> (shown on purpose): replace the 16-way head with a 13-way head and fine-tune on <code>fine_tune.csv</code> only. Result: new classes learned, old classes obliterated. The notebook <i>wants</i> you to watch this happen.</li>
+<li><b>Diagnostics provided</b> — per-class accuracy, confusion matrix, t-SNE of embeddings, audio players so you can listen to mistakes.</li>
+</ol>
+<p>The stated limitations (= your to-do list): the naive approach forgets; the new data is small and imbalanced;
+training the full 86M-parameter encoder is slow and risky.</p>
+</section><section class="sec"><h2><span class="sec-ico">🚀</span>Baseline vs. solution</h2><div class="vs-grid"><div class="vs-card vs-base"><div class="vs-label">⚠️ The baseline (what you are given)</div><ul>
+<li>New 13-way head, old head thrown away</li>
+<li>Fine-tunes <b>all</b> 86M parameters on new data only</li>
+<li>No old data in the training mix</li>
+<li>Watches accuracy on new classes only</li>
+<li>Old-class knowledge collapses within a few hundred steps</li>
+</ul></div><div class="vs-card vs-soln"><div class="vs-label">✅ The winning approach</div><ul>
+<li><b>Expand the head 16 → 29</b>: build a new linear head with 29 outputs, <i>copy the old 16 rows of weights into it</i>, initialize only the 13 new rows fresh</li>
+<li><b>Experience replay</b>: every training batch mixes retained old clips with new clips (tune the ratio — start 50/50)</li>
+<li><b>Freeze most of the encoder</b> (or use LoRA via <code>peft</code>): train the head + last block(s) only — faster AND less forgetting</li>
+<li>Optionally: <b>knowledge distillation</b> — keep a frozen copy of the original model and penalize your new model when its outputs on old classes drift away from it</li>
+<li>Verify with <b>per-class accuracy on BOTH groups</b> every epoch</li>
+</ul></div></div>
+<div class="callout win"><div class="co-title">Why this works</div>
+Forgetting happens because gradient updates from new data overwrite weights that encoded old knowledge.
+Every fix above attacks that directly: replay keeps old gradients in the mix, freezing/LoRA limits how many weights
+can be overwritten, distillation explicitly punishes drift, and copying the old head rows preserves the old
+decision boundaries as the starting point.</div>
+</section><section class="sec"><h2><span class="sec-ico">🧒</span>Explain it like I'm brand new</h2>
+<p><b>Analogy:</b> imagine a waiter who has memorized 16 regular customers' orders. You now ask him to memorize
+13 new customers — but you drill him <i>only</i> on the new ones for a week. When an old regular walks in, he blanks.
+That's catastrophic forgetting. The fixes are common sense:</p>
+<ul>
+<li><b>Replay</b> = while drilling new orders, keep quizzing him on a few old ones every session.</li>
+<li><b>Freezing</b> = tell him "don't restructure your whole memory system, just add new entries."</li>
+<li><b>Distillation</b> = keep a photo of his old notebook and check his answers against it.</li>
+</ul>
+<p><b>What's a spectrogram?</b> Sound is a wave. A spectrogram slices it into tiny time windows and plots which
+frequencies are loud in each window — producing a 2-D picture where time runs left→right and pitch runs bottom→top.
+Once sound is a picture, image models (like this transformer) can classify it. This trick — <i>"turn weird data into
+an image"</i> — shows up at IOAI every single year.</p>
+<p><b>What's a "head"?</b> Big pretrained models = a huge <i>encoder</i> (understands the input, 86M params here)
++ a tiny final layer, the <i>head</i>, that maps understanding → class scores. Swapping/expanding heads is cheap
+surgery and an IOAI yearly ritual: the encoder already "hears" — you just re-wire what it reports.</p>
+</section><section class="sec"><h2><span class="sec-ico">💬</span>The Gemma 4 playthrough (2000-token limit)</h2>
+<p>How you'd drive this on contest day with a 2000-token cap (≈120 lines of code per reply) and unlimited fresh chats.
+Notice: one chat = one job, code requested in pieces, everything verified on a tiny slice.</p>
+<div class="chat"><div class="chat-divider"><span>Chat 1 · Strategy (no code yet)</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Task: audio classifier (AST, Hugging Face) knows 16 classes. I must add 13 new classes from a small imbalanced dataset. Metric = 0.5*acc_old + 0.5*acc_new on all 29 classes. Baseline naively fine-tunes on new data only and forgets old classes. List the 5 highest-impact fixes ordered by (score gain ÷ implementation time) for a 6-hour contest. One line each, no code.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>1. Expand head to 29 outputs, copy old 16 weight rows (5 min, prevents starting from zero)
+2. Experience replay: mix retained old clips into every batch ~50/50 (15 min, biggest anti-forgetting win)
+3. Freeze encoder, train head + last transformer block only (5 min, faster + less forgetting)
+4. Class-balanced sampling for the 13 imbalanced new classes (10 min)
+5. Distillation vs frozen original model on old classes (45 min, do only if time remains)</pre></div></div><div class="chat-note">You now have a ranked plan. Fresh chat for each code piece.</div><div class="chat-divider"><span>Chat 2 · Head surgery only</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>transformers ASTForAudioClassification, loaded from a local path. Current classifier head: Linear(768, 16). Write ONLY the code to replace it with Linear(768, 29), copying the existing 16 rows of weight and bias into the first 16 outputs. Code only, max 20 lines.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>import torch, torch.nn as nn
+
+old_head = model.classifier.dense          # Linear(768, 16)
+new_head = nn.Linear(768, 29)
+with torch.no_grad():
+    new_head.weight[:16] = old_head.weight
+    new_head.bias[:16]   = old_head.bias
+model.classifier.dense = new_head
+model.config.num_labels = 29
+print(model.classifier.dense)   # sanity check</pre></div></div><div class="chat-note">VERIFY before trusting: print(model.classifier) first — the real attribute path may differ. If it errors, paste the printed module tree into a fresh chat.</div><div class="chat-divider"><span>Chat 3 · Replay dataset</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>I have two pandas DataFrames: old_df (16 classes, cols: path,label) and new_df (13 classes, labels 16..28). Write ONLY a PyTorch Dataset + DataLoader that samples each batch ~50% from old_df and ~50% from new_df using WeightedRandomSampler. Assume a function load_features(path) exists. Code only, max 40 lines.</pre></div></div><div class="msg gemma"><div class="msg-who">GEMMA 4</div><div class="bubble"><pre>import pandas as pd, torch
+from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
+
+full = pd.concat([old_df, new_df], ignore_index=True)
+is_old = (full.label &lt; 16).values
+w = torch.where(torch.tensor(is_old),
+                0.5/ is_old.sum(),
+                0.5/ (~is_old).sum())
+
+class AudioDS(Dataset):
+    def __init__(self, df): self.df = df.reset_index(drop=True)
+    def __len__(self): return len(self.df)
+    def __getitem__(self, i):
+        r = self.df.iloc[i]
+        return load_features(r.path), int(r.label)
+
+sampler = WeightedRandomSampler(w.double(), num_samples=len(full))
+loader = DataLoader(AudioDS(full), batch_size=16, sampler=sampler)</pre></div></div><div class="chat-divider"><span>Chat 4 · Freeze + train</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Freeze all AST encoder params except the last transformer layer and the classifier head, then a training loop: AdamW lr=1e-4, cross-entropy, 3 epochs, print loss per epoch. Variables that exist: model, loader, DEVICE. Code only, max 40 lines.</pre></div></div><div class="chat-note">…Gemma returns the loop. You run it for ONE batch first (break after 1 step, print loss + logits.shape == [16, 29]) before the full run.</div><div class="chat-divider"><span>Chat 5 · The check that actually matters</span></div><div class="msg user"><div class="msg-who">YOU</div><div class="bubble"><pre>Write an eval function that computes accuracy separately for labels 0-15 and labels 16-28 given (model, val_loader, DEVICE), then prints 0.5*acc_old + 0.5*acc_new. Code only, max 30 lines.</pre></div></div><div class="chat-note">Run after every experiment. If acc_old crashed, your replay ratio is off — raise old fraction, or freeze more.</div></div></section><section class="sec"><h2><span class="sec-ico">🎯</span>Takeaways & what Day 1 might do with this</h2>
+<ul>
+<li><b>Pattern family:</b> "frozen encoder + head surgery" (yearly ritual) + continual learning (new for 2026).</li>
+<li><b>The metric defines the game.</b> Read the scoring cell before the story. 50/50 weighting = protect old knowledge at all costs.</li>
+<li><b>peft/LoRA is in the contest library list</b> — that's a hint from the organizers, not an accident.</li>
+<li><b>Likely Day-1 extension:</b> same AST audio setup with a twist — more/fewer retained clips, additional class batches (continual learning in multiple steps), distribution shift (noisy recordings), or a stricter compute budget. If you've tuned replay ratios once, you'll do it in minutes on Day 1.</li>
+</ul>
+</section><div class="pager"><span></span><a class="pager-link next" href="robot-delivery.html">🤖 Robot Delivery Academy →</a></div></main>
+</div></body></html>
