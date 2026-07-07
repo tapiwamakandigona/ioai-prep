@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the from-scratch lesson deck: How a Computer Sees (1920x1080, Viktor)."""
+"""Build the from-scratch lesson deck: How a Computer Sees (1920x1080, WeasyPrint)."""
 import json, html as html_mod
 from pathlib import Path
 
