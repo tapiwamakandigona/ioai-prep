@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Vision Models deck PDF (1920x1080, Viktor profile, WeasyPrint)."""
+"""Build the Vision Models deck PDF (1920x1080, WeasyPrint)."""
 import random
 
 random.seed(42)
