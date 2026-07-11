@@ -6,6 +6,14 @@
 
 All three run in Google Colab (badges included; data auto-downloads from Google Drive via `gdown`).
 
+> **⚡ Official rulings & live intel (from the IOAI Official Discord, 2026-07-11 — full digest in `06_discord_intel.md`):**
+> - Tasks 1–2 are now **live on Kaggle** ([Task 1](https://www.kaggle.com/t/5fccd4b322b345b39210b52eeabf9df9), [Task 2](https://www.kaggle.com/t/06b232bc145b47c78022bcd0c53231c9), limit 20 subs/day). Task 3 stays local (interactive).
+> - **Pretrained models allowed** (incl. LLMs/embedding models for Task 3). **20-min limit = train + inference combined.**
+> - **Task 1:** Kaggle data has *no val split* — predict on the `path` column of the provided `submission.csv`. Community reports **label noise** in classes 3/7 (cow vs sheep) and 11/15 (thunderstorm vs rain). A reported community score to beat: ~87%.
+> - **Task 2:** officially **supervised learning, not RL**. No generating extra expert trajectories via search/planning/expert models; no frame stacking (current observation only). Geometric augmentation of given trajectories appears acceptable (no official ruling).
+> - **Task 3:** the "~5–15 min on T4" precompute cell actually takes **~1.5 h** on Colab T4 — plan/precompute overnight.
+> - On-site: **no external LLMs/APIs/installs needed — everything provided ready-to-use** (Khan, Head of Host Scientific Committee).
+
 ---
 
 ## Home Task 1 — "Operation Night Watch" (Audio, continual learning)

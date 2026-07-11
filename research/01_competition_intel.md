@@ -22,7 +22,7 @@
 ## Contest structure
 | Stage | What | When |
 |---|---|---|
-| At-Home Round | 3 problems, educational, doesn't count, hosted on **Kaggle** | ~1 month before (i.e., **around now — check with your team leader!**) |
+| At-Home Round | 3 problems, educational, doesn't count. **LIVE NOW:** [GitHub](https://github.com/IOAI-official/IOAI-2026/tree/main/Home%20Task) since Jun 30; Tasks 1–2 on Kaggle since Jul 7 ([Audio Classifier](https://www.kaggle.com/t/5fccd4b322b345b39210b52eeabf9df9), [Robot Delivery](https://www.kaggle.com/t/06b232bc145b47c78022bcd0c53231c9), 20 subs/day); Task 3 is interactive → local only | now → Aug 2 |
 | Practice session | Familiarize with contest hall/system | on-site, before Day 1 |
 | Contest Day 1 | 3 tasks, each connected to an at-home task, **6 hours** | on-site |
 | Contest Day 2 | 3 novel tasks, **6 hours** | on-site |
