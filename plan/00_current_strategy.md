@@ -33,4 +33,5 @@ Colab + Gemma + drill card → submit to the **Kaggle leaderboard** (Home Tasks 
 ## Status log
 | Date | What happened |
 |---|---|
-| 2026-07-11 | Strategy adopted. Discord intel + Team Challenge email captured (`research/06`, `research/07`). Discord verification submitted ("Makandigona-verify"). Next: Viktor builds drill #1 (Task 1, audio) with validated prompt scripts. |
+| 2026-07-11 | Strategy adopted. Discord intel + Team Challenge email captured (`research/06`, `research/07`). Discord verification submitted ("Makandigona-verify"). |
+| 2026-07-11 | **Drill #1 drafted** → `plan/drills/drill_01_audio.md` (Task 1 audio: P0–P5 prompt scripts + 5 recovery moves, built from the official notebook). Live Gemma-3-27B validation pass pending (needs AI Studio API key). |
