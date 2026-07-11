@@ -1,6 +1,6 @@
 # IOAI / GAITE 2026 Prep
 
-> 🌐 **Browse this repo as a website:** https://tapiwamakandigona.github.io/ioai-prep/ — every task decoded with baseline-vs-solution comparisons, beginner explanations, and Gemma 4 playthroughs. Source in `site/`, rendered to `docs/` (run `python3 site/build.py` after editing content).
+> 🌐 **Browse this repo as a website:** https://tapiwamakandigona.github.io/ioai-prep/ — the **Mission Hub** homepage (countdown, strategy, validated drill cards with copy-paste prompts, intel board) plus the **[Field Manual](https://tapiwamakandigona.github.io/ioai-prep/manual.html)** (every task decoded with baseline-vs-solution comparisons, beginner explanations, and Gemma 4 playthroughs). Source in `site/` (hub in `site/hub/`), rendered to `docs/` — run `python3 site/build.py` after editing content.
 
 Preparation hub for the **GAITE Contest at IOAI 2026** (Astana, Kazakhstan, Aug 2–8, 2026).
 
