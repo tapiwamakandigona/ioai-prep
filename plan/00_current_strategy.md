@@ -12,7 +12,7 @@
 The single skill being trained: **driving Gemma to a scoring submission**. No theory, no lessons.
 
 ### Step 1 — Viktor validates the route (Jul 11–14)
-Viktor solves all 3 At-Home Tasks using **only prompts to Gemma 3 27B** (same family as the contest bot), no expert knowledge injected. Output: **prompt scripts** per task — "paste this → then this → if you see error X, paste that." Any spot that can't be cheesed gets a scripted workaround.
+Viktor solves all 3 At-Home Tasks using **only prompts to Gemma 4** (`gemma-4-31b-it` — the actual contest-bot family, available on the free Gemini API), no expert knowledge injected. Output: **prompt scripts** per task — "paste this → then this → if you see error X, paste that." Any spot that can't be cheesed gets a scripted workaround.
 
 ### Step 2 — One-page playbook (Jul 14)
 `plan/playbook.md`: ~10 prompt templates (run-the-baseline, fine-tune-a-classifier, fix-my-error, raise-my-score, write-the-submission-file) + ~5 recovery moves. Short enough to memorize. Replaces the site as the prep artifact.
@@ -34,4 +34,5 @@ Colab + Gemma + drill card → submit to the **Kaggle leaderboard** (Home Tasks 
 | Date | What happened |
 |---|---|
 | 2026-07-11 | Strategy adopted. Discord intel + Team Challenge email captured (`research/06`, `research/07`). Discord verification submitted ("Makandigona-verify"). |
-| 2026-07-11 | **Drill #1 drafted** → `plan/drills/drill_01_audio.md` (Task 1 audio: P0–P5 prompt scripts + 5 recovery moves, built from the official notebook). Live Gemma-3-27B validation pass pending (needs AI Studio API key). |
+| 2026-07-11 | **Drill #1 drafted** → `plan/drills/drill_01_audio.md` (Task 1 audio: P0–P5 prompt scripts + 5 recovery moves, built from the official notebook). |
+| 2026-07-11 | **Drill #1 VALIDATED live vs `gemma-4-31b-it`** — all 5 prompts returned correct code first try. Key finding: Gemma 4 rambles before code, so every prompt must end with "Reply with ONLY a single python code block" or the 2000-token cap truncates the answer. Gemma 4 (not just Gemma 3) is on the free API — practice against the real contest model family. |
