@@ -1,0 +1,36 @@
+# CURRENT STRATEGY — Drill-based, Gemma-first (adopted 2026-07-11)
+
+> **This supersedes `30_day_plan.md`.** Read this file first; everything else in the repo is reference material.
+
+## Reality check (why the plan changed)
+- It's **Jul 11**; the 30-day curriculum (started Jul 3 on paper) was never begun — uni prep took priority. **22 days remain** to Astana (Aug 2).
+- Starting point: no coding/ML background; strength = **vibe coding** (directing an LLM to produce working code and iterating).
+- Curricula and self-study sites get ignored (proven twice). Anything that looks like "studying" will not happen. **Drills with a scoreboard will.**
+- This is fine, because **GAITE is designed for exactly this**: Gemma 4, 2000-token replies, unlimited chats, hints allowed, separate scoreboard. Heavy chatbot use isn't a hack — it's the intended playstyle of the track.
+
+## The strategy: train the operator, not the engineer
+The single skill being trained: **driving Gemma to a scoring submission**. No theory, no lessons.
+
+### Step 1 — Viktor validates the route (Jul 11–14)
+Viktor solves all 3 At-Home Tasks using **only prompts to Gemma 3 27B** (same family as the contest bot), no expert knowledge injected. Output: **prompt scripts** per task — "paste this → then this → if you see error X, paste that." Any spot that can't be cheesed gets a scripted workaround.
+
+### Step 2 — One-page playbook (Jul 14)
+`plan/playbook.md`: ~10 prompt templates (run-the-baseline, fine-tune-a-classifier, fix-my-error, raise-my-score, write-the-submission-file) + ~5 recovery moves. Short enough to memorize. Replaces the site as the prep artifact.
+
+### Step 3 — Drills, 2–3×/week, ~45 min (Jul 14 → Aug 1)
+Colab + Gemma + drill card → submit to the **Kaggle leaderboard** (Home Tasks 1–2 are live, 20 subs/day). No studying — run the play. Viktor reviews the notebook + score afterwards, gives **max 3 corrections**. Leaderboard = honest signal whether the cheese works, weeks before the flight.
+
+### Step 4 — Dry runs (late Jul)
+- The official **Yandex Contest example task**: https://new.contest.yandex.ru/contests/93047 (the real on-site platform).
+- One timed mock "contest day" in the last week of July.
+- Team Challenge practice session on the GALBOT simulator with the ZW team (single shared login — coordinate with team leaders).
+
+## Ground rules (from the old plan, still true)
+- Every drill runs **under contest rules**: one chat = one job, ask in chunks ("code only, ≤30 lines"), treat replies as capped at 2000 tokens, verify by running.
+- The **Baseline Improvement Loop** stays the core play: run baseline → diagnose where points are lost → ask Gemma for ONE targeted change → verify → measure → keep or revert.
+- Anything looked up twice goes into `plan/snippets.md`.
+
+## Status log
+| Date | What happened |
+|---|---|
+| 2026-07-11 | Strategy adopted. Discord intel + Team Challenge email captured (`research/06`, `research/07`). Discord verification submitted ("Makandigona-verify"). Next: Viktor builds drill #1 (Task 1, audio) with validated prompt scripts. |
