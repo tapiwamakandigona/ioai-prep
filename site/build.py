@@ -81,9 +81,10 @@ def sidebar(tasks, active_slug=None, depth=1):
         f'<div class="nav-group">Guides</div>'
         f'<a class="nav-item{" active" if active_slug=="gemma" else ""}" href="{p}gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a>'
         f'<a class="nav-item{" active" if active_slug=="plan" else ""}" href="{p}plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a>'
+        f'<a class="nav-item" href="{p}index.html"><span class="nav-emoji">🛰️</span>Mission Hub (home)</a>'
     )
     return (
-        f'<nav class="sidebar"><a class="brand" href="{p}index.html">IOAI <b>2026</b>'
+        f'<nav class="sidebar"><a class="brand" href="{p}manual.html">IOAI <b>2026</b>'
         f'<span class="brand-sub">GAITE field manual</span></a>'
         + "".join(items) + extra + "</nav>"
     )
@@ -148,7 +149,11 @@ def build(tasks, index_body, gemma_body, plan_body):
     (OUT / "tasks").mkdir(parents=True, exist_ok=True)
     shutil.copy(ROOT / "style.css", OUT / "style.css")
     (OUT / ".nojekyll").write_text("")
-    (OUT / "index.html").write_text(page("Home", index_body, tasks, None, depth=0))
+    # Mission hub (drill HQ) is the homepage; the field manual lives at manual.html
+    shutil.copy(ROOT / "hub" / "hub.html", OUT / "index.html")
+    shutil.copy(ROOT / "hub" / "hub.css", OUT / "hub.css")
+    shutil.copy(ROOT / "hub" / "app.js", OUT / "app.js")
+    (OUT / "manual.html").write_text(page("Field Manual", index_body, tasks, None, depth=0))
     (OUT / "gemma.html").write_text(page("Gemma 4 Playbook", gemma_body, tasks, "gemma", depth=0))
     (OUT / "plan.html").write_text(page("30-Day Plan", plan_body, tasks, "plan", depth=0))
     for i, t in enumerate(tasks):
