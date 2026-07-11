@@ -1,11 +1,11 @@
 # Gemma 4 Playbook — Turning Your Chatbot Into a Superpower
 
-Your GAITE setup: **Gemma 4, max 2000 output tokens per query, unlimited new chats, no external internet except docs sites.**
+Your GAITE setup: **Gemma 4, max 2000 output tokens per query, no external internet except docs sites.** Chat/rate quotas are TBA (announced pre-contest) — confirm at the Aug 3 practice round.
 Gemma 4 is Google's 2026 open-model family (released March–June 2026; sizes incl. E2B, E4B, 26B-A4B, 31B, 12B-Unified) — very strong at code, reasoning and instruction-following. Which exact variant IOAI deploys will be announced pre-contest; assume "capable but not a genius" and verify everything it gives you.
 
 ## The two constraints and what they mean
 1. **2000 output tokens ≈ ~120 lines of code or ~1200 words.** Long answers get cut off mid-sentence. So: never ask for "the whole solution" — ask for *pieces*.
-2. **Unlimited new chats** = unlimited retries and no context pollution. Fresh chats are free; use them aggressively.
+2. **Fresh chats = no context pollution.** Start a new chat per subproblem. ⚠️ "Unlimited chats" is NOT an official rule — the PDF defers quotas to a pre-contest announcement. Use fresh chats freely unless the announced quota says otherwise; if quotas turn out tight, switch to fewer, denser chats (one chat per task, structured prompts).
 
 ## Core strategies
 
@@ -55,7 +55,9 @@ Answer with code only, max 40 lines.
 - ~5 min: read all 3 statements; rank by expected points/hour. GAITE hints often reveal the intended difficulty.
 - First 30 min per task: get the **baseline running and submitted**. Points on the board beat perfection.
 - Use Gemma in parallel: while a model trains, have a chat open planning the next improvement.
-- Last 45 min: freeze experiments, make sure your best 2 submissions are selected, verify file formats.
+- Last 45 min: freeze experiments and verify file formats. ⚠️ The rules don't spell out how your "final solution" is designated (last submission? explicit selection?) — ask at the Aug 3 practice round. Until confirmed, assume **latest submission = official one** and never leave a broken submission as your last.
+- Remember: your official score is **Scoreboard B (hidden test set)**, not the live validation score. Prefer robust improvements over leaderboard-squeezing; a standard end-of-task Gemma check: "How do I make sure this model isn't overfitting the validation set?"
+- The graded notebook must finish in **≤20 min**; you get **60 submissions/task** and can queue submissions concurrently.
 
 ## Practice this skill NOW
 During the 30-day prep, do all your studying with a free chatbot (Gemini/ChatGPT/AI Studio) **but impose the contest rules on yourself**: pretend answers are capped, ask in chunks, start fresh chats per topic, and always verify by running code. By contest day, driving an LLM under constraints will be muscle memory. If you want the real thing, Gemma 3 (and Gemma 4 where available) can be tried free at aistudio.google.com or via Hugging Face — practicing against the actual model family is a bonus, not a requirement.
