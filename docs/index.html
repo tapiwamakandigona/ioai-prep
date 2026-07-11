@@ -1,53 +1,263 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home · IOAI 2026 Field Manual</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head>
-<body><div class="layout">
-<nav class="sidebar"><a class="brand" href="index.html">IOAI <b>2026</b><span class="brand-sub">GAITE field manual</span></a><div class="nav-group">🚨 2026 Home Tasks — the real ones</div><a class="nav-item" href="tasks/night-watch.html"><span class="nav-emoji">🌃</span>Operation Night Watch</a><a class="nav-item" href="tasks/robot-delivery.html"><span class="nav-emoji">🤖</span>Robot Delivery Academy</a><a class="nav-item" href="tasks/john-wilkins.html"><span class="nav-emoji">🗄️</span>The Analytical Language of John Wilkins</a><div class="nav-group">2025 At-Home Round</div><a class="nav-item" href="tasks/chameleon.html"><span class="nav-emoji">🦎</span>Chameleon</a><a class="nav-item" href="tasks/radar.html"><span class="nav-emoji">📡</span>Radar</a><a class="nav-item" href="tasks/weather.html"><span class="nav-emoji">🌧️</span>Weather</a><div class="nav-group">2025 Contest Days</div><a class="nav-item" href="tasks/concepts.html"><span class="nav-emoji">💡</span>Concepts (Chameleon's Day-1 extension)</a><a class="nav-item" href="tasks/antique.html"><span class="nav-emoji">🏺</span>Antique</a><a class="nav-item" href="tasks/chicken-counting.html"><span class="nav-emoji">🐔</span>Chicken Counting</a><a class="nav-item" href="tasks/restroom.html"><span class="nav-emoji">🚻</span>Restroom</a><a class="nav-item" href="tasks/pixel.html"><span class="nav-emoji">🔲</span>Pixel</a><div class="nav-group">2025 GAITE Extras</div><a class="nav-item" href="tasks/word-segmentation.html"><span class="nav-emoji">🇩🇪</span>Word Segmentation</a><a class="nav-item" href="tasks/speech-detector.html"><span class="nav-emoji">🎙️</span>Synthetic Speech Detector</a><div class="nav-group">2024 (1st edition)</div><a class="nav-item" href="tasks/help-bobai.html"><span class="nav-emoji">🩹</span>Help BOBAI (fix the model)</a><a class="nav-item" href="tasks/lost-in-hyperspace.html"><span class="nav-emoji">🌌</span>Lost in Hyperspace</a><a class="nav-item" href="tasks/madarian-cow.html"><span class="nav-emoji">🐄</span>Madarian Cow (edit the weights)</a><div class="nav-group">Guides</div><a class="nav-item" href="gemma.html"><span class="nav-emoji">💬</span>Gemma 4 Playbook</a><a class="nav-item" href="plan.html"><span class="nav-emoji">🗓️</span>30-Day Plan</a></nav>
-<main class="content">
-<div class="hero">
-<div class="crumb">GAITE · Astana, Kazakhstan · August 2–8, 2026</div>
-<h1>The IOAI Field Manual</h1>
-<p>Every IOAI task from 2024 to the <b>actual 2026 home tasks</b>, decoded for someone starting from zero:
-what the task really asks, how the given baseline works, how the winning solution differs, and exactly how you'd
-get there driving <b>Gemma 4 under a 2000-token limit</b>.</p>
-<div class="hero-stats">
-<div class="stat"><b>16</b><span>tasks decoded</span></div>
-<div class="stat"><b>3</b><span>real 2026 tasks</span></div>
-<div class="stat"><b>6h</b><span>per contest day</span></div>
-<div class="stat"><b>2000</b><span>tokens per Gemma reply</span></div>
-</div>
-</div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IOAI 2026 — Operation Astana</title>
+<meta name="description" content="Drill-based prep HQ for IOAI 2026 (Astana). Gemma-first strategy, prompt scripts, and intel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+</head>
+<body>
 
-<div class="section-band">How every task page works</div>
-<p>Each page has the same six sections: <b>📜 the task in plain English</b> (story stripped, metric extracted) ·
-<b>🔧 the baseline you're given</b> · <b>🚀 baseline vs. solution</b> side by side · <b>🧒 a from-zero explanation</b>
-of the concepts · <b>💬 a simulated Gemma 4 playthrough</b> — the literal chats that would solve it under the
-token cap · <b>🎯 takeaways</b> and likely Day-1 extensions.</p>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <span class="brand">🛰️ OPERATION <b>ASTANA</b></span>
+    <nav class="topnav">
+      <a href="#strategy">Strategy</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#drill1">Drill #1</a>
+      <a href="#intel">Intel</a>
+      <a href="#links">Links</a>
+    </nav>
+  </div>
+</header>
 
-<div class="section-band">The 8-step solution flow (works on every task)</div>
-<ol class="flow-steps">
-<li><b>Metric first.</b> Find the scoring cell before reading the story. The metric defines the game.</li>
-<li><b>Run the baseline untouched → submit it.</b> Points on the board; format verified; scores are normalized against the baseline, so any improvement counts.</li>
-<li><b>Diagnose before improving.</b> Confusion matrix, failed-episode replays, per-class accuracy — find <i>where</i> points are lost.</li>
-<li><b>Read the hints; rank fixes by points-per-hour.</b> GAITE statements contain the intended solution.</li>
-<li><b>One change at a time, measure each.</b> Keep a scrappy log: change → score.</li>
-<li><b>Name the lesson.</b> Every task secretly teaches one failure mode (forgetting, drift, noisy oracle). Name it and you know the solution family.</li>
-<li><b>Guard the clock.</b> Baseline submitted in 30 min; freeze experiments 45 min before the end.</li>
-<li><b>Never leave a task at zero.</b></li>
-</ol>
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">// IOAI 2026 · ASTANA, KAZAKHSTAN · TEAM ZIMBABWE 🇿🇼</p>
+    <h1>Train the operator,<br><span class="accent">not the engineer.</span></h1>
+    <p class="sub">One skill, drilled under contest rules until it's automatic: <strong>driving Gemma to a scoring submission</strong>. No theory. No lessons. Drills with a scoreboard.</p>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd-cell"><span id="cd-d">–</span><label>days</label></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-cell"><span id="cd-h">–</span><label>hrs</label></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-cell"><span id="cd-m">–</span><label>min</label></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-cell"><span id="cd-s">–</span><label>sec</label></div>
+      <div class="cd-label">until wheels-down · Aug 2, 2026</div>
+    </div>
+    <div class="badges">
+      <span class="badge ok">✅ Drill #1 validated vs gemma-4-31b-it</span>
+      <span class="badge warn">🟡 Drills #2–3 in build</span>
+      <span class="badge info">🏁 Kaggle Home Tasks 1–2 live · 20 subs/day</span>
+    </div>
+  </div>
+</section>
 
-<div class="section-band">🚨 The real 2026 Home Tasks — start here</div><div class="grid-cards"><a class="tcard" href="tasks/night-watch.html"><span class="t-emoji">🌃</span><h3>Operation Night Watch</h3><p>Teach an audio model 13 new sounds without it forgetting the 16 it already knows.</p><div class="t-meta">★★★☆ deep-learning heavy</div></a><a class="tcard" href="tasks/robot-delivery.html"><span class="t-emoji">🤖</span><h3>Robot Delivery Academy</h3><p>Teach a robot to deliver packages by copying an expert — and learn why copying is harder than it looks.</p><div class="t-meta">★★★☆ conceptually subtle</div></a><a class="tcard" href="tasks/john-wilkins.html"><span class="t-emoji">🗄️</span><h3>The Analytical Language of John Wilkins</h3><p>20 Questions against an LLM oracle: find 1 animal among ~1,400 in 15 yes/no questions.</p><div class="t-meta">★★☆☆ pure thinking — your kind of task</div></a></div><div class="section-band">2025 At-Home Round — practice material</div><div class="grid-cards"><a class="tcard" href="tasks/chameleon.html"><span class="t-emoji">🦎</span><h3>Chameleon</h3><p>Guess the secret word from a sequence of icons — embeddings and semantic similarity.</p><div class="t-meta">★★☆☆ great first embeddings task</div></a><a class="tcard" href="tasks/radar.html"><span class="t-emoji">📡</span><h3>Radar</h3><p>Detect humans in radar heatmaps — image classification on data that isn't photos.</p><div class="t-meta">★★☆☆ core CNN reps</div></a><a class="tcard" href="tasks/weather.html"><span class="t-emoji">🌧️</span><h3>Weather</h3><p>Predict rain from satellite images plus context features — fusing two data types in one model.</p><div class="t-meta">★★★☆ fusion practice</div></a></div><div class="section-band">2025 Contest Days</div><div class="grid-cards"><a class="tcard" href="tasks/concepts.html"><span class="t-emoji">💡</span><h3>Concepts (Chameleon's Day-1 extension)</h3><p>The at-home guessing game returns — now with an official LLM judge API and a call budget.</p><div class="t-meta">★★★☆ shows how Day 1 extends at-home</div></a><a class="tcard" href="tasks/antique.html"><span class="t-emoji">🏺</span><h3>Antique</h3><p>500 rows, 5 features, some labels unknown — classical sklearn beats deep learning here.</p><div class="t-meta">★★☆☆ your Week-2 checkpoint</div></a><a class="tcard" href="tasks/chicken-counting.html"><span class="t-emoji">🐔</span><h3>Chicken Counting</h3><p>Count chickens via density maps — with a frozen encoder you're not allowed to touch.</p><div class="t-meta">★★★☆ pure model surgery</div></a><a class="tcard" href="tasks/restroom.html"><span class="t-emoji">🚻</span><h3>Restroom</h3><p>Match male↔female restroom icons from the same restroom — embeddings for images.</p><div class="t-meta">★★☆☆ embeddings, visual edition</div></a><a class="tcard" href="tasks/pixel.html"><span class="t-emoji">🔲</span><h3>Pixel</h3><p>Choose the most informative pixels under a budget — probe what models actually look at.</p><div class="t-meta">★★★☆ open-ended thinking</div></a></div><div class="section-band">2025 GAITE extras — friendliest tasks</div><div class="grid-cards"><a class="tcard" href="tasks/word-segmentation.html"><span class="t-emoji">🇩🇪</span><h3>Word Segmentation</h3><p>Split German compound words character by character — sequence labeling made friendly.</p><div class="t-meta">★★☆☆ GAITE-calibrated</div></a><a class="tcard" href="tasks/speech-detector.html"><span class="t-emoji">🎙️</span><h3>Synthetic Speech Detector</h3><p>Spot AI-generated speech from spectrograms — the statement literally tells you the solution.</p><div class="t-meta">★☆☆☆ friendliest task on this site</div></a></div><div class="section-band">2024 — where the patterns started</div><div class="grid-cards"><a class="tcard" href="tasks/help-bobai.html"><span class="t-emoji">🩹</span><h3>Help BOBAI (fix the model)</h3><p>A model is broken or must grow new abilities — repair and extend instead of rebuilding.</p><div class="t-meta">★★★☆ historical</div></a><a class="tcard" href="tasks/lost-in-hyperspace.html"><span class="t-emoji">🌌</span><h3>Lost in Hyperspace</h3><p>Navigate embedding space itself — vectors, distances, and what 'nearby' means.</p><div class="t-meta">★★☆☆ historical</div></a><a class="tcard" href="tasks/madarian-cow.html"><span class="t-emoji">🐄</span><h3>Madarian Cow (edit the weights)</h3><p>Make an image generator draw zebras when asked for giraffes — surgery inside the model.</p><div class="t-meta">★★★★ historical, most exotic</div></a></div>
+<section id="strategy" class="section">
+  <div class="wrap">
+    <h2><span class="hnum">01</span> The Strategy</h2>
+    <p class="lede">GAITE is <em>designed</em> for chatbot-driven solving: Gemma 4, 2000-token replies, unlimited chats, hints allowed, its own scoreboard. Heavy chatbot use isn't a hack — it's the intended playstyle. So the prep trains exactly that.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">S1</div>
+        <h3>Validate the route</h3>
+        <p>Viktor solves all 3 At-Home Tasks using <strong>only prompts to Gemma 4</strong> — no expert knowledge injected. Output: paste-ready prompt scripts per task.</p>
+        <span class="tag done">Task 1 ✓ done</span>
+      </div>
+      <div class="step">
+        <div class="step-n">S2</div>
+        <h3>One-page playbook</h3>
+        <p>~10 prompt templates + ~5 recovery moves. Short enough to memorize. The only "study material" that exists.</p>
+        <span class="tag">in build</span>
+      </div>
+      <div class="step">
+        <div class="step-n">S3</div>
+        <h3>Drills, 2–3×/week</h3>
+        <p>45 min: Colab + Gemma + drill card → submit to the <strong>Kaggle leaderboard</strong>. Review after: max 3 corrections. The leaderboard is the honest signal.</p>
+        <span class="tag">Jul 14 → Aug 1</span>
+      </div>
+      <div class="step">
+        <div class="step-n">S4</div>
+        <h3>Dry runs</h3>
+        <p>Yandex Contest example task (the real on-site platform), one timed mock contest day, and a GALBOT Team Challenge practice session.</p>
+        <span class="tag">late Jul</span>
+      </div>
+    </div>
+    <div class="rules">
+      <h4>Ground rules — every drill runs under contest conditions</h4>
+      <ul>
+        <li><strong>One chat = one job.</strong> Fresh chat per subtask; paste the briefing (P0) at the top each time.</li>
+        <li><strong>Ask in chunks:</strong> "Code only, max 30 lines." Treat replies as capped at 2000 tokens.</li>
+        <li><strong>Baseline Improvement Loop:</strong> run baseline → diagnose → ask for ONE targeted change → verify → measure → keep or revert.</li>
+        <li>Anything looked up twice goes into <code>plan/snippets.md</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-<div class="section-band">Guides</div>
-<div class="grid-cards">
-<a class="tcard" href="gemma.html"><span class="t-emoji">💬</span><h3>Gemma 4 Playbook</h3>
-<p>Chunked prompting under the 2000-token cap, one-chat-per-job, verification rituals, the contest-day prompt bank.</p>
-<div class="t-meta">read before any mock</div></a>
-<a class="tcard" href="plan.html"><span class="t-emoji">🗓️</span><h3>The 30-Day Plan</h3>
-<p>July 3 → August 1, day by day: Python literacy → sklearn → PyTorch → the real 2026 tasks under contest conditions.</p>
-<div class="t-meta">your daily map</div></a>
-</div>
-</main>
-</div></body></html>
+<section id="tasks" class="section alt">
+  <div class="wrap">
+    <h2><span class="hnum">02</span> The Three Home Tasks</h2>
+    <p class="lede">Contest Day 1's three tasks will each connect to one of these. Master these, master the contest.</p>
+    <div class="tasks">
+      <div class="task-card">
+        <div class="task-head"><span class="task-emoji">🔊</span><div><h3>Task 1 — Operation Night Watch</h3><span class="task-sub">Audio · continual learning · <b>on Kaggle</b></span></div></div>
+        <p>A 16-class audio classifier (AST) must learn 13 new classes <strong>without forgetting the old 16</strong>. Score = ½·old accuracy + ½·new accuracy — forgetting costs as much as failing.</p>
+        <ul class="task-facts">
+          <li>The whole game: <b>replay mixing</b> (new classes have only 24–60 clips each)</li>
+          <li>⚠️ Label noise in classes 3/7 (cow vs sheep) &amp; 11/15 (thunderstorm vs rain)</li>
+          <li>⚠️ Kaggle data has <b>no val split</b> — predict on <code>submission.csv</code> paths</li>
+          <li>Community score to beat: <b>~87%</b></li>
+        </ul>
+        <a class="task-drill" href="#drill1">▸ Drill card ready — validated ✅</a>
+      </div>
+      <div class="task-card">
+        <div class="task-head"><span class="task-emoji">🤖</span><div><h3>Task 2 — Robot Delivery Academy</h3><span class="task-sub">Behavioral cloning · <b>on Kaggle</b></span></div></div>
+        <p>A robot on an 8×8 grid learns pick-up-and-deliver <strong>from expert demonstrations only</strong> (observation → action). Officially supervised learning — <em>not</em> RL.</p>
+        <ul class="task-facts">
+          <li>Baseline flattens the grid — their own hint: <b>use a small CNN</b> instead</li>
+          <li>Rare actions (pickup/dropoff) under-learned → class weighting</li>
+          <li>🚫 No search/planning, no extra expert trajectories, no frame stacking</li>
+          <li>Geometric augmentation (rotate/flip) = community-accepted</li>
+        </ul>
+        <span class="task-drill dim">▸ Drill card: in build</span>
+      </div>
+      <div class="task-card">
+        <div class="task-head"><span class="task-emoji">🧩</span><div><h3>Task 3 — Interactive</h3><span class="task-sub">Local notebooks only · not on Kaggle</span></div></div>
+        <p>Interactive task run locally; a Yandex Contest hosting with leaderboard is "being worked on". Pretrained models (incl. LLMs &amp; embedding models) are <strong>allowed</strong>.</p>
+        <ul class="task-facts">
+          <li>⚠️ The "~5–15 min on T4" cell actually takes <b>~1.5 h</b> on Colab T4</li>
+          <li>Plan: <b>precompute overnight</b>, never inside a drill window</li>
+          <li>20-minute limit = <b>train + inference together</b> (official ruling)</li>
+        </ul>
+        <span class="task-drill dim">▸ Drill card: in build</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="drill1" class="section">
+  <div class="wrap">
+    <h2><span class="hnum">03</span> Drill #1 — The Play <span class="validated">✅ VALIDATED 2026-07-11 vs gemma-4-31b-it</span></h2>
+    <p class="lede">Home Task 1, start to Kaggle submission, in 6 prompts. Every prompt below was tested live against Gemma 4 and produced correct working code. <strong>Time box: 45 minutes.</strong></p>
+
+    <div class="callout">
+      <b>⚠️ The one rule that saves your score:</b> Gemma 4 "thinks out loud" — pages of bullet-point reasoning before the code. With the 2000-token reply cap, the rambling can <em>cut off your code mid-line</em>. Every prompt must end with:
+      <div class="promptline"><code id="suffix">Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</code><button class="copy" data-copy="suffix">copy</button></div>
+      If a reply still truncates: <em>"Continue the code from the last line."</em>
+    </div>
+
+    <h4 class="setup-h">Setup (once, ~1 min)</h4>
+    <ol class="setup">
+      <li>Tab 1: <a href="https://aistudio.google.com" target="_blank" rel="noopener">aistudio.google.com</a> → model dropdown → <b>Gemma 4</b> (same family as the contest bot).</li>
+      <li>Tab 2: the task notebook in Colab (from the <a href="https://www.kaggle.com/t/5fccd4b322b345b39210b52eeabf9df9" target="_blank" rel="noopener">Kaggle competition</a>) → Runtime → T4 GPU.</li>
+      <li>Run the baseline top to bottom. <b>Write down the baseline score.</b></li>
+    </ol>
+
+    <div class="prompts">
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P0</span><h3>Briefing — paste at the top of every new chat</h3><button class="copy" data-copy="p0">copy</button></div>
+        <pre id="p0">I'm working in a Colab notebook. I have a Hugging Face `ASTForAudioClassification` checkpoint trained on 16 audio classes, loaded from a local folder. I must extend it to 29 classes (16 old + 13 new) and fine-tune on ~10 GPU minutes without forgetting the old classes. Data: `train.csv` (old classes) and `fine_tune.csv` (new classes), columns include filepath, target, split. Metric: mean of old-class accuracy and new-class accuracy.</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P1</span><h3>Grow the head (16 → 29 outputs)</h3><button class="copy" data-copy="p1">copy</button></div>
+        <pre id="p1">Write code that replaces the model's 16-output classifier head with a 29-output head, copying the original 16 rows of weights and bias into the first 16 outputs and randomly initializing the rest. Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P2</span><h3>Combined dataset</h3><button class="copy" data-copy="p2">copy</button></div>
+        <pre id="p2">Write a PyTorch Dataset that loads both CSVs' train splits into one dataframe, loads each audio file with librosa at 16 kHz, and returns the AST feature extractor's output plus the integer label. Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P3</span><h3>Training loop with replay</h3><button class="copy" data-copy="p3">copy</button></div>
+        <pre id="p3">Write a training loop (AdamW, lr 1e-5 for the encoder and 1e-3 for the head, ~3 epochs, batch size 8) over a mix of ALL new-class training clips and an equal number of randomly sampled old-class clips per epoch, so the model learns new classes without forgetting old ones. Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P4</span><h3>Score it</h3><button class="copy" data-copy="p4">copy</button></div>
+        <pre id="p4">Write evaluation code that predicts on the val splits of both CSVs and prints accuracy on old classes (targets 0-15), accuracy on new classes (targets 16-28), and their mean. Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</pre>
+      </div>
+      <div class="prompt">
+        <div class="prompt-head"><span class="pn">P5</span><h3>Kaggle submission <span class="pnote">(Kaggle has no val split — predict straight on submission.csv paths)</span></h3><button class="copy" data-copy="p5">copy</button></div>
+        <pre id="p5">Write code that runs the model on every filepath listed in the Kaggle `submission.csv`, writes the predicted class index into its target column, and saves it. Code only, max 30 lines. Reply with ONLY a single python code block — no explanation, no reasoning, no bullet points.</pre>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="panel">
+        <h4>🛠 Recovery moves</h4>
+        <ol>
+          <li><b>Any error</b> → new message: paste the FULL traceback + the failing cell. "Fix this. Code only."</li>
+          <li><b>Shape mismatch</b> → add: "The model expects input shape X; my batch is shape Y" (print both first).</li>
+          <li><b>CUDA out of memory</b> → "Rewrite with batch size 4 and gradient accumulation of 2. Code only."</li>
+          <li><b>Too slow for 10 min</b> → "Freeze all encoder layers except the last 2 blocks. Code only."</li>
+          <li><b>Score too low</b> → paste P4 numbers: "Old acc X, new acc Y. Give me ONE change to improve the weaker side. Code only."</li>
+          <li><b>Undefined variable in a snippet</b> → "Define X too. Code only." (Gemma sometimes assumes <code>processor</code>/<code>train_df</code> exist.)</li>
+        </ol>
+      </div>
+      <div class="panel">
+        <h4>⚠️ Known traps — don't burn time here</h4>
+        <ul>
+          <li>Classes 3/7 &amp; 11/15 have <b>label noise</b> — some errors there aren't your fault.</li>
+          <li>20 submissions/day. Target: beat <b>~87%</b>.</li>
+          <li>New classes: only 24–60 clips each — <b>replay mixing (P3) is the whole game</b>.</li>
+          <li>Free-tier API/chat sometimes 500s — <b>just resend</b>, it's not your prompt.</li>
+        </ul>
+        <h4 class="mt">📓 After the drill (2 min)</h4>
+        <p class="small">Log: baseline score → your score → Kaggle LB position → what broke → which prompt saved you. DM Viktor for review (max 3 corrections).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="intel" class="section alt">
+  <div class="wrap">
+    <h2><span class="hnum">04</span> Intel Board</h2>
+    <div class="intel-grid">
+      <div class="intel">
+        <h4>🏟 On-site (official rulings)</h4>
+        <ul>
+          <li>No external LLMs/APIs/installs needed — <b>everything provided ready-to-use</b> (Khan, Head of Host Sci. Committee).</li>
+          <li>Provided chatbot is <b>Gemma</b>: individual contest = Gemma 3, 1000-token cap; <b>GAITE = Gemma 4, 2000 tokens</b>.</li>
+          <li>20-min limit = train + inference <b>combined</b>.</li>
+          <li>Pretrained models allowed, incl. LLMs/embeddings for Task 3.</li>
+        </ul>
+      </div>
+      <div class="intel">
+        <h4>🧭 Team Challenge (GALBOT)</h4>
+        <ul>
+          <li>Practice round is <b>live</b> on the GALBOT simulator — single shared team login, coordinate with team leaders.</li>
+          <li>IOAILab tooling coming at <a href="https://github.com/galbot-ioai/ioailab" target="_blank" rel="noopener">galbot-ioai/ioailab</a>.</li>
+          <li>Last community meeting: <b>Jul 22</b>.</li>
+        </ul>
+      </div>
+      <div class="intel">
+        <h4>🚨 Watch-outs</h4>
+        <ul>
+          <li><b>ioai2026.kz is a confirmed scam site</b> — ignore it.</li>
+          <li>Dry-run platform: <a href="https://new.contest.yandex.ru/contests/93047" target="_blank" rel="noopener">Yandex Contest example task</a> (the real on-site platform).</li>
+          <li>Re-scrape Discord late July for label-noise rulings &amp; travel logistics.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="links" class="section">
+  <div class="wrap">
+    <h2><span class="hnum">05</span> Quick Links</h2>
+    <div class="links">
+      <a class="link-card" href="https://aistudio.google.com" target="_blank" rel="noopener"><b>Google AI Studio</b><span>Gemma 4 — practice chatbot</span></a>
+      <a class="link-card" href="https://www.kaggle.com/t/5fccd4b322b345b39210b52eeabf9df9" target="_blank" rel="noopener"><b>Kaggle — Task 1</b><span>Operation Night Watch</span></a>
+      <a class="link-card" href="https://www.kaggle.com/t/06b232bc145b47c78022bcd0c53231c9" target="_blank" rel="noopener"><b>Kaggle — Task 2</b><span>Robot Delivery Academy</span></a>
+      <a class="link-card" href="https://github.com/IOAI-official/IOAI-2026" target="_blank" rel="noopener"><b>Official tasks repo</b><span>IOAI-official/IOAI-2026</span></a>
+      <a class="link-card" href="https://new.contest.yandex.ru/contests/93047" target="_blank" rel="noopener"><b>Yandex Contest</b><span>On-site platform dry run</span></a>
+      <a class="link-card" href="https://github.com/tapiwamakandigona/ioai-prep" target="_blank" rel="noopener"><b>This repo</b><span>Full docs, drills &amp; research</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>🇿🇼 → 🇰🇿 · IOAI 2026 prep · maintained by Tapiwa + Viktor</span>
+    <span class="dim">Last updated 2026-07-11 · drill #1 validated</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
