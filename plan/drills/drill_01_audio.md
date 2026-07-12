@@ -56,4 +56,22 @@ You get a trained 16-class audio classifier (AST) + data for 13 new classes. Mak
 ## Log it (2 min, in this file's table or DM Viktor)
 | Date | Baseline score | Your score | Kaggle LB | What broke | Prompts that saved you |
 |---|---|---|---|---|---|
-|  |  |  |  |  |  |
+| 2026-07-12 (Viktor, full end-to-end) | — (dummy sub = all zeros) | val: old 93.3% / new 93.6% / **mean 93.5%** | **0.80773** (public) | 4 things (see run notes) | "Fix this. Code only." with full traceback — fixed every bug first try |
+
+## End-to-end Kaggle run notes (Viktor, 2026-07-12 — the play works, submission made)
+The whole drill was run for real: every line of modeling code written by `gemma-4-31b-it` under the 2000-token cap (fresh chat per prompt, via `tools/gemma_contest.py`), assembled into a Kaggle notebook, trained on GPU, submitted. Full prompt/reply transcript + notebook: `plan/drills/runs/2026-07-12_drill01/`.
+
+**Result: val mean accuracy 93.5% (old 93.3 / new 93.6) after 3 epochs, ~7 min training — beats the ~87% community bar. Public LB: 0.80773** (submission 54602732; the val→LB gap is expected — the known label-noise pairs 3/7 and 11/15 plus hidden-split shift eat ~13 points. Next lever: label-noise handling — relabel/merge the confused pairs or use soft targets — before adding epochs.)
+
+What broke (all recovered with the standard "paste traceback → Fix this. Code only." move — Gemma fixed each on the first try):
+1. **Head surgery**: the checkpoint's classifier is an `ASTMLPHead` (layernorm + dense), not a bare `nn.Linear` — `.in_features` doesn't exist on it. Fix: replace `model.classifier.dense` only.
+2. **Optimizer param groups**: the encoder attribute is `model.audio_spectrogram_transformer`, not `model.ast`.
+3. **Paths**: Kaggle's `path` column already contains the `audio/` prefix — don't add it again.
+4. **Replay sampling**: `old_train.sample(n=len(new_train))` crashes when old train split is smaller than the new one — add `replace=True`.
+
+Kaggle platform gotchas (not Gemma's fault — know these before contest day):
+- **Submissions are notebooks-only** for this competition: `kaggle competitions submit -f file.csv` is rejected. Submit a kernel version (`-k <kernel> -v <version> -f submission.csv`) or use the notebook's "Submit" button; Kaggle then re-runs it on the hidden test set.
+- **Pick the T4 accelerator, not P100**: the kernel image's PyTorch needs sm_70+; on P100 (sm_60) CUDA ops fail.
+- The data mounts at `/kaggle/input/competitions/ioai-2026-home-task-1` — don't hardcode; discover the root by walking for `train.csv`.
+
+New Gemma-4 finding (matters for the contest 2000-token cap): the cap counts **hidden thinking tokens too**. On P6-style asks Gemma burned ~1997 tokens deliberating and returned no code. The fix that reliably works: end the prompt with *"Answer immediately with the code block — do not deliberate, do not analyze, do not restate the context. Reply with ONLY a single python code block."* Also: even then Gemma often leaks a few reasoning bullets before the fence — the **last** code block in the reply is the one to copy.
