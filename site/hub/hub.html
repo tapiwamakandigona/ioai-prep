@@ -46,7 +46,8 @@
     </div>
     <div class="badges">
       <span class="badge ok">✅ Drills #1–3 ALL validated vs gemma-4-31b-it</span>
-      <span class="badge info">🏁 Kaggle Home Tasks 1–2 live · 20 subs/day</span>
+      <span class="badge ok">🤖 Official chatbot live &amp; verified — chat.ioai2026.kz</span>
+      <span class="badge warn">🧭 GALBOT practice window ended Jul 22 — may reopen, watch Discord</span>
       <span class="badge warn">📋 Rules re-audited Jul 11 — see Intel</span>
     </div>
   </div>
@@ -373,7 +374,9 @@ print(f"mean {counts.mean():.1f}  max {counts.max()}  &lt;=11 questions: {(count
       <div class="intel">
         <h4>🏟 On-site (official rules, re-audited Jul 11)</h4>
         <ul>
-          <li>Provided chatbot is <b>Gemma</b>: individual contest = Gemma 3, 1000-token cap; <b>GAITE = Gemma 4, 2000 tokens</b>. Everything provided ready-to-use — no external APIs.</li>
+          <li>Provided chatbot is <b>Gemma</b> — and it's <b>live now at chat.ioai2026.kz</b> (verified Jul 22, one account per contestant). GAITE track: <b>Gemma 4 E4B, ~2,000-token replies, 10-message memory, 2,000-char inputs, 60 msg/h</b>. Individual contest limits are stricter. Anything from Gemma is legal, incl. skeleton code. See <code>research/10</code>.</li>
+          <li><b>On-site resources: 1 GPU slot, 18 GB RAM total</b> — stay memory-frugal. The Jupyter server ships pre-loaded models + docs; read the provided docs first.</li>
+          <li><b>Freeze/disconnect:</b> raise hand → replacement machine; lost ≥10 min → file the extra-time form <b>on the spot</b>. If the round ends before approval: <b>stay seated</b> — leaving the hall forfeits the claim.</li>
           <li><b>Official scores come from a hidden test set ("Scoreboard B")</b> — the live board shows baseline + anonymous max; don't overfit it.</li>
           <li><b>20-min notebook runtime · max 60 submissions/task</b>; 20-min limit = train + inference combined. Latest submission counts — treat it as final.</li>
           <li>Clarification questions must be <b>Yes/No</b>. Contest days 09:00–15:00 (6 h). No device quarantine, but devices banned in the hall.</li>
@@ -384,15 +387,17 @@ print(f"mean {counts.mean():.1f}  max {counts.max()}  &lt;=11 questions: {(count
         <h4>🧭 Team Challenge (GALBOT)</h4>
         <ul>
           <li><b>Two stages:</b> Round 1 "Simulation" Aug 3 14:00–19:00; top-10 Final Aug 7 09:00–12:00 at Alem.ai.</li>
-          <li>Practice round is <b>live</b> on the GALBOT simulator — single shared team login (emailed to Team Leaders Jul 10; fallback isc@ioai-official.org).</li>
-          <li>IOAILab tooling coming at <a href="https://github.com/galbot-ioai/ioailab" target="_blank" rel="noopener">galbot-ioai/ioailab</a>.</li>
-          <li>Last community meeting: <b>Jul 22</b>.</li>
+          <li><b>Practice window ENDED Jul 22</b> (Almaty) with ~239 h of our time unused — organizers may reopen it ("we will update regular channels"). If it reopens, book a full team session immediately.</li>
+          <li><b>Platform decoded (first-hand, Jul 22):</b> cloud GPU desktop → <b>ioailab</b> on Isaac Sim with the Galbot G1 — collect expert demos (cuRobo) → Mimic-expand → train <b>Diffusion Policy</b> → evaluate → submit from the answer folder. Home Task 2 scaled up. Full walkthrough: <code>research/09</code>.</li>
+          <li>Timing counts from desktop entry; ending a session wipes it; submissions run server-side. Single shared login → one driver + screen share.</li>
+          <li>IOAILab mirror repo: <a href="https://github.com/galbot-ioai/ioailab" target="_blank" rel="noopener">galbot-ioai/ioailab</a> (stub so far; real docs on the platform).</li>
         </ul>
       </div>
       <div class="intel">
         <h4>🚨 Watch-outs</h4>
         <ul>
-          <li><b>ioai2026.kz is a confirmed scam site</b> — ignore it.</li>
+          <li><b>Correction (Jul 22):</b> the earlier "ioai2026.kz is a scam" ruling does <b>not</b> apply to <b>chat.ioai2026.kz</b> — that subdomain is the real official chatbot (official credentials verified). Still ignore the bare domain's other pages.</li>
+          <li><b>Deadlines that were due Jul 22:</b> team-leader language/support form + at-home appeals (form-only, one per contestant per task, emails ignored) — confirm with Daphne/Esau that both went in.</li>
           <li>Dry-run platform: <a href="https://new.contest.yandex.ru/contests/93047" target="_blank" rel="noopener">Yandex Contest example task</a> (the real on-site platform).</li>
           <li>Task 1 label noise (cow/sheep, thunderstorm/rain) escalated to organizers Jul 11 — <b>no ruling yet</b>; Kaggle LB unreliable (some 100% scores from extracted labels).</li>
           <li>Re-scrape Discord late July for rulings &amp; travel logistics. IOAI Slack is NOT for contestants.</li>
@@ -420,7 +425,7 @@ print(f"mean {counts.mean():.1f}  max {counts.max()}  &lt;=11 questions: {(count
 <footer>
   <div class="wrap">
     <span>🇿🇼 → 🇰🇿 · IOAI 2026 prep · maintained by Tapiwa + Viktor</span>
-    <span class="dim">Last updated 2026-07-11 · drills #1–3 validated · rules re-audited</span>
+    <span class="dim">Last updated 2026-07-22 · GALBOT platform decoded · official chatbot verified</span>
   </div>
 </footer>
 

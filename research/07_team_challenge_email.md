@@ -1,5 +1,10 @@
 # IOAI Team Challenge + Essential Links (official ISC email)
 
+> **UPDATE 2026-07-22:** the practice window on simulation.galbot.com has **ended** (Jul 9–22 Almaty) with
+> ~239 h of Zimbabwe's time unused; organizers may reopen it — see
+> **`09_galbot_simulation_platform.md`** for the full first-hand platform walkthrough and
+> **`10_community_meeting_2026-07-22.md`** for the final community-meeting intel.
+
 > Source: "IOAI Team Challenge Credentials + Essential Links" — sent by the IOAI ISC (`isc@ioai-official.org`)
 > to Zimbabwe's team leaders on **2026-07-10**, forwarded by Daphne Machangara. Captured 2026-07-11.
 

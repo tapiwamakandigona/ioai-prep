@@ -13,7 +13,9 @@ Preparation hub for the **GAITE Contest at IOAI 2026** (Astana, Kazakhstan, Aug 
 4. **`research/04_2026_home_tasks_deep_dive.md`** — 🚨 the ACTUAL 2026 At-Home tasks (from IOAI-official/IOAI-2026), decoded cell by cell. Contest Day 1 extends these.
 5. **`research/05_solution_flow.md`** — the universal task anatomy + 8-step solution flow shared by every IOAI baseline notebook (2024–2026).
 6. **`research/06_discord_intel.md`** — 🆕 live intel from the IOAI Official Discord (scraped 2026-07-11): official rulings on the Home Tasks, Kaggle links, known issues (Task 1 label noise, Task 3 runtime), and action items.
-7. **`research/07_team_challenge_email.md`** — 🆕 official ISC email (Jul 10): Team Challenge practice round on GALBOT simulation, Yandex Contest example task, all essential links, Jul 22 community meeting.
+7. **`research/07_team_challenge_email.md`** — official ISC email (Jul 10): Team Challenge practice round on GALBOT simulation, Yandex Contest example task, all essential links, Jul 22 community meeting.
+7.5. **`research/09_galbot_simulation_platform.md`** — 🆕 **first-hand walkthrough of simulation.galbot.com** (logged in Jul 22): platform mechanics, time rules, submission flow, and the full **ioailab** stack (Isaac Sim + Galbot G1, task IDs, collect→mimic→train→evaluate pipeline). ⚠️ practice window ended Jul 22 with ~239 h unused — may reopen.
+7.6. **`research/10_community_meeting_2026-07-22.md`** — 🆕 final community meeting notes + **verified official chatbot** (chat.ioai2026.kz, Gemma 4 E4B, GAITE limits: 2,000-token replies / 10-msg memory / 60 msg/h) + contest-day procedures (freezes, extra-time forms, stay seated) + on-site resources (1 GPU, 18 GB RAM).
 8. **`plan/30_day_plan.md`** — the original day-by-day curriculum (superseded by `00_current_strategy.md`; kept for the Baseline Improvement Loop and reference).
 9. **`plan/snippets.md`** — starter personal snippets file; grow it during prep, know it by heart on contest day.
 
