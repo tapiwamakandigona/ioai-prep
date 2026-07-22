@@ -5,8 +5,9 @@
 Preparation hub for the **GAITE Contest at IOAI 2026** (Astana, Kazakhstan, Aug 2–8, 2026).
 
 ## Start here
-0. **`plan/00_current_strategy.md`** — 🎯 **THE CURRENT PLAN** (adopted Jul 11): drill-based, Gemma-first prep. Read this before anything else.
-0.5. **`plan/playbook.md`** — 📄 **THE ONE-PAGE CHEAT SHEET**: 10 prompt templates + 5 recovery moves, live-validated against Gemma 4 across all 3 drills + the real Kaggle run. The only thing to memorize; use it for every self-practice session.
+0. **`plan/01_lock_in.md`** — 🔒 **LOCK IN (Jul 23 → Aug 8)**: the only 4 things that matter, the E4B-vs-31B model gap settled by live tests on the real contest bot (2026-07-22), and the final day-by-day run-in to Astana. If you read one file, read this.
+0.2. **`plan/00_current_strategy.md`** — 🎯 the strategy behind it (adopted Jul 11): drill-based, Gemma-first prep.
+0.5. **`plan/playbook.md`** — 📄 **THE ONE-PAGE CHEAT SHEET**: 10 prompt templates + 5 recovery moves, live-validated against Gemma 4 across all 3 drills + the real Kaggle run, **re-validated Jul 22 against the real contest bot (E4B)** with amendments. The only thing to memorize.
 1. **`research/01_competition_intel.md`** — verified facts about IOAI 2026 & GAITE: format, rules, Gemma 4 access (2000 tokens/query), allowed websites & libraries, hardware, scoring. Read first.
 2. **`research/02_past_tasks_analysis.md`** — every IOAI 2025 / GAITE task decoded + the patterns they repeat. Tells you exactly what to practice.
 3. **`research/03_gemma4_playbook.md`** — how to max out the Gemma 4 chatbot under the 2000-token limit with unlimited chats.

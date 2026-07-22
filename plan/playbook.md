@@ -1,6 +1,6 @@
 # THE PLAYBOOK — one page, memorize it
 
-> Every line here was **validated live against Gemma 4 (`gemma-4-31b-it`)** across drills 1–3 and the real Kaggle Task-1 run (val 93.5%, LB 0.80773). This is the cheat sheet for self-practice AND contest day. Practice it until you can do it without looking.
+> Every line here was **validated live against Gemma 4 (`gemma-4-31b-it`)** across drills 1–3 and the real Kaggle Task-1 run (val 93.5%, LB 0.80773). **Re-validated 2026-07-22 against the REAL contest bot (Gemma 4 E4B on chat.ioai2026.kz)** — everything carries over, plus the E4B amendments at the bottom. This is the cheat sheet for self-practice AND contest day. Practice it until you can do it without looking.
 
 ## The two magic strings (append/prepend to EVERY prompt)
 
@@ -59,6 +59,15 @@
 - **Verify before trusting:** read the code (do the variables exist?), run on a tiny slice first, `print(x.shape)` liberally.
 - **Baseline on the board in 30 min**, then the Improvement Loop: diagnose → ONE targeted change (T10) → run → measure → keep or revert.
 - **Never leave a broken submission as your last.** Verify the file format (T8's print check) before the final freeze.
+
+## E4B amendments (validated live on chat.ioai2026.kz, 2026-07-22)
+
+The real contest bot (Gemma 4 **E4B**) is smaller than the 31B used in drills. Same playbook, three additions:
+
+- **THE THIRD MAGIC STRING** — add to every code prompt: *"Do not create mock or placeholder objects; assume all named variables exist."* (Without it, E4B invents `MockModel` stand-ins instead of using your `model`.)
+- **Trust T9 less.** E4B pattern-matches the error text (e.g. reflexively casts `.float()`). Paste the FULL traceback + shapes, RUN every fix, and treat one-line cast fixes with suspicion — if it fails once, fresh chat.
+- **Line caps are soft; imports get sloppy.** It exceeds "max N lines" and adds unused/deprecated imports (`transformers.AdamW`). 30-second code read before running; delete junk imports.
+- Quotas on the real bot: **60 msg/h, 10-msg memory, 2,000-char input** — fresh chat per job, re-paste T1, budget messages.
 
 ## Self-practice protocol (how to drill with this page)
 
