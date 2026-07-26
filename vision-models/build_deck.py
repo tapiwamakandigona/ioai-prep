@@ -520,7 +520,7 @@ def d14_diffusion():
 def d16_journey():
     g = [ARROW_DEF]
     nodes = ["pixels", "conv", "ResNet", "detect / segment", "ViT", "self-supervised", "CLIP", "GAN / diffusion"]
-    x = 10; y = 60
+    y = 60
     g.append(line(10, y, 1620, y, sw=2, so=0.25))
     total_w = 1610
     step = total_w / (len(nodes)-1)
