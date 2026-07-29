@@ -37,6 +37,13 @@ Reviewed all 8 chats on `chat.ioai2026.kz`. The recurring failure modes:
 | Memory | last 10 messages only | re-paste code/problem when it gets confused |
 | Rate | 60 msgs/hour | ≈20 per problem — never waste one on "thanks" |
 
+**Hard rule #0 — ALWAYS paste, NEVER reference.** Live-tested: saying "check
+the same code again" without re-pasting it made the model invent a completely
+different problem (GPS distances!) and return garbage code — even though the
+code was still inside its 10-message window. Every single prompt that talks
+about code must contain the code, pasted fresh. No "the code above", no "the
+same cell", no "it".
+
 ## The game plan (same 7 steps, every problem)
 
 1. Open the problem, read it once. Open its JupyterLab via the **Server** button.
@@ -70,6 +77,11 @@ likely to go wrong.
 List the 3 changes to this baseline most likely to improve the score, ordered
 by impact. Use ONLY these libraries: {allowed}. No code yet, max 80 words.
 ```
+⚠️ **P2's #1 suggestion can be the trap.** Live-tested: for the digit problem
+the model's top suggestion was "data augmentation (rotations, flips)" — the
+exact planted bug. Before acting on ANY P2 suggestion, check it against the
+**Free wins** list and the hard rules below. If P2 says augment/rotate/modify
+images or data: ignore it. The Free wins list always outranks P2.
 
 **P3 — the workhorse: rewrite ONE cell**
 ```
@@ -108,7 +120,9 @@ do not repeat anything before it:
 
 **P7 — pre-submit safety check**
 ```
-Check this notebook code and answer PASS or FAIL for each point, one line each:
+Check this notebook code against 4 points. For EACH point reply on its own
+line in exactly this format: "<point number>) PASS or FAIL — <quote the one
+code line that decides it>".
 1) It never modifies/rotates/adds noise to test data before predicting.
 2) It reads dataset/test_public/ dynamically and never assumes answers.json
    exists there.
@@ -117,6 +131,9 @@ Check this notebook code and answer PASS or FAIL for each point, one line each:
 Code:
 {paste all cells}
 ```
+(Live-tested: without the strict per-line format the model answered
+"FAIL FAIL FAIL FAIL" on one line — useless. The quoted code line forces it
+to point at the actual problem.)
 
 **P8 — explain (when lost)**
 ```
