@@ -4,6 +4,10 @@
 > Gemma 4 E4B assistant from the Eastern Practice Round. Every rule below fixes
 > a mistake that actually happened in those chats. This is the *cram sheet*:
 > memorize the RULES, save the PROMPTS somewhere you can copy from.
+>
+> **v3 (2026-07-30):** live-tested against all five remaining task archetypes
+> (docs 13 + 14). Four new failure modes found and covered; P3/P4 hardened;
+> free-wins table extended to eight archetypes.
 
 ## What went wrong in the practice-round chats (so we never repeat it)
 
@@ -27,6 +31,23 @@ Reviewed all 8 chats on `chat.ioai2026.kz`. The recurring failure modes:
 6. **Vague improvement loops.** "give improved v2" without pasting the current
    code/score → model drifted to GMM/PCA that changed nothing. → Always paste
    current code + current score, ask for **ONE** change.
+
+Found in the 2026-07-30 archetype tests (doc 14):
+
+7. **Silent spec changes.** Asked for a CNN on a 6-channel grid; it wrote
+   `Conv2d(1, 32, ...)` with a comment "assuming 1 channel" — crashes on real
+   data. → After P3, check every NUMBER you specified appears in the reply.
+8. **Mock-data injection.** "runnable as-is" made it invent a fake `train`
+   and a line that silently replaces real labels with zeros. → P3/P4 now
+   forbid mock data; still delete any "mock/example" lines before pasting.
+9. **Deprecated APIs.** It wrote `df.append(...)` (removed in pandas 2.x).
+   → Crash is fine: P4 with the full traceback fixed it first try.
+10. **Runs-but-wrong.** It packed context chars into one list value; the code
+   ran without error but scored F1 0.66 instead of 1.00. → No traceback to
+   paste. Only defense: compare the self-score after EVERY change, revert if
+   not better.
+11. **Stray `python` first line** when copying code from the chat UI — it's
+   part of the fence, not the code. Delete it or you get a SyntaxError.
 
 ## The assistant's real limits (verified live)
 
@@ -87,8 +108,9 @@ images or data: ignore it. The Free wins list always outranks P2.
 ```
 Rewrite this exact notebook cell with ONE change: {the improvement}.
 Rules: reply with ONLY the complete new cell in a single python code block,
-max 50 lines, runnable as-is, keep the same variable names and output format,
-use ONLY these libraries: {allowed}. My current cell:
+max 50 lines, keep the same variable names and output format, assume all
+variables and data already exist — do NOT create mock, example, or
+placeholder data. Use ONLY these libraries: {allowed}. My current cell:
 {paste the cell}
 ```
 
@@ -151,6 +173,24 @@ Explain what this cell does in max 5 simple sentences for a beginner: {paste}
 - **Interactive/oracle task** → run the shipped baseline as-is first; heavy
   work belongs in `__init__`/precompute; ask questions that split remaining
   candidates ~50/50; never eliminate a candidate on one mismatched answer.
+- **Continual learning** (old classes + new classes, score averages both) →
+  expand the classifier head: new `Linear(768, old+new)`, copy the old rows of
+  weights/bias in, AND replay — `pd.concat` a slice of the ORIGINAL train.csv
+  into the fine-tune data. Never fine-tune on the new classes alone.
+- **Behavioral cloning on grid observations** → CNN on the grid (keep ALL its
+  channels!) + concatenate the state vector, class weights = 1/bincount for
+  rare actions, set invalid-action logits to -1e9 in the training loss.
+  Never BFS/A*/planning — supervised on the demonstrations only.
+- **Match two sets of embeddings 1:1** → L2-normalize, cosine similarity
+  matrix, `scipy.optimize.linear_sum_assignment(-sims)`. Never greedy argmax
+  (it double-assigns). Live-tested: 100% on noisy pairs.
+- **Semi-supervised tabular** (some rows labeled, predict the rest) →
+  StandardScaler fit on labeled rows → LogisticRegression → predict unknown
+  rows in their original order. Tested: 0.98 vs 0.90 unscaled.
+- **Char-level sequence labeling** (word segmentation) → context-window
+  features with ONE dict key per offset (`c-3`…`c+3`, `#` when out of range)
+  → DictVectorizer → LogisticRegression. One key per offset matters: a single
+  list-valued key runs fine but scores F1 0.66 instead of 1.00.
 - **Always** submit the baseline before improving. **Never** chase the live
   leaderboard (set A); the final score is hidden set B — prefer safe, simple
   improvements.
