@@ -3,99 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free-Win Radar — IOAI 2026 drill</title>
+<title>Free-Win Radar — IOAI 2026</title>
 <style>
 :root{
-  --bg:#0d1117; --panel:#161b27; --panel2:#1c2333; --line:#2a3348;
-  --text:#e6ecf5; --dim:#8b98ad; --accent:#4cc38a; --accent2:#e8b44f;
-  --danger:#e5697a; --chip:#233046; --code:#101725;
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1c2430; --dim:#68727f; --line:#e4e0d6;
+  --teal:#0f766e; --teal-soft:#e6f2f0; --amber:#b45309; --amber-soft:#fdf3e3;
+  --red:#b91c1c; --red-soft:#fdeaea; --green:#15803d; --green-soft:#e8f5ec;
+  --blue:#1d4ed8; --blue-soft:#e9effc; --code:#f3f1ea;
+  --shadow:0 1px 2px rgba(28,36,48,.06), 0 4px 14px rgba(28,36,48,.06);
 }
-*{box-sizing:border-box; margin:0; padding:0;}
-body{background:var(--bg); color:var(--text); font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; min-height:100vh;}
-.wrap{max-width:720px; margin:0 auto; padding:20px 16px 60px;}
-header{text-align:center; padding:18px 0 6px;}
-header h1{font-size:26px; letter-spacing:.5px;}
-header h1 .r{color:var(--accent);}
-header p{color:var(--dim); font-size:14px; margin-top:6px; line-height:1.5;}
-.tabs{display:flex; gap:8px; justify-content:center; margin:18px 0 20px; flex-wrap:wrap;}
-.tab{background:var(--panel); border:1px solid var(--line); color:var(--dim); padding:8px 16px; border-radius:999px; cursor:pointer; font-size:14px;}
-.tab.active{color:var(--text); border-color:var(--accent); background:var(--panel2);}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+body{background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; min-height:100vh; font-size:16px;}
+.wrap{max-width:660px; margin:0 auto; padding:16px 14px 70px;}
+header{text-align:center; padding:14px 0 4px;}
+header h1{font-size:22px; letter-spacing:.3px;}
+header h1 em{color:var(--teal); font-style:normal;}
+header p{color:var(--dim); font-size:13.5px; margin-top:5px; line-height:1.5;}
+.tabs{display:flex; gap:6px; justify-content:center; margin:14px 0 16px; flex-wrap:wrap;}
+.tab{background:transparent; border:1px solid var(--line); color:var(--dim); padding:8px 15px; border-radius:999px; cursor:pointer; font-size:13.5px; font-weight:600;}
+.tab.active{color:#fff; border-color:var(--teal); background:var(--teal);}
 .hidden{display:none !important;}
 
 /* mode picker */
-.modes{display:grid; gap:12px;}
-.mode{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; cursor:pointer; transition:border-color .15s;}
-.mode:hover{border-color:var(--accent);}
-.mode h3{font-size:17px; margin-bottom:4px;}
+.modes{display:grid; gap:10px;}
+.mode{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; cursor:pointer; box-shadow:var(--shadow);}
+.mode:active{transform:scale(.99);}
+.mode h3{font-size:16.5px; margin-bottom:3px;}
+.mode h3 small{color:var(--dim); font-weight:500; font-size:12.5px;}
 .mode p{color:var(--dim); font-size:13.5px; line-height:1.5;}
-.mode .best{color:var(--accent2); font-size:12.5px; margin-top:6px;}
+.mode .best{color:var(--amber); font-size:12.5px; margin-top:6px; font-weight:600;}
+.intro{background:var(--teal-soft); border:1px solid #cde4e1; border-radius:14px; padding:14px 16px; margin-bottom:12px; font-size:14px; line-height:1.6;}
+.intro b{color:var(--teal);}
 
-/* drill */
-.hud{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; color:var(--dim);}
-.hud .bar{flex:1; height:6px; background:var(--panel2); border-radius:3px; margin:0 12px; overflow:hidden;}
-.hud .bar i{display:block; height:100%; background:var(--accent); border-radius:3px; transition:width .25s;}
-.card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; min-height:220px;}
-.gtag{display:inline-block; font-size:11.5px; letter-spacing:1px; text-transform:uppercase; color:var(--accent2); border:1px solid var(--line); border-radius:999px; padding:3px 10px; margin-bottom:14px;}
-.front{font-size:17px; line-height:1.65;}
-.front .snippet{display:block; background:var(--panel2); border-left:3px solid var(--accent2); padding:14px 16px; border-radius:0 10px 10px 0; font-style:italic;}
-.front .snippet b{color:var(--accent2); font-style:normal;}
-.front code{background:var(--code); padding:2px 6px; border-radius:5px; font-size:15px; color:#9ecbff;}
-.ask{margin-top:16px; color:var(--dim); font-size:14.5px;}
-.back{margin-top:18px; border-top:1px dashed var(--line); padding-top:16px;}
-.chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;}
-.chip{background:var(--chip); color:var(--accent2); font-size:12.5px; padding:4px 10px; border-radius:999px;}
-.fam{font-size:19px; font-weight:700; color:var(--accent); margin-bottom:8px;}
-.win{font-size:15px; line-height:1.65; margin-bottom:12px;}
-.pr{background:var(--code); border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:13.5px; line-height:1.6; color:#9ecbff; margin-bottom:12px;}
-.pr::before{content:"HOW TO ASK GEMMA"; display:block; font-size:10.5px; letter-spacing:1.2px; color:var(--dim); margin-bottom:6px;}
-.hook{font-size:14px; color:var(--accent2); font-style:italic; line-height:1.55;}
-.btnrow{display:flex; gap:10px; margin-top:16px;}
-.btn{flex:1; padding:14px; border-radius:12px; border:1px solid var(--line); background:var(--panel2); color:var(--text); font-size:15.5px; font-weight:600; cursor:pointer;}
-.btn.reveal{background:var(--accent); color:#08130d; border-color:var(--accent);}
-.btn.miss{border-color:var(--danger); color:var(--danger);}
-.btn.got{border-color:var(--accent); color:var(--accent);}
+/* quiz */
+.hud{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:12.5px; color:var(--dim); font-weight:600;}
+.hud .bar{flex:1; height:6px; background:#e9e6dd; border-radius:3px; margin:0 10px; overflow:hidden;}
+.hud .bar i{display:block; height:100%; background:var(--teal); border-radius:3px; transition:width .25s;}
+.qcard{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow);}
+.gtag{display:inline-block; font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--dim); background:var(--code); border-radius:999px; padding:3px 10px; margin-bottom:12px; font-weight:700;}
+.front{font-size:16px; line-height:1.6;}
+.front .snippet{display:block; background:#fbf9f4; border-left:3px solid var(--amber); padding:12px 14px; border-radius:0 10px 10px 0; font-style:italic; color:#3b4350;}
+.front .snippet b{color:var(--amber); font-style:normal;}
+.front code{background:var(--code); padding:2px 6px; border-radius:5px; font-size:14px; color:var(--blue);}
+.qask{margin:14px 0 10px; font-size:14px; color:var(--dim); font-weight:600;}
+.opts{display:grid; gap:8px;}
+.opt{width:100%; text-align:left; background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:13px 14px; font-size:14.5px; line-height:1.45; cursor:pointer; color:var(--ink); font-family:inherit;}
+.opt small{display:block; color:var(--dim); font-size:12.5px; margin-top:2px; font-weight:400;}
+.opt:not(:disabled):active{border-color:var(--teal);}
+.opt.correct{border-color:var(--green); background:var(--green-soft);}
+.opt.wrong{border-color:var(--red); background:var(--red-soft);}
+.opt:disabled{cursor:default; opacity:.92;}
+.verdict{margin:12px 0 2px; font-size:15px; font-weight:800;}
+.verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+
+/* answer panel */
+.ans{margin-top:12px; border-top:1px dashed var(--line); padding-top:14px;}
+.cellbadge{display:inline-block; background:var(--blue-soft); color:var(--blue); border-radius:8px; padding:6px 11px; font-size:12.5px; font-weight:800; margin-bottom:10px;}
+.chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
+.chip{background:var(--amber-soft); color:var(--amber); font-size:12px; padding:4px 10px; border-radius:999px; font-weight:600;}
+.move{font-size:14.5px; line-height:1.65; margin-bottom:10px;}
+.say{background:var(--code); border:1px solid var(--line); border-radius:10px; padding:11px 13px; font-size:13px; line-height:1.6; color:#334; margin-bottom:10px;}
+.say::before{content:"WHAT YOU TYPE TO THE BOT (copy the words, no need to understand them)"; display:block; font-size:9.5px; letter-spacing:1px; color:var(--dim); margin-bottom:5px; font-weight:800;}
+.say b{color:var(--blue);}
+.hook{font-size:13.5px; color:var(--amber); font-style:italic; line-height:1.5;}
+.btnrow{display:flex; gap:10px; margin-top:14px;}
+.btn{flex:1; padding:14px; border-radius:12px; border:none; background:var(--teal); color:#fff; font-size:15.5px; font-weight:700; cursor:pointer; font-family:inherit;}
+.btn.ghost{background:var(--card); color:var(--ink); border:1.5px solid var(--line);}
 .btn:active{transform:scale(.98);}
 
 /* results */
-.result{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:26px; text-align:center;}
-.result .big{font-size:42px; font-weight:800; color:var(--accent); margin:8px 0;}
-.result p{color:var(--dim); font-size:14.5px; line-height:1.6;}
-.result ul{text-align:left; margin:14px auto 0; max-width:440px; color:var(--text); font-size:14px; line-height:1.8; list-style:none;}
-.result ul li::before{content:"↻ "; color:var(--danger);}
+.result{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; text-align:center; box-shadow:var(--shadow);}
+.result .big{font-size:44px; font-weight:800; color:var(--teal); margin:6px 0;}
+.result p{color:var(--dim); font-size:14px; line-height:1.6;}
+.result .missbox{text-align:left; margin:14px auto 0; max-width:440px; font-size:13.5px; line-height:1.8;}
+.result .missbox li{list-style:none;}
+.result .missbox li::before{content:"↻ "; color:var(--red);}
 
-/* sheet + method */
-.sheet h2{font-size:16px; color:var(--accent2); margin:22px 0 10px; letter-spacing:.5px;}
-.srow{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:10px;}
-.srow .t{font-size:12.5px; color:var(--accent2); margin-bottom:4px;}
-.srow .f{font-weight:700; color:var(--accent); font-size:15px; margin-bottom:4px;}
-.srow .w{font-size:13.5px; color:var(--text); line-height:1.6;}
-.method{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; line-height:1.7; font-size:14.5px;}
-.method h2{color:var(--accent); font-size:17px; margin:18px 0 8px;}
+/* sheet */
+.sheet h2{font-size:15px; color:var(--ink); margin:20px 0 8px; letter-spacing:.3px;}
+.sheet h2 .cb{font-size:11.5px; background:var(--blue-soft); color:var(--blue); border-radius:6px; padding:3px 8px; font-weight:800; vertical-align:2px;}
+.srow{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px; margin-bottom:9px; box-shadow:var(--shadow);}
+.srow .t{font-size:12px; color:var(--amber); margin-bottom:3px; font-weight:600;}
+.srow .f{font-weight:800; color:var(--teal); font-size:14.5px; margin-bottom:3px;}
+.srow .w{font-size:13.5px; color:#3b4350; line-height:1.6;}
+
+/* method */
+.method{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; line-height:1.65; font-size:14.5px; box-shadow:var(--shadow);}
+.method h2{color:var(--teal); font-size:16px; margin:16px 0 6px;}
 .method h2:first-child{margin-top:0;}
-.method p{margin-bottom:10px; color:var(--text);}
-.method .dim{color:var(--dim); font-size:13px;}
-.method table{width:100%; border-collapse:collapse; margin:10px 0; font-size:13.5px;}
-.method td,.method th{border:1px solid var(--line); padding:8px 10px; text-align:left;}
-.method th{color:var(--accent2); background:var(--panel2);}
-.method b{color:var(--accent2);}
-footer{text-align:center; color:var(--dim); font-size:12px; margin-top:36px; line-height:1.6;}
+.method p{margin-bottom:9px;}
+.method .dim{color:var(--dim); font-size:12.5px;}
+.method table{width:100%; border-collapse:collapse; margin:8px 0; font-size:13px;}
+.method td,.method th{border:1px solid var(--line); padding:7px 9px; text-align:left;}
+.method th{background:var(--code);}
+.method b{color:var(--amber);}
+footer{text-align:center; color:var(--dim); font-size:11.5px; margin-top:32px; line-height:1.6;}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <h1>📡 FREE-WIN <span class="r">RADAR</span></h1>
-  <p>Spot the trigger words → name the family → fire the targeted prompt.<br>Every recipe below was live-verified against the real contest bot.</p>
+  <h1>📡 FREE-WIN <em>RADAR</em></h1>
+  <p>Read the snippet → tap the answer. No typing, no code, no memorizing syntax.<br>Every recipe was live-tested on the real contest bot.</p>
 </header>
 
 <div class="tabs">
-  <div class="tab active" data-tab="drill">Drill</div>
+  <div class="tab active" data-tab="drill">Quiz</div>
   <div class="tab" data-tab="sheet">Cheat sheet</div>
-  <div class="tab" data-tab="method">How to learn this</div>
+  <div class="tab" data-tab="method">Read me first</div>
 </div>
 
 <!-- DRILL -->
 <div id="tab-drill">
+  <div class="intro" id="intro"><b>You never write code in this contest — the bot does.</b> Your whole job: recognize what kind of task it is, then point the bot at the right cell (almost always <b>preprocessing</b> or <b>model</b>) with the right magic words. That's what this quiz trains. Wrong answers are the point — tap, miss, see why, move on.</div>
   <div id="modes" class="modes"></div>
   <div id="game" class="hidden">
     <div class="hud">
@@ -103,23 +123,21 @@ footer{text-align:center; color:var(--dim); font-size:12px; margin-top:36px; lin
       <div class="bar"><i id="hud-fill"></i></div>
       <span id="hud-right"></span>
     </div>
-    <div class="card">
+    <div class="qcard">
       <span class="gtag" id="c-group"></span>
       <div class="front" id="c-front"></div>
-      <div class="ask" id="c-ask">🎙️ Say it OUT LOUD before you flip: trigger words → family → the one move.</div>
-      <div class="back hidden" id="c-back">
+      <div class="qask" id="c-ask"></div>
+      <div class="opts" id="c-opts"></div>
+      <div id="c-verdict"></div>
+      <div class="ans hidden" id="c-ans">
+        <div class="cellbadge" id="c-cell"></div>
         <div class="chips" id="c-chips"></div>
-        <div class="fam" id="c-fam"></div>
-        <div class="win" id="c-win"></div>
-        <div class="pr" id="c-pr"></div>
+        <div class="move" id="c-move"></div>
+        <div class="say" id="c-say"></div>
         <div class="hook" id="c-hook"></div>
       </div>
     </div>
-    <div class="btnrow" id="row-reveal"><button class="btn reveal" onclick="reveal()">Show answer</button></div>
-    <div class="btnrow hidden" id="row-grade">
-      <button class="btn miss" onclick="grade(false)">❌ Missed it</button>
-      <button class="btn got" onclick="grade(true)">✅ Got it</button>
-    </div>
+    <div class="btnrow hidden" id="row-next"><button class="btn" onclick="next()">Next →</button></div>
   </div>
   <div id="done" class="hidden"></div>
 </div>
@@ -130,343 +148,444 @@ footer{text-align:center; color:var(--dim); font-size:12px; margin-top:36px; lin
 <!-- METHOD -->
 <div id="tab-method" class="hidden">
 <div class="method">
-<h2>Why this works (the actual science, short version)</h2>
-<p><b>1. Testing beats re-reading.</b> Reading the cram sheet again feels productive but barely sticks; being <i>forced to retrieve</i> the answer is what builds memory (the “testing effect” — Rowland 2014 meta-analysis of 61 studies; Karpicke 2025). That's why this is a quiz, not a document. Missing a card and then seeing the answer is the mechanism working — <b>expect to miss most cards on round 1. That's not you being dumb, that's the method loading.</b></p>
-<p><b>2. Say it out loud before flipping.</b> A vague “yeah I kinda know this” passes by familiarity and learns nothing. Producing the actual words (“continual learning → copy old rows + replay”) is the retrieval that counts. Grade yourself honestly — the ❌ button is your friend; missed cards come back until you get them.</p>
-<p><b>3. Space the rounds, even inside 2 days.</b> One massive session decays fast; the same total time split into rounds with hours between them retains dramatically more (Cepeda 2008; Kornell 2009 — even 1–2 spaced cycles inside 3 days beat pure cramming by ~30–40 points a week later). Sleep between rounds does consolidation for free.</p>
-<p><b>4. Your real exam task is EASIER than this drill.</b> In the contest you only need to <i>recognize</i> the trigger words sitting in the statement — recognition is much easier than the free recall you're practicing here. Train at recall level, perform at recognition level: overtrained on purpose.</p>
-<p><b>5. The hooks are silly on purpose.</b> Vivid, weird images (grandpa at dinner, Hungarian weddings) are dual-coded — stored as both words and a picture — which is why they surface under exam stress when dry facts don't (Paivio's dual-coding theory; keyword-mnemonic literature).</p>
-
-<h2>Your schedule (contests Aug 4 &amp; 6)</h2>
+<h2>Are you sure this works for someone with zero experience?</h2>
+<p>Yes — because of what the exam actually grades. <b>You are never asked to write code.</b> The notebook comes pre-written, the bot writes every change. People fail this contest not from lack of coding — they fail by asking the bot vague things ("improve this code") and accepting broken answers. Recognizing the task type and pointing at the right cell is a <i>pattern-matching</i> skill, and pattern-matching is learnable by anyone in days. That's this quiz.</p>
+<h2>Your 2-cell rule (good instinct — keep it)</h2>
+<p>You said: focus on the <b>preprocessing</b> and <b>model</b> cells only. Correct — of the 18 task patterns here, 15 are won inside exactly those two cells. The quiz tells you which cell on every answer. The other 3 are "process" rules (like: submit the baseline first) that cost you M1 attempt 1.</p>
+<h2>How to use the quiz</h2>
+<p>1. Tap an answer — guessing is fine, wrong guesses teach hardest (that's tested science: the "testing effect", Rowland 2014). <b>Expect to miss most on round 1 — that's the method loading, not you being dumb.</b><br>
+2. Missed cards come back until you get them.<br>
+3. Do short rounds, spaced out — spacing beats one giant session by ~30–40% (Cepeda 2008).</p>
+<h2>Schedule (contests Aug 4 &amp; 6)</h2>
 <table>
-<tr><th>When</th><th>What</th><th>Goal</th></tr>
-<tr><td><b>Today, now</b></td><td>Round 1: “Spot the win” (~20 min)</td><td>Miss freely — this round is for planting, not passing</td></tr>
-<tr><td><b>Tonight, before bed</b></td><td>Round 2: Everything</td><td>Sleep consolidates what you just retrieved</td></tr>
-<tr><td><b>Aug 3, before the 07:30 practice round</b></td><td>Round 3: Reflexes only (~7 min)</td><td>Warm; then the practice round IS the real drill</td></tr>
-<tr><td><b>Aug 3 evening</b></td><td>Round 4: Everything</td><td>Target: 80%+ first-try</td></tr>
-<tr><td><b>Aug 4 &amp; 6, morning</b></td><td>5-min pass: just name the family for each card</td><td>Recognition warm-up, nothing new</td></tr>
+<tr><th>When</th><th>What</th></tr>
+<tr><td><b>Now</b></td><td>Round 1: Spot the win (~15 min). Miss freely.</td></tr>
+<tr><td><b>Tonight before bed</b></td><td>Round 2: Everything. Sleep locks it in.</td></tr>
+<tr><td><b>Aug 3, before 07:30 practice</b></td><td>Round 3: Reflexes only (~5 min)</td></tr>
+<tr><td><b>Aug 3 evening</b></td><td>Round 4: Everything. Target 80%+</td></tr>
+<tr><td><b>Aug 4 &amp; 6 morning</b></td><td>5-min warm-up pass</td></tr>
 </table>
-
-<h2>How to use it on contest day (30 seconds per task)</h2>
-<p>1. Skip the story. Find the <b>metric cell</b> and the <b>baseline's confession</b>.<br>
-2. Scan for trigger words → name the family (the 18 spot-cards cover every IOAI-style task since 2024).<br>
-3. The family gives you the exact P3 phrase — your prompt is now <i>targeted</i>, not “make this better” (which is what killed M1 attempt 1).<br>
-4. If nothing matches → it's a thinking task: find the budget + the metric, precompute what's free, spend the budget on information gain.</p>
-<p class="dim">Recipes sourced from your ioai-prep repo (prompt pack v3 + Day-2 wildcards), all live-tested against the real Gemma 4 E4B contest bot. Science: Rowland (2014), Karpicke (2025), Cepeda et al. (2008), Kornell (2009), Rawson &amp; Dunlosky (2012), Paivio dual-coding.</p>
+<h2>On contest day (30 seconds per task)</h2>
+<p>1. Skip the story. Find the <b>scoring cell</b> and the baseline's <b>"this simple approach doesn't…"</b> confession.<br>
+2. Spot the trigger words → you'll recognize the pattern from this quiz.<br>
+3. The answer card told you which cell and which magic words — your prompt is now targeted, not "make this better" (which is what killed M1 attempt 1).</p>
+<p class="dim">Recipes: ioai-prep prompt pack v3 + Day-2 wildcards, live-tested on the Gemma 4 E4B contest bot 2026-08-02. Science: Rowland 2014, Cepeda 2008, Kornell 2009.</p>
 </div>
 </div>
 
-<footer>Built by Viktor for Ronald · IOAI 2026 GAITE prep · Aug 2, 2026</footer>
+<footer>Built by Viktor for Ronald · IOAI 2026 GAITE prep · v2 (multiple choice) · Aug 2, 2026</footer>
 </div>
-
+<style>
+.cellbox{background:#20262e; color:#d7dde6; border-radius:10px; padding:12px 0; margin:10px 0 2px; font-size:12.5px; line-height:1.7; overflow-x:auto;}
+.cellbox .ln{display:block; padding:0 14px 0 8px; white-space:pre; font-family:ui-monospace,Menlo,Consolas,monospace;}
+.cellbox .ln .no{display:inline-block; width:26px; color:#6b7686; user-select:none;}
+.cellbox .ln.hot{background:#4a3a12; color:#ffe6a8;}
+.cellbox .ln.hot .no{color:#e8b44f; font-weight:700;}
+.taskdesc{background:#fbf9f4; border-left:3px solid var(--teal); padding:10px 13px; border-radius:0 10px 10px 0; font-size:14px; line-height:1.55; color:#3b4350; margin-bottom:4px;}
+.taskdesc b{color:var(--teal);}
+</style>
 <script>
-// FREE-WIN RADAR deck — every recipe is live-verified from ioai-prep research docs 12/15/16.
+// ===== plain-English family definitions (used to build the multiple-choice options) =====
+const FAM = {
+ cl:  {name:"Continual learning",        sub:"keep the old skills while adding new classes"},
+ bc:  {name:"Behavioral cloning",        sub:"copy an expert's demonstrations"},
+ orc: {name:"Budgeted questions (oracle)",sub:"limited questions, each one costs points"},
+ met: {name:"Metric-first reading",      sub:"the scoring formula is the real task"},
+ conf:{name:"Baseline confession",       sub:"the notebook admits its own weakness"},
+ hint:{name:"Hints = the solution",      sub:"the numbered suggestions ARE the intended path"},
+ clus:{name:"Clustering with mixed scales",sub:"grouping data whose columns use different units"},
+ img: {name:"Small-image classification",sub:"tiny pictures, simple tools only"},
+ match:{name:"1-to-1 matching",          sub:"pair every item with exactly one partner"},
+ semi:{name:"Semi-supervised",           sub:"few labeled rows, predict all the rest"},
+ char:{name:"Character labeling",        sub:"label every single letter in a text"},
+ text:{name:"Text classification",       sub:"sort texts into categories"},
+ rep: {name:"Model repair",              sub:"find and fix a corrupted model"},
+ seg: {name:"Segmentation",              sub:"label every pixel of an image"},
+ ts:  {name:"Time series",               sub:"predict the future from the past"},
+ fe:  {name:"Feature engineering only",  sub:"the model is locked; improve the data instead"},
+ mm:  {name:"Multimodal fusion",         sub:"image + table + text in one task"},
+ trap:{name:"⚠️ The planted trap",       sub:"the bot's favorite suggestion is the hidden bug"},
+};
+const PRE="🎯 Point the bot at: the PREPROCESSING cell";
+const MOD="🎯 Point the bot at: the MODEL / TUNING cell";
+const PRO="🧭 Process rule — not about a cell, about how YOU work";
+
+// ===== THE DECK =====
 const DECK = [
-// ============ GROUP A — Day-1 core (extensions of the 3 home tasks) ============
-{g:"Day-1 core", kind:"spot",
- front:"The station's classifier already recognizes <b>12 machine sounds</b>. New regulations add <b>9 new alarm types</b> (24–60 clips each). Update the model — inspectors will test all 21 sounds, and your score is the <b>average of accuracy on the original sounds and on the new ones</b>.",
+// ---------- SPOT cards (recognize the task type) ----------
+{g:"Spot the win", kind:"spot", fam:"cl", cell:MOD,
+ front:`<span class="snippet">The station's classifier already recognizes <b>12 machine sounds</b>. New regulations add <b>9 new alarm types</b>. Inspectors will test all 21 sounds; your score is the <b>average of accuracy on the original sounds and the new ones</b>.</span>`,
  triggers:["already recognizes N classes","add new classes","score averages OLD and NEW"],
- family:"Continual learning (catastrophic forgetting)",
- win:"Expand the head old→old+new and COPY the old weight/bias rows in. Then REPLAY: concat a slice of the ORIGINAL train data into the fine-tune data. Lower/freeze encoder LR. Never fine-tune on new classes alone.",
- prompt:"P3: “expand the classifier head from 12 to 21 outputs, copying the old rows of head.weight and head.bias under torch.no_grad(); do NOT touch train_model” — then a second P3 for the replay concat.",
- hook:"🧓 Grandpa rule: keep grandpa's rows AND keep inviting grandpa to dinner (replay) — or he gets forgotten. Checkpoint: acc_old = 0.00 ⇒ your solution is dead, whatever the code looks like."},
+ move:"The trap: if you just train on the new sounds, the model forgets the old ones and half your score dies. The fix: keep the old knowledge (copy it over) AND keep showing the model some old examples while it learns the new ones.",
+ say:`“expand the classifier head from 12 to 21 outputs, <b>copying the old rows of head.weight and head.bias</b>; do NOT touch train_model” — then a second message: “<b>mix a slice of the ORIGINAL training data</b> into the fine-tuning data”.`,
+ hook:"🧓 Grandpa rule: keep grandpa's chair AND keep inviting him to dinner — or he gets forgotten. If old-accuracy prints 0.00, your solution is dead no matter how nice the code looks."},
 
-{g:"Day-1 core", kind:"spot",
- front:"A warehouse robot must fetch and deliver crates on a grid. You get 5,000 <b>expert demonstrations</b>; each step has a <b>grid tensor</b>, a state vector and a <b>mask of valid actions</b>. Search and planning algorithms are <b>forbidden</b>.",
+{g:"Spot the win", kind:"spot", fam:"bc", cell:MOD,
+ front:`<span class="snippet">A warehouse robot must fetch and deliver crates on a grid. You get 5,000 <b>expert demonstrations</b>; each step has a <b>grid picture</b>, a state list and a <b>mask of valid actions</b>. Planning algorithms are <b>forbidden</b>.</span>`,
  triggers:["expert demonstrations","grid observation","action mask","planning forbidden"],
- family:"Behavioral cloning (imitation learning)",
- win:"CNN on the grid (keep ALL channels!) + concatenate the state vector. Class weights = 1/bincount for rare actions (pickup/dropoff). Set invalid-action logits to −1e9 in the training loss. Judge by EPISODE success, not per-action accuracy.",
- prompt:"P3: “replace the MLP with a small CNN over the full 6-channel grid, concatenate the state vector before the final layer, keep the same variable names”.",
- hook:"🤖 Copy the teacher, don't plan the route. High action-accuracy can still fail every episode — one early wrong step compounds (distribution drift)."},
+ move:"You're teaching the model to copy the expert, step by step. The baseline squashes the grid into one long list and loses the picture — ask for a small CNN (a picture-reading model) instead, and make rare actions (pickup/dropoff) count more.",
+ say:`“replace the MLP with a <b>small CNN over the full grid</b>, concatenate the state vector before the final layer, keep the same variable names” — then: “add <b>class weights</b> so rare actions are not ignored”.`,
+ hook:"🤖 Copy the teacher, don't plan the route. High per-step accuracy can still fail whole episodes — one early wrong turn compounds."},
 
-{g:"Day-1 core", kind:"spot",
- front:"A hidden city is chosen from <b>2,000 candidates</b>. You may ask the archivist <b>at most 12 yes/no questions</b> from a fixed pool; each question <b>costs 0.02 points</b>. The archivist <b>occasionally answers incorrectly</b>.",
- triggers:["at most N queries","penalty per query","fixed question pool","oracle sometimes wrong"],
- family:"Oracle / budgeted interaction",
- win:"(1) Precompute OFFLINE for free — run your own copy of the oracle over every (candidate, question) pair. (2) Each turn ask the question that splits the remaining candidates closest to 50/50. (3) Soft scoring — never hard-eliminate a candidate on one mismatched answer.",
- prompt:"Prescribe the algorithm step-by-step to Gemma (it can't invent this): “keep a score per candidate; each turn pick the question with split closest to 50/50; add +1 to candidates matching the answer…”",
- hook:"🔮 20 Questions: cheat at home for free, spend questions like money, forgive one lie. log₂(2000) ≈ 11 — perfect questions almost fit the budget."},
+{g:"Spot the win", kind:"spot", fam:"orc", cell:MOD,
+ front:`<span class="snippet">A hidden city is chosen from <b>2,000 candidates</b>. You may ask <b>at most 12 yes/no questions</b> from a fixed pool; each question <b>costs 0.02 points</b>. The archivist <b>occasionally answers incorrectly</b>.</span>`,
+ triggers:["at most N questions","penalty per question","fixed question pool","oracle sometimes wrong"],
+ move:"Three ideas: (1) anything you can compute at home is FREE — precompute all answers offline. (2) Each turn, ask the question that cuts the remaining candidates closest to 50/50. (3) Because answers can lie, never eliminate a candidate on one bad answer — keep scores instead.",
+ say:`Dictate the recipe (the bot can't invent it): “keep a score per candidate; each turn pick the question whose split is closest to 50/50; add +1 to candidates matching the answer; never hard-eliminate”.`,
+ hook:"🔮 It's 20 Questions: cheat at home for free, spend questions like money, forgive one lie."},
 
-{g:"Day-1 core", kind:"spot",
- front:"The scoring cell reads: <code>score = 0.5 * acc_old + 0.5 * acc_new</code> on a hidden test set.",
- triggers:["weighting inside the metric","hidden test set"],
- family:"Metric-first reading",
- win:"The weighting IS the game: a model perfect on new classes but 0 on old scores ~0.5·new_only. Diagnose per-side (print acc_old and acc_new separately after every change) and optimize the weaker side.",
- prompt:"T10/P5: paste BOTH numbers — “acc_old 0.93, acc_new 0.61 — give me ONE change to improve the weaker side”.",
- hook:"⚖️ Read the metric cell BEFORE the story. The metric is the exam question; the story is decoration."},
+{g:"Spot the win", kind:"spot", fam:"met", cell:PRO,
+ front:`The scoring cell reads: <code>score = 0.5 * acc_old + 0.5 * acc_new</code> on a hidden test set.`,
+ triggers:["a weighting inside the score","hidden test set"],
+ move:"The weighting IS the game: perfect on new but zero on old ≈ half marks. After every change, print BOTH numbers separately and improve whichever is weaker.",
+ say:`Paste both numbers: “acc_old 0.93, acc_new 0.61 — give me ONE change to improve the weaker side”.`,
+ hook:"⚖️ Read the scoring cell BEFORE the story. The score is the exam question; the story is decoration."},
 
-{g:"Day-1 core", kind:"spot",
- front:"The baseline notebook says: <i>“Note: this simple approach flattens the grid and ignores spatial structure; rare actions may be under-learned.”</i>",
- triggers:["“the baseline does not…”","stated limitations","“this simple approach…”"],
- family:"Baseline disclaimer = answer key",
- win:"The baseline's confessed limitations are a literal, ordered TODO list of the intended improvements. Fix exactly what it confesses, one at a time, before inventing anything.",
- prompt:"Turn each confession into one P3: “ONE change: use a CNN so spatial structure is kept…”, then measure.",
+{g:"Spot the win", kind:"spot", fam:"conf", cell:PRO,
+ front:`The baseline notebook says: <i>“Note: this simple approach flattens the grid and ignores spatial structure; rare actions may be under-learned.”</i>`,
+ triggers:["“this simple approach…”","“the baseline does not…”","stated limitations"],
+ move:"The baseline's confessed weaknesses are a literal, ordered TO-DO list from the organizers. Fix exactly what it confesses, one at a time, before inventing anything of your own.",
+ say:`Turn each confession into one message: “ONE change: use a CNN so spatial structure is kept. Minimal diff.” Run and measure between messages.`,
  hook:"🗝️ The baseline's confession is the answer key. Every year, every task."},
 
-{g:"Day-1 core", kind:"spot",
- front:"Task statement, section “Your mission”: <i>“You may want to: (1) expand the classifier head, (2) mix old clips into your fine-tuning batches, (3) try freezing parts of the encoder.”</i>",
- triggers:["numbered hints","“you may want to…”","suggested paths"],
- family:"Hints = the intended solution",
- win:"The organizers hand you the intended path. Execute the numbered hints IN ORDER before inventing your own ideas. GAITE statements have extra hints on purpose.",
- prompt:"Each hint becomes exactly one P3, run + measure between hints.",
- hook:"🎁 They tell you the “how”; you're graded on executing it. Don't be creative before you're done being obedient."},
+{g:"Spot the win", kind:"spot", fam:"hint", cell:PRO,
+ front:`Task statement, section “Your mission”: <i>“You may want to: (1) expand the classifier head, (2) mix old clips into your fine-tuning batches, (3) try freezing parts of the encoder.”</i>`,
+ triggers:["numbered hints","“you may want to…”"],
+ move:"The organizers are handing you the intended solution. Execute the numbered hints IN ORDER before trying your own ideas — GAITE statements contain extra hints on purpose.",
+ say:`Each hint becomes exactly one message to the bot; run + check the score between hints.`,
+ hook:"🎁 They tell you the “how”; you're graded on executing it. Be obedient before being creative."},
 
-// ============ GROUP B — sklearn classics (all live-verified vs the real E4B bot) ============
-{g:"sklearn classics", kind:"spot",
- front:"Group the sensor logs into <b>K types</b>. Features include temperature (°C), vibration (mm/s), and cost (<b>thousands of dollars</b>).",
- triggers:["cluster / group into K","features in different units/scales"],
- family:"Clustering with mixed scales",
- win:"StandardScaler BEFORE KMeans(n_clusters=K, n_init=10, random_state=0). One line — took ARI 0.56 → 1.00 in the practice round.",
- prompt:"Literally say the word “StandardScaler” in your P3 — it's the magic keyword.",
- hook:"📏 Different units? Scale first, or the biggest number bullies the clusters."},
+{g:"Spot the win", kind:"spot", fam:"clus", cell:PRE,
+ front:`<span class="snippet">Group the sensor logs into <b>K types</b>. Features include temperature (°C), vibration (mm/s), and cost (<b>thousands of dollars</b>).</span>`,
+ triggers:["group / cluster into K","columns in different units"],
+ move:"Columns in different units must be put on the same scale first, or the biggest numbers (cost in thousands!) bully the grouping. One line fixes it — it took a practice score from 0.56 to 1.00.",
+ say:`Literally say the magic word: “add <b>StandardScaler</b> before KMeans, keep everything else the same”.`,
+ hook:"📏 Different units? Scale first, or the biggest number wins every argument."},
 
-{g:"sklearn classics", kind:"spot",
- front:"Classify <b>8×8 grayscale</b> glyphs. Only <b>numpy and scikit-learn</b> are available.",
+{g:"Spot the win", kind:"spot", fam:"img", cell:MOD,
+ front:`<span class="snippet">Classify <b>8×8 grayscale</b> glyphs. Only <b>numpy and scikit-learn</b> are available.</span>`,
  triggers:["tiny images (8×8, 16×16)","sklearn-only, no torch"],
- family:"Small-image classification",
- win:"Scale pixels to 0–1 → SVC(kernel=\"rbf\", C=10). Beat LogisticRegression 0.65 → ~0.84. Do NOT augment/rotate tiny images — that's the planted trap.",
- prompt:"P3: “ONE change: scale pixels to 0–1 and use SVC(kernel='rbf', C=10)”.",
- hook:"🔍 Tiny pictures → SVC — and hands OFF the images. Rotation is the planted bug."},
+ move:"For tiny images there's a known best simple model: SVC with the 'rbf' kernel (pixels scaled 0–1 first). It beat the baseline 0.65 → 0.84 in testing. Do NOT rotate/augment tiny images — that's the planted trap.",
+ say:`“ONE change: scale pixels to 0–1 and use <b>SVC(kernel='rbf', C=10)</b>”.`,
+ hook:"🔍 Tiny pictures → SVC, and hands OFF the images themselves."},
 
-{g:"sklearn classics", kind:"spot",
- front:"Match each of the 300 English sentences to <b>exactly one</b> of the 300 translated sentences.",
+{g:"Spot the win", kind:"spot", fam:"match", cell:MOD,
+ front:`<span class="snippet">Match each of the 300 English sentences to <b>exactly one</b> of the 300 translated sentences.</span>`,
  triggers:["match two sets 1-to-1","“exactly one”"],
- family:"Embedding matching (assignment)",
- win:"L2-normalize → cosine similarity matrix → scipy.optimize.linear_sum_assignment(-sims). NEVER greedy argmax — it assigns the same target twice. Live-tested: 100% on noisy pairs.",
- prompt:"Say “linear_sum_assignment” in the P3 — Gemma knows the rest.",
- hook:"💒 1-to-1 matching = Hungarian wedding. Greedy argmax marries two brides and loses points."},
+ move:"“Exactly one” means simple nearest-match fails — it happily assigns the same partner twice. There is a ready-made function that finds the perfect 1-to-1 pairing; you just need to name it.",
+ say:`Say the magic words: “use <b>linear_sum_assignment</b> on the cosine similarity matrix (L2-normalize the vectors first)”.`,
+ hook:"💒 1-to-1 matching = a wedding. Nearest-match marries two brides and loses points."},
 
-{g:"sklearn classics", kind:"spot",
- front:"Only <b>200 of the 5,000 rows are labeled</b>; predict the class of all remaining rows.",
+{g:"Spot the win", kind:"spot", fam:"semi", cell:PRE,
+ front:`<span class="snippet">Only <b>200 of the 5,000 rows are labeled</b>; predict the class of all remaining rows.</span>`,
  triggers:["only some rows labeled","predict the rest"],
- family:"Semi-supervised tabular",
- win:"StandardScaler fit on the labeled rows → LogisticRegression → predict the unknown rows IN THEIR ORIGINAL ORDER. Tested: 0.98 vs 0.90 unscaled.",
- prompt:"P3 with those exact 3 steps; then verify row order of the output file.",
- hook:"🏷️ Scale, fit on the labeled few, predict the many — in original order (order bugs are silent)."},
+ move:"Scale the features, fit a simple classifier on the 200 labeled rows, predict the 4,800 — and output them IN THEIR ORIGINAL ORDER. A reshuffled output scores near zero with no error message.",
+ say:`“StandardScaler fit on the labeled rows → LogisticRegression → predict the unlabeled rows <b>in their original order</b>”.`,
+ hook:"🏷️ Fit on the few, predict the many — in original order. Order bugs are silent killers."},
 
-{g:"sklearn classics", kind:"spot",
- front:"Spaces were deleted from the text. Restore the word boundaries by <b>labeling each character</b>.",
- triggers:["label each character/token","sequence labeling","word segmentation"],
- family:"Char-level sequence labeling",
- win:"Context-window features with ONE dict key per offset (c-3…c+3, '#' when out of range) → DictVectorizer → LogisticRegression. A single list-valued key RUNS FINE but scores F1 0.66 instead of 1.00.",
- prompt:"Prescribe the feature dict exactly: “one key per offset: c-3..c+3, value = the character, '#' if out of range”.",
- hook:"🔤 One key per neighbor — the list-in-one-key version is the classic runs-but-wrong trap."},
+{g:"Spot the win", kind:"spot", fam:"char", cell:PRE,
+ front:`<span class="snippet">Spaces were deleted from the text. Restore the word boundaries by <b>labeling each character</b>.</span>`,
+ triggers:["label each character","word segmentation"],
+ move:"Each character gets features describing its neighbors (3 before, 3 after) — but each neighbor must be its OWN feature. Bundling them into one feature runs fine and scores 0.66 instead of 1.00 — the classic silent trap.",
+ say:`Dictate exactly: “one dict key per offset c-3..c+3, value = that character, '#' if out of range → DictVectorizer → LogisticRegression”.`,
+ hook:"🔤 One key per neighbor. The bundled version is the classic runs-but-wrong trap."},
 
-{g:"sklearn classics", kind:"spot",
- front:"Decide whether each essay was written by a <b>human or a language model</b>.",
- triggers:["classify texts","human vs AI","news/topic classification"],
- family:"Text classification / AI-text detection",
- win:"TfidfVectorizer(analyzer=\"char_wb\", ngram_range=(2,5)) → LogisticRegression(C=1.0, max_iter=1000). CHAR n-grams beat word n-grams for AI-text and short/noisy text. If a BERT model is provided: mean-pool embeddings → LogReg before any fine-tuning.",
- prompt:"Say “char_wb n-grams (2,5)” in the P3.",
- hook:"✍️ AI text leaks style in its characters, not its words. char_wb is the tell-detector."},
+{g:"Spot the win", kind:"spot", fam:"text", cell:PRE,
+ front:`<span class="snippet">Decide whether each essay was written by a <b>human or a language model</b>.</span>`,
+ triggers:["classify texts","human vs AI"],
+ move:"AI text leaks its style in character patterns, not word choice. The winning feature recipe is character n-grams — one magic phrase to the bot.",
+ say:`“<b>TfidfVectorizer(analyzer='char_wb', ngram_range=(2,5))</b> → LogisticRegression(C=1.0, max_iter=1000)”.`,
+ hook:"✍️ AI text leaks in its characters, not its words."},
 
-// ============ GROUP C — Day-2 wildcards (doc 15, all live-tested 2026-08-02) ============
-{g:"Day-2 wildcards", kind:"spot",
- front:"The checkpoint was <b>corrupted</b> during transmission: the model used to score 0.91, now it scores 0.34. <b>Find and repair the damage.</b> A healthy reference checkpoint is provided.",
- triggers:["corrupted / broken model","used to work","reference checkpoint provided"],
- family:"Model repair / weight surgery",
- win:"Diff the state_dicts: compare every tensor's shape/mean/std/norm between broken and healthy — the corrupted module is a statistical OUTLIER. Fix by copying healthy weights or re-initializing only the broken rows.",
- prompt:"P3: “print a table of name, shape, mean, std, norm for both state_dicts side by side” — then surgery on the outlier only.",
- hook:"🩻 X-ray the weights; the sick organ is the outlier. (Same move as head expansion — copy rows you trust.)"},
+{g:"Spot the win", kind:"spot", fam:"rep", cell:MOD,
+ front:`<span class="snippet">The checkpoint was <b>corrupted</b>: the model used to score 0.91, now 0.34. <b>Find and repair the damage.</b> A healthy reference checkpoint is provided.</span>`,
+ triggers:["corrupted / broken model","used to work","healthy reference provided"],
+ move:"Compare every part of the broken model against the healthy one (size, average, spread) — the damaged part sticks out as the weird number. Then fix ONLY that part by copying from the healthy model.",
+ say:`“print a table of name, shape, mean, std for both checkpoints side by side” — then: “copy the healthy weights for <b>only the outlier module</b>”.`,
+ hook:"🩻 X-ray the weights; the sick organ is the statistical outlier."},
 
-{g:"Day-2 wildcards", kind:"spot",
- front:"Label <b>every pixel</b> of the satellite image as road, water, or vegetation.",
- triggers:["every pixel","segmentation","IoU / Dice metric"],
- family:"Segmentation",
- win:"Per-pixel classification IS tabular: per-pixel features (all channels + neighborhood stats) → LightGBM/LogReg. Deep path: frozen encoder + 1×1 conv head, 1–3 epochs. Then TUNE THE THRESHOLD on validation — free 2–5 points, one line.",
- prompt:"After any model: “sweep the decision threshold from 0.3 to 0.7 on validation and print IoU per threshold”.",
- hook:"🗺️ Per-pixel = just a table. And always tune the threshold — it's a free win lying on the floor."},
+{g:"Spot the win", kind:"spot", fam:"seg", cell:MOD,
+ front:`<span class="snippet">Label <b>every pixel</b> of the satellite image as road, water, or vegetation.</span>`,
+ triggers:["every pixel","IoU / Dice score"],
+ move:"Every-pixel tasks are secretly just tables (one row per pixel). And whatever the model, there's a free win at the end: the cut-off (threshold) that turns probabilities into answers is adjustable — tuning it is free points.",
+ say:`After any model works: “<b>sweep the decision threshold from 0.3 to 0.7</b> on validation and print the score per threshold”.`,
+ hook:"🗺️ Always tune the threshold — it's a free win lying on the floor."},
 
-{g:"Day-2 wildcards", kind:"spot",
- front:"Predict <b>tomorrow's</b> power load from the <b>last 30 days</b> of sensor readings.",
- triggers:["predict future values","readings over time","time series"],
- family:"Time series / regression",
- win:"Lag features (shift 1..k) + rolling mean/std per channel → LightGBM/Ridge. NEVER shuffle-split time series — split by time. Missing points: fit on observed index → interpolate.",
- prompt:"P3: “add lag features shift(1..7) and rolling mean/std(7), split train/val BY TIME”.",
- hook:"⏰ Time flows one way — so must your validation split. Shuffle = leakage = fake score."},
+{g:"Spot the win", kind:"spot", fam:"ts", cell:PRE,
+ front:`<span class="snippet">Predict <b>tomorrow's</b> power load from the <b>last 30 days</b> of sensor readings.</span>`,
+ triggers:["predict future values","readings over time"],
+ move:"Two rules: give the model yesterday/last-week as columns (lag features), and NEVER split train/validation randomly — the model would peek at the future and show a fake high score.",
+ say:`“add <b>lag features shift(1..7)</b> and rolling mean/std(7); split train/val <b>BY TIME</b>, not randomly”.`,
+ hook:"⏰ Time flows one way — so must your validation split. Shuffle = peeking = fake score."},
 
-{g:"Day-2 wildcards", kind:"spot",
- front:"<b>You may not modify the model</b> or its hyperparameters. Improve the score.",
- triggers:["model is fixed","only the data/features are yours"],
- family:"Feature engineering for a fixed model",
- win:"All points live in features: group aggregations (mean/std/min/max), ratios & differences of correlated columns, datetime decomposition, target encoding (fit on train folds only), SVD top-k for matrix-shaped samples. ONE feature family per iteration, measure, revert.",
- prompt:"One P3 per feature family: “ONE change: add per-{group} mean/std aggregations of {col}”.",
+{g:"Spot the win", kind:"spot", fam:"fe", cell:PRE,
+ front:`<span class="snippet"><b>You may not modify the model</b> or its settings. Improve the score.</span>`,
+ triggers:["model is fixed","only the data is yours"],
+ move:"All the points live in the data columns: group averages, ratios of related columns, date parts (weekday, month). Add ONE family of new columns per attempt, measure, keep or revert.",
+ say:`One message per idea: “ONE change: add per-{group} mean/std of {column}. Minimal diff.”`,
  hook:"⛽ Can't touch the engine? Upgrade the fuel. One additive per lap."},
 
-{g:"Day-2 wildcards", kind:"spot",
- front:"Each sample has a <b>photo</b>, a <b>sensor table</b>, and a <b>text note</b>. Predict the risk class.",
- triggers:["image + table + text","multiple modalities per sample"],
- family:"Multimodal fusion",
- win:"LATE fusion, always: one vector per modality (frozen encoder embeddings for image/text, engineered features for tabular) → np.hstack → one LogReg/LightGBM. Never train a joint deep model in a 20-min budget. If one modality dominates on validation, drop the others.",
- prompt:"P3: “get an embedding per modality, np.hstack them, LogisticRegression on top; assume the encoders exist”.",
- hook:"🧲 Glue vectors, don't marry networks. Simple fusion transfers best to hidden set B."},
+{g:"Spot the win", kind:"spot", fam:"mm", cell:MOD,
+ front:`<span class="snippet">Each sample has a <b>photo</b>, a <b>sensor table</b>, and a <b>text note</b>. Predict the risk class.</span>`,
+ triggers:["image + table + text","several data types per sample"],
+ move:"Don't build one big fancy model. Turn each data type into a list of numbers separately, glue the lists together, put one simple classifier on top. If one data type does all the work on validation, drop the others.",
+ say:`“get an embedding per modality, <b>np.hstack</b> them, LogisticRegression on top; assume the encoders exist”.`,
+ hook:"🧲 Glue vectors, don't marry networks."},
 
-{g:"Day-2 wildcards", kind:"spot",
- front:"P2 answers: <i>“Top suggestion: augment the training data with rotations and flips.”</i> The task is digit classification.",
- triggers:["augment / rotate / add noise","suggestion touches the data pipeline"],
- family:"⚠️ The planted trap",
- win:"Check EVERY P2 suggestion against the free-wins list first — the model's #1 suggestion has literally been the planted bug. Never modify test data; augmenting inside load_X corrupts test images at predict time. The free-wins list ALWAYS outranks P2.",
- prompt:"Before submit: personally scan for rotate/noise/augment/random near anything test — P7 gave a false PASS on exactly this (2026-08-02).",
- hook:"🪤 If the bot's best idea is 'rotate the images', you found the trap, not the win. Test data is sacred."},
+{g:"Spot the win", kind:"spot", fam:"trap", cell:PRE,
+ front:`The bot's brainstorm answer: <i>“Top suggestion: augment the training data with rotations and flips.”</i> The task is digit classification.`,
+ triggers:["rotate / flip / add noise","suggestion touches the data loading"],
+ move:"When the bot's #1 idea is to modify the images/data, STOP — that has literally been the planted bug in past contests. Test data is sacred: check that nothing random touches anything the scoring uses.",
+ say:`Before submitting, personally scan the preprocessing cell for rotate/noise/random near anything named test. (The bot's own checker said PASS on exactly this bug — don't trust it.)`,
+ hook:"🪤 If the bot's best idea is 'rotate the images', you found the trap, not the win."},
 
-// ============ GROUP D — Contest reflexes (the M1 lessons) ============
-{g:"Reflexes", kind:"reflex",
- front:"You just opened a task. What are the first three moves — before ANY improvement?",
- triggers:[],
- family:"Points on the board",
- win:"(1) Find and read the METRIC cell (before the story). (2) Run the untouched baseline top-to-bottom → submission file exists. (3) SUBMIT it. You now cannot score 0 — M1 attempt 1 scored 0 exactly because this was skipped.",
- prompt:"“Baseline on the board in 30 min” — only then start the improvement loop.",
- hook:"🏁 Metric → run → submit. Attempt 1 died with 0 while a 0.38 was sitting there for free."},
+// ---------- REFLEX cards (handcrafted options) ----------
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`You just opened a task. What are your first three moves — before ANY improvement?`,
+ opts:["Read the whole story carefully, then plan improvements","Find the scoring cell → run the untouched baseline → SUBMIT it","Ask the bot for the best overall strategy for this task"], correct:1,
+ triggers:[], move:"Score cell first (that's the real question), run the baseline untouched, submit it. You now cannot score 0. M1 attempt 1 scored 0 exactly because this was skipped — a free 0.38 was sitting there.",
+ say:`“Baseline on the board in 30 minutes.” Only then start improving.`,
+ hook:"🏁 Metric → run → submit. Never leave a task at zero."},
 
-{g:"Reflexes", kind:"reflex",
- front:"Gemma just replied with a beautiful 4-step plan. What EXACTLY is your next message?",
- triggers:[],
- family:"Implement the plan, not vibes",
- win:"“Implement step 1 of YOUR plan. Minimal diff, do NOT change function signatures.” — never “how can I make this code better”. In M1, one generic 'improve this' made Gemma rewrite APIs and silently delete the whole solution.",
- prompt:"One step per message. The plan scrolls out of the 10-message memory — re-paste the step you're on.",
- hook:"🎯 A plan without “implement step 1, minimal diff” is a plan Gemma will forget and betray."},
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`The bot just replied with a beautiful 4-step plan. What EXACTLY is your next message?`,
+ opts:["“Great — now implement the plan”","“Implement step 1 of YOUR plan. Minimal diff, do NOT change function signatures.”","“How can I make this code better?”"], correct:1,
+ triggers:[], move:"One step per message, smallest possible change, nothing renamed. In M1, one generic 'improve this' made the bot rewrite everything and silently delete the working parts.",
+ say:`The plan scrolls out of the bot's ~10-message memory — re-paste the step you're on, every time.`,
+ hook:"🎯 A plan without “implement step 1, minimal diff” is a plan the bot will forget and betray."},
 
-{g:"Reflexes", kind:"reflex",
- front:"A cell crashed. What goes into the fix prompt — all three parts?",
- triggers:[],
- family:"Error with goal context",
- win:"(1) ONE line of goal context (“goal: replay old classes so acc_old > 0.9”), (2) the cell, (3) the FULL traceback. Without the goal line, the 10-msg memory has dropped your plan and the 'fix' will optimize for 'runs' instead of 'right' — that's how M1's replay got deleted.",
- prompt:"P4 + goal line. Always.",
- hook:"🧠 The bot remembers 10 messages. Your goal must live INSIDE every error prompt."},
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`A cell crashed. What goes into your fix prompt?`,
+ opts:["Just the error message — bots know errors","One line of GOAL + the cell's code + the FULL error","A description of what you think went wrong"], correct:1,
+ triggers:[], move:"Always three parts: (1) one goal line ('goal: keep old-class accuracy above 0.9'), (2) the cell, (3) the full traceback. Without the goal line the bot 'fixes' the error by deleting your solution — that's how M1's replay died.",
+ say:`Goal line + code + full traceback. Every error prompt.`,
+ hook:"🧠 The bot remembers ~10 messages. Your goal must live INSIDE every error prompt."},
 
-{g:"Reflexes", kind:"reflex",
- front:"Gemma's reply rewrote three functions when you asked for one small change. What do you do?",
- triggers:[],
- family:"Reject oversized rewrites",
- win:"Reject it. Ask again: “minimal version, change ONLY {x}, keep all signatures and variable names”. Accepting a whole-cell rewrite un-smoke-tested is Mistake #2 from M1 — it changed a signature and crashed the next cell.",
- prompt:"Also: two code blocks in one reply → Gemma drafts then finalizes → always copy the LAST block.",
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`You asked for one small change; the bot rewrote three whole functions. What now?`,
+ opts:["Accept it — the bot probably knows better","Reject it: “minimal version, change ONLY {x}, keep all names and signatures”","Paste the new version and ask if it's correct"], correct:1,
+ triggers:[], move:"Reject oversized rewrites, always. Accepting a whole-cell rewrite untested was Mistake #2 in M1 — it changed a function signature and crashed the next cell. Also: if a reply has two code blocks, copy the LAST one.",
+ say:`“Minimal version. Change ONLY {x}. Keep all function signatures and variable names.”`,
  hook:"✂️ If it rewrote more than you asked, it also deleted more than you know."},
 
-{g:"Reflexes", kind:"reflex",
- front:"The code runs. No error. Green. Are you safe?",
- triggers:[],
- family:"Runs-but-wrong",
- win:"NO — runs-but-wrong is failure mode #1 (M1: ran fine, scored baseline 0.375, acc_old 0.000). No traceback exists for it. Only defense: compare the SELF-SCORE after every change; revert if not better. Checkpoint numbers (acc_old=0.00) beat gut feeling.",
- prompt:"Change → Run All → score → keep or revert. Every single time.",
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`The code runs. No error. All green. Are you safe?`,
+ opts:["Yes — no error means it worked","No — green cells lie; only the score tells the truth","Yes, if there are no warnings either"], correct:1,
+ triggers:[], move:"Runs-but-wrong is failure mode #1 (M1 ran perfectly and scored baseline; old-class accuracy was 0.000). There is no error message for 'wrong'. Only defense: check the printed score after EVERY change; revert if it didn't improve.",
+ say:`Change → Run All → read the score → keep or revert. Every single time.`,
  hook:"🟢 Green cells lie. Only the score tells the truth."},
 
-{g:"Reflexes", kind:"reflex",
- front:"Two fix attempts in a row failed. Third try?",
- triggers:[],
- family:"Fresh chat rule",
- win:"No third try. Open a FRESH chat, re-paste P1 (context) + the current cell + traceback. A confused model stays confused inside the same chat; arguing burns your 60 msg/h quota.",
- prompt:"One chat = one job. Check the chat title before pasting (wrong-chat paste wasted 2 messages in the practice round).",
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`Two fix attempts in a row failed. Third try?`,
+ opts:["Yes — explain the problem in more detail this time","No — open a FRESH chat and re-paste context + cell + error","Restart the notebook and run everything again"], correct:1,
+ triggers:[], move:"A confused bot stays confused inside the same chat, and arguing burns your 60 messages/hour. New chat, re-brief from scratch. Check the chat title before pasting (wrong-chat paste wasted 2 messages in practice).",
+ say:`One chat = one job. Fresh chat = fresh brain.`,
  hook:"🚪 Never argue with a confused model. Walk out, new room, re-brief."},
 
-{g:"Reflexes", kind:"reflex",
- front:"You want Gemma to look at code you sent 3 messages ago. How do you refer to it?",
- triggers:[],
- family:"Always paste, never reference",
- win:"You DON'T refer — you re-paste it. Live-tested: “check the same code again” made the model invent a completely different problem (GPS distances!) even though the code was still in its window. No “the code above”, no “it”.",
- prompt:"Every prompt that talks about code contains the code.",
- hook:"📋 The bot has amnesia and confidence. Paste fresh, every time."},
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`You want the bot to look at code you sent 3 messages ago. How do you refer to it?`,
+ opts:["“Check the same code again”","You don't refer — you PASTE the code again, in full","“The code above, second block”"], correct:1,
+ triggers:[], move:"Live-tested: 'check the same code again' made the bot invent a completely different problem. Never 'it', never 'the code above'. Every prompt about code contains the code.",
+ say:`Paste fresh, every time.`,
+ hook:"📋 The bot has amnesia and confidence. Deadly combination — paste fresh."},
 
-{g:"Reflexes", kind:"reflex",
- front:"Final 15 minutes before the deadline. What's the closing ritual?",
- triggers:[],
- family:"The submit ritual",
- win:"Stop experimenting. Run All Cells → output file exists (print first line + line count) → PERSONAL scan for test-data modification (P7 lies on this) → stage → commit → push → Check → wait for the score to appear. Never leave a broken submission as your last.",
- prompt:"Never leave a task at zero. A submitted 0.38 baseline beats a brilliant crashed notebook.",
+{g:"Contest reflexes", kind:"reflex", cell:PRO,
+ front:`Final 15 minutes before the deadline. What's the closing ritual?`,
+ opts:["Squeeze in one more improvement — every point counts","Stop. Run All → check the output file exists → scan for test-data edits → submit","Ask the bot to double-check the whole notebook"], correct:1,
+ triggers:[], move:"Stop experimenting. Run All Cells, confirm the submission file exists (print its first line + row count), personally scan for anything modifying test data, submit, watch the score appear.",
+ say:`A submitted 0.38 baseline beats a brilliant crashed notebook. Never leave a broken submission as your last.`,
  hook:"🔒 The last submission is your grade. Guard it like your passport."},
+// ---------- READ-THE-CELL cards (Ronald's request: real cells + which exact lines to look at) ----------
+// code: [text, hot] — hot lines get highlighted after answering.
+{g:"Read the cell", kind:"cell", cell:PRE,
+ task:`<b>Task:</b> Group the factory sensor logs into 4 machine types. Columns: temperature (°C), vibration (mm/s), cost (thousands of $). Score: how well your groups match the true types.`,
+ code:[["# --- preprocessing ---",0],["import pandas as pd",0],["from sklearn.cluster import KMeans",0],["df = pd.read_csv('sensors.csv')",0],["X = df[['temp','vibration','cost']].values",1],["km = KMeans(n_clusters=4, random_state=0)",0],["labels = km.fit_predict(X)",1]],
+ q:"Where is the free win hiding?",
+ opts:["Line 4 — the CSV might have missing values","Lines 5+7 — raw columns in different units go straight into KMeans, nothing scales them","Line 6 — n_clusters=4 should be tuned"], correct:1,
+ triggers:["different units","cluster into K"],
+ move:"The features are in °C, mm/s and thousands of $ — 'cost' is thousands of times bigger, so it decides all the groups alone. One StandardScaler line between line 5 and 7 fixes it (0.56 → 1.00 in practice).",
+ say:`“ONE change: add <b>StandardScaler</b> on X before KMeans. Minimal diff, keep variable names.”`,
+ hook:"📏 In a preprocessing cell, your eyes go to: what units are the columns, and is anything scaling them?"},
+
+{g:"Read the cell", kind:"cell", cell:PRE,
+ task:`<b>Task:</b> Classify handwritten digits (8×8 images). The bot suggested this "improved" preprocessing and it runs fine. Hidden test set decides your score.`,
+ code:[["# --- preprocessing (bot-improved) ---",0],["def load_X(path):",0],["    X = np.load(path) / 16.0",0],["    # augmentation: helps the model generalize!",1],["    X = np.array([rotate(x, angle=np.random.uniform(-15,15)) for x in X])",1],["    return X.reshape(len(X), -1)",0],["X_train = load_X('train.npy')",0],["X_test  = load_X('test.npy')",1]],
+ q:"This scores WORSE than the baseline. Which lines are the bug?",
+ opts:["Line 3 — dividing by 16 loses information","Lines 4-5 + 8 — random rotation lives inside load_X, so the TEST images get scrambled too","Line 6 — reshape flattens the images"], correct:1,
+ triggers:["augment / rotate","inside the loading function"],
+ move:"The augmentation sits inside load_X, and line 8 calls load_X on the TEST data — so the images being graded get randomly rotated. Runs fine, no error, quietly loses points. This exact pattern was the planted trap, and the bot's own checker said PASS on it.",
+ say:`Scan rule before every submit: find any <b>random / rotate / noise</b> word, then check whether the function touches anything named <b>test</b>.`,
+ hook:"🪤 In a preprocessing cell: trace where the function is CALLED. Train-only tricks must never touch test."},
+
+{g:"Read the cell", kind:"cell", cell:MOD,
+ task:`<b>Task:</b> The sound classifier knows 12 classes; add 9 new ones. Score = average of accuracy on OLD and NEW sounds. The bot wrote this update.`,
+ code:[["# --- model update (from bot) ---",0],["model.head = nn.Linear(hidden_dim, 21)  # new head: 21 classes",1],["optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)",0],["for epoch in range(5):",0],["    train_one_epoch(model, new_sounds_loader)",1],["print('done — accuracy on new sounds:', evaluate(model, new_val))",1]],
+ q:"This prints 0.92 and looks great. Which lines should make you suspicious?",
+ opts:["Line 3 — learning rate 1e-3 is too high","Lines 2+5+6 — brand-new head (old knowledge gone), trains only on NEW sounds, and only ever measures NEW accuracy","Line 4 — 5 epochs is not enough"], correct:1,
+ triggers:["new head replaces old","trains only on new data","only measures one side"],
+ move:"Three silent killers: line 2 throws away the 12 learned classes (new random head), line 5 never shows an old sound again (forgetting), line 6 only measures the new side — so old accuracy could be 0.00 and you'd never see it. Exactly M1's failure.",
+ say:`“expand the head <b>copying the old 12 rows of weight and bias</b>; mix old clips into the loader; and print <b>acc_old and acc_new separately</b>.”`,
+ hook:"🧓 In a model cell: does the update keep the old weights, see old data, and print BOTH scores?"},
+
+{g:"Read the cell", kind:"cell", cell:MOD,
+ task:`<b>Task:</b> Classify tiny 8×8 glyphs, sklearn only. The baseline confesses: “a linear model may be too simple for pixel data.” Baseline score: 0.65.`,
+ code:[["# --- model ---",0],["from sklearn.linear_model import LogisticRegression",1],["X_train = X_train / 16.0",0],["clf = LogisticRegression(max_iter=200)",1],["clf.fit(X_train, y_train)",0],["print('val acc:', clf.score(X_val/16.0, y_val))",0]],
+ q:"The confession says the model is too simple. What do you point the bot at?",
+ opts:["Line 4 — raise max_iter until the warning disappears","Lines 2+4 — swap the whole model: SVC(kernel='rbf', C=10) instead of LogisticRegression","Line 3 — divide by 255 instead of 16"], correct:1,
+ triggers:["“may be too simple”","tiny images","sklearn only"],
+ move:"The confession names the model as the weakness, so the win is in the model choice, not its settings. For tiny images the known winner is SVC with the rbf kernel — 0.65 → ~0.84 verified. Tuning max_iter on the wrong model polishes a losing horse.",
+ say:`“ONE change: replace LogisticRegression with <b>SVC(kernel='rbf', C=10)</b>. Keep pixels scaled 0–1, keep variable names.”`,
+ hook:"🔍 In a model cell, first question: is the win a SETTING of this model, or a DIFFERENT model? The confession tells you."},
+
+{g:"Read the cell", kind:"cell", cell:PRE,
+ task:`<b>Task:</b> Predict tomorrow's power load from the last 30 days. Score on a hidden FUTURE week. Baseline validation looks amazing: 0.97.`,
+ code:[["# --- preprocessing / split ---",0],["df = df.sort_values('timestamp')",0],["X, y = make_features(df), df['load_next_day']",0],["X_tr, X_val, y_tr, y_val = train_test_split(",1],["        X, y, test_size=0.2, random_state=0)",1],["model.fit(X_tr, y_tr)",0],["print('val R2:', model.score(X_val, y_val))",0]],
+ q:"Why will the hidden-week score collapse, and where do you look?",
+ opts:["Line 2 — sorting by timestamp corrupts the index","Lines 4-5 — train_test_split shuffles randomly, so the model peeks at the future; 0.97 is fake","Line 6 — the model should be refit on all data"], correct:1,
+ triggers:["time series","random split","validation too good"],
+ move:"Random split mixes future rows into training — the model 'remembers' days right next to the validation days. The 0.97 is a mirage; the hidden future week will crash. Split by time: train on the past, validate on the last chunk.",
+ say:`“ONE change: split train/val <b>BY TIME</b> — last 20% of the timeline as validation. No shuffling.”`,
+ hook:"⏰ In any time task, jump straight to the split line. If validation looks too good, it's usually peeking."},
+
+{g:"Read the cell", kind:"cell", cell:PRE,
+ task:`<b>Task:</b> 200 labeled rows, 4,800 unlabeled — predict the rest and save submission.csv. Grader matches YOUR row order to the hidden answers.`,
+ code:[["# --- predict + save ---",0],["unl = df[df.label.isna()].copy()",0],["unl = unl.sort_values('feature_3')  # tidy up",1],["preds = clf.predict(scaler.transform(unl[FEATS]))",0],["out = pd.DataFrame({'id': unl.id, 'pred': preds})",0],["out.to_csv('submission.csv', index=False)",1]],
+ q:"Runs clean, scores near zero. Where's the killer?",
+ opts:["Line 4 — the scaler should be refit on the unlabeled rows","Line 3 — the rows were re-sorted, so predictions no longer line up with the grader's expected order","Line 6 — index=False drops the row numbers"], correct:1,
+ triggers:["predict the rest","row order","silent zero"],
+ move:"Line 3 looks harmless ('tidy up') but the grader matches by position — re-sorted rows means almost every answer lands on the wrong line. No error, near-zero score. Before submitting, always check the output row order against the original file.",
+ say:`After saving: “print the first 5 ids of submission.csv and of the original test file side by side” — they must match.`,
+ hook:"🏷️ In an output cell: any sort/filter between loading and saving is a suspect. Order is part of the answer."},
 ];
 
-
+// ===== engine =====
 const $=id=>document.getElementById(id);
 const MODES=[
- {key:"spot", name:"🔭 Spot the win", desc:"Task-statement snippets. Find the trigger words, name the family, say the move. The core skill.", filter:c=>c.kind==="spot"},
- {key:"reflex", name:"⚡ Contest reflexes", desc:"The process rules that decide between 0 and 0.85 — every one of these was violated in M1 attempt 1.", filter:c=>c.kind==="reflex"},
+ {key:"spot", name:"🔭 Spot the win", desc:"Short task snippets. Tap which kind of task it is — the answer shows the cell to aim at and the words to use.", filter:c=>c.kind==="spot"},
+ {key:"cell", name:"🔬 Read the cell", desc:"A real notebook cell + its task. Tap the exact lines hiding the problem or the free win. Preprocessing & model cells only.", filter:c=>c.kind==="cell"},
+ {key:"reflex", name:"⚡ Contest reflexes", desc:"How to work with the bot — the rules that decided M1. Tap the right move.", filter:c=>c.kind==="reflex"},
  {key:"all", name:"🏆 Everything", desc:"All cards, shuffled. The full pre-contest pass.", filter:c=>true},
 ];
 
-// tabs
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   t.classList.add("active");
   ["drill","sheet","method"].forEach(k=>$("tab-"+k).classList.toggle("hidden",k!==t.dataset.tab));
 });
 
-// mode picker
-function best(k){return localStorage.getItem("fwr_best_"+k);}
+function best(k){return localStorage.getItem("fwr2_best_"+k);}
 function renderModes(){
   $("modes").innerHTML=MODES.map(m=>{
     const n=DECK.filter(m.filter).length, b=best(m.key);
-    return `<div class="mode" onclick="start('${m.key}')"><h3>${m.name} <span style="color:var(--dim);font-weight:400;font-size:13px">· ${n} cards</span></h3><p>${m.desc}</p>${b?`<div class="best">🏅 Best first-try score: ${b}</div>`:""}</div>`;
+    return `<div class="mode" onclick="start('${m.key}')"><h3>${m.name} <small>· ${n} cards</small></h3><p>${m.desc}</p>${b?`<div class="best">🏅 Best first-try: ${b}</div>`:""}</div>`;
   }).join("");
 }
 renderModes();
 
-// game state
-let queue=[], total=0, firstTry={}, missedFam=new Set(), modeKey=null, cur=null, done=0;
+let queue=[], total=0, firstTry={}, missed=new Set(), modeKey=null, cur=null, answered=false;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+DECK.forEach((c,i)=>c._id=i);
+
 function start(key){
   modeKey=key;
   const m=MODES.find(x=>x.key===key);
-  queue=shuffle(DECK.filter(m.filter).map((c,i)=>c));
-  total=queue.length; firstTry={}; missedFam=new Set(); done=0;
-  $("modes").classList.add("hidden"); $("done").classList.add("hidden"); $("game").classList.remove("hidden");
+  queue=shuffle(DECK.filter(m.filter).slice());
+  total=queue.length; firstTry={}; missed=new Set();
+  $("modes").classList.add("hidden"); $("intro").classList.add("hidden");
+  $("done").classList.add("hidden"); $("game").classList.remove("hidden");
   next();
 }
-function next(){
-  if(!queue.length){return finish();}
-  cur=queue.shift();
-  $("c-group").textContent=cur.g;
-  $("c-front").innerHTML=cur.kind==="spot"?`<span class="snippet">${cur.front}</span>`:cur.front;
-  $("c-ask").textContent=cur.kind==="spot"?"🎙️ Out loud, before flipping: trigger words → family name → the one move.":"🎙️ Out loud, before flipping: what's the rule?";
-  $("c-chips").innerHTML=cur.triggers.map(t=>`<span class="chip">🔑 ${t}</span>`).join("");
-  $("c-fam").textContent=cur.family;
-  $("c-win").innerHTML=cur.win;
-  $("c-pr").innerHTML=cur.prompt;
-  $("c-hook").innerHTML=cur.hook;
-  $("c-back").classList.add("hidden"); $("row-grade").classList.add("hidden");
-  $("row-reveal").classList.remove("hidden"); $("c-ask").classList.remove("hidden");
-  $("hud-left").textContent=`${done} done`;
-  $("hud-right").textContent=`${queue.length+1} left`;
-  $("hud-fill").style.width=(100*done/Math.max(done+queue.length+1,1))+"%";
-  window.scrollTo({top:0});
-}
-function reveal(){
-  $("c-back").classList.remove("hidden"); $("c-ask").classList.add("hidden");
-  $("row-reveal").classList.add("hidden"); $("row-grade").classList.remove("hidden");
-}
-function grade(got){
-  const id=cur.family+cur.front.slice(0,20);
-  if(!(id in firstTry)) firstTry[id]=got;
-  if(got){done++;}
-  else{missedFam.add(cur.family); queue.splice(Math.min(3,queue.length),0,cur);}
-  next();
-}
-function finish(){
-  const vals=Object.values(firstTry), ok=vals.filter(v=>v).length;
-  const score=`${ok}/${vals.length}`;
-  const pct=Math.round(100*ok/Math.max(vals.length,1));
-  const prev=best(modeKey);
-  const prevOk=prev?parseInt(prev):-1;
-  if(ok>prevOk) localStorage.setItem("fwr_best_"+modeKey,score);
-  $("game").classList.add("hidden");
-  $("done").classList.remove("hidden");
-  $("done").innerHTML=`<div class="result">
-    <p>First-try score</p><div class="big">${score} <span style="font-size:20px;color:var(--dim)">(${pct}%)</span></div>
-    <p>${pct>=80?"🎯 Contest-ready on this deck. Come back in a few hours for the spaced round.":pct>=50?"💪 Solid — the missed families below come back stronger next round. Re-run in a few hours, not immediately.":"🌱 Perfect first round — missing is how the memory gets planted. Re-run tonight before bed and watch the jump."}</p>
-    ${missedFam.size?`<ul>${[...missedFam].map(f=>`<li>${f}</li>`).join("")}</ul>`:""}
-    <div class="btnrow" style="margin-top:20px">
-      <button class="btn reveal" onclick="start('${modeKey}')">Run again</button>
-      <button class="btn" onclick="backToModes()">All decks</button>
-    </div></div>`;
-}
-function backToModes(){renderModes();$("done").classList.add("hidden");$("modes").classList.remove("hidden");}
 
-// cheat sheet
+// Build 3 options for spot cards: correct family + 2 plausible decoys
+function spotOptions(card){
+  const others=shuffle(Object.keys(FAM).filter(k=>k!==card.fam)).slice(0,2);
+  const opts=shuffle([card.fam,...others]);
+  return {labels:opts.map(k=>`<b>${FAM[k].name}</b><small>${FAM[k].sub}</small>`), correct:opts.indexOf(card.fam)};
+}
+
+function renderCode(card, revealHot){
+  return `<div class="cellbox">`+card.code.map((l,i)=>
+    `<span class="ln${revealHot&&l[1]?" hot":""}"><span class="no">${i+1}</span>${l[0].replace(/&/g,"&amp;").replace(/</g,"&lt;")}</span>`
+  ).join("")+`</div>`;
+}
+
+function next(){
+  if(!queue.length) return finish();
+  cur=queue.shift(); answered=false;
+  const done=total-queue.length-1+(total-Object.keys(firstTry).length===queue.length+1?0:0);
+  $("hud-left").textContent=`${Object.keys(firstTry).length} answered`;
+  $("hud-right").textContent=`${queue.length+1} to go`;
+  $("hud-fill").style.width=(100*Object.keys(firstTry).length/total)+"%";
+  $("c-group").textContent=cur.g;
+  $("c-verdict").innerHTML=""; $("c-ans").classList.add("hidden"); $("row-next").classList.add("hidden");
+
+  let opts, correct, ask;
+  if(cur.kind==="spot"){
+    const o=spotOptions(cur); opts=o.labels; correct=o.correct;
+    ask="What kind of task is this?";
+    $("c-front").innerHTML=cur.front;
+  } else if(cur.kind==="cell"){
+    opts=cur.opts.map(t=>`<b>${t.replace(/</g,"&lt;")}</b>`); correct=cur.correct;
+    ask=cur.q;
+    $("c-front").innerHTML=`<div class="taskdesc">${cur.task}</div>`+renderCode(cur,false);
+  } else {
+    opts=cur.opts.map(t=>`<b>${t.replace(/</g,"&lt;")}</b>`); correct=cur.correct;
+    ask="Tap the right move:";
+    $("c-front").innerHTML=cur.front;
+  }
+  $("c-ask").textContent=ask;
+  cur._correct=correct;
+  $("c-opts").innerHTML=opts.map((t,i)=>`<button class="opt" onclick="pick(${i})">${t}</button>`).join("");
+}
+
+function pick(i){
+  if(answered) return; answered=true;
+  const ok=(i===cur._correct);
+  if(!(cur._id in firstTry)) firstTry[cur._id]=ok;
+  if(!ok){ missed.add(cur.fam?FAM[cur.fam].name:(cur.g==="Read the cell"?cur.q:cur.front.replace(/<[^>]+>/g,"").slice(0,60))); queue.push(cur); }
+  document.querySelectorAll(".opt").forEach((b,j)=>{
+    b.disabled=true;
+    if(j===cur._correct) b.classList.add("correct");
+    else if(j===i) b.classList.add("wrong");
+  });
+  $("c-verdict").innerHTML=ok?`<div class="verdict ok">✅ Got it</div>`:`<div class="verdict no">❌ Not this one — it comes back later. Here's why:</div>`;
+  if(cur.kind==="cell") $("c-front").innerHTML=`<div class="taskdesc">${cur.task}</div>`+renderCode(cur,true)+`<div style="font-size:12.5px;color:var(--dim);margin-top:4px">▲ highlighted lines = where your eyes should go</div>`;
+  $("c-cell").textContent=cur.cell;
+  $("c-chips").innerHTML=(cur.triggers||[]).map(t=>`<span class="chip">🔑 ${t}</span>`).join("");
+  $("c-move").innerHTML=(cur.fam?`<b style="color:var(--teal)">${FAM[cur.fam].name}.</b> `:"")+cur.move;
+  $("c-say").innerHTML=cur.say;
+  $("c-hook").innerHTML=cur.hook;
+  $("c-ans").classList.remove("hidden");
+  $("row-next").classList.remove("hidden");
+}
+
+function finish(){
+  const got=Object.values(firstTry).filter(Boolean).length;
+  const pct=Math.round(100*got/total);
+  const prev=best(modeKey);
+  if(prev===null||pct>parseInt(prev)) localStorage.setItem("fwr2_best_"+modeKey,pct+"%");
+  $("game").classList.add("hidden");
+  let msg;
+  if(pct>=80) msg="Contest-ready on this deck. Keep it warm with the 5-minute morning pass.";
+  else if(pct>=50) msg="Solid — the missed ones already came back once. One more round tonight locks them in.";
+  else msg="Exactly as expected for an early round — missing IS the learning mechanism. Same deck again after a break.";
+  $("done").innerHTML=`<div class="result"><p>First-try score</p><div class="big">${pct}%</div><p>${got} of ${total} on the first look. ${msg}</p>
+  ${missed.size?`<div class="missbox"><b>Came back for review:</b><ul>${[...missed].slice(0,8).map(m=>`<li>${m}</li>`).join("")}</ul></div>`:""}
+  <div class="btnrow"><button class="btn ghost" onclick="backToModes()">Choose mode</button><button class="btn" onclick="start('${modeKey}')">Again</button></div></div>`;
+  $("done").classList.remove("hidden");
+}
+function backToModes(){ $("done").classList.add("hidden"); $("intro").classList.remove("hidden"); $("modes").classList.remove("hidden"); renderModes(); }
+
+// ===== cheat sheet =====
 (function(){
-  const groups=[...new Set(DECK.map(c=>c.g))];
-  $("tab-sheet").innerHTML=`<p style="color:var(--dim);font-size:13.5px;line-height:1.6;margin-bottom:4px">⚠️ Reading this tab is NOT studying — it's the reference. The Drill tab is the studying.</p>`+groups.map(g=>
-    `<h2>${g}</h2>`+DECK.filter(c=>c.g===g).map(c=>
-      `<div class="srow"><div class="t">${c.triggers.length?("🔑 "+c.triggers.join(" · ")):"⚡ reflex"}</div><div class="f">${c.family}</div><div class="w">${c.win}</div></div>`
-    ).join("")).join("");
+  const groups={};
+  DECK.filter(c=>c.kind!=="cell").forEach(c=>{ (groups[c.g]=groups[c.g]||[]).push(c); });
+  $("tab-sheet").innerHTML=Object.entries(groups).map(([g,cards])=>
+    `<h2>${g}</h2>`+cards.map(c=>{
+      const cb=c.cell.includes("PREPROCESSING")?"PREPROCESSING cell":c.cell.includes("MODEL")?"MODEL cell":"process rule";
+      return `<div class="srow">${c.triggers&&c.triggers.length?`<div class="t">🔑 ${c.triggers.join(" · ")}</div>`:""}<div class="f">${c.fam?FAM[c.fam].name:""} <span class="cb" style="font-size:11px;background:var(--blue-soft);color:var(--blue);border-radius:6px;padding:2px 7px;font-weight:800">${cb}</span></div><div class="w">${c.move}</div></div>`;
+    }).join("")
+  ).join("");
 })();
 </script>
 </body>
