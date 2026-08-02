@@ -48,6 +48,12 @@ Found in the 2026-07-30 archetype tests (doc 14):
    not better.
 11. **Stray `python` first line** when copying code from the chat UI — it's
    part of the fence, not the code. Delete it or you get a SyntaxError.
+12. **P7 false PASS on the test-data trap** (found 2026-08-02, zwe101 round): fed
+   a cell that visibly rotates test images at predict time, P7 quoted the
+   offending line and called it PASS — while correctly failing the banned
+   import. → P7 is trustworthy for mechanical checks (imports, output file)
+   only. **The "never modify test data" check is YOURS**: before every submit,
+   personally scan for rotate/noise/augment/random near anything test. 30 s.
 
 ## The assistant's real limits (verified live)
 
@@ -155,7 +161,9 @@ Code:
 ```
 (Live-tested: without the strict per-line format the model answered
 "FAIL FAIL FAIL FAIL" on one line — useless. The quoted code line forces it
-to point at the actual problem.)
+to point at the actual problem. ⚠️ 2026-08-02: P7 gave a **false PASS on point 1**
+while quoting the very line that rotated the test images — trust P7 on
+imports/format only; check test-data modification with your own eyes.)
 
 **P8 — explain (when lost)**
 ```

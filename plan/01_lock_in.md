@@ -62,7 +62,7 @@ Everything else in the repo is reference. Do not "study" it.
 
 ## 3. Rules that bite (one-line reminders)
 
-- zwe104 is YOUR account only; never log into teammates'.
+- Your chatbot account is **zwe101** (reassigned from zwe104 per your note 2026-08-02 — ⚠️ confirm the reassignment is official with team leaders; account sharing is disqualification-level). Never log into teammates' accounts.
 - Appeals: official forms only, one per contestant per task. Extra time: file immediately, in-hall.
 - Hidden Scoreboard B decides medals — don't overfit the public leaderboard.
 - 20-min notebook runtime, 60 submissions/task, 1 GPU / 18 GB RAM.
