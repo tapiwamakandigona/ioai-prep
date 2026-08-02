@@ -3,8 +3,10 @@
 > Created 2026-08-02 after M1 attempt 1. Purpose: train the ONE skill that failed —
 > **detecting the free win in the statement and firing a targeted prompt** instead of
 > "improve this code". Interactive trainer (use this, it's the actual drill):
-> **https://coin-corto-a4a1d3.viktor.page/freewin-radar**
-> This file is the offline copy + the paper spotting drill for the flight.
+> **https://tapiwamakandigona.github.io/ioai-prep/freewin-radar.html**
+> (single self-contained file — you can also download `docs/freewin-radar.html` from
+> this repo and open it locally, works fully offline, e.g. on the flight).
+> This file is the text copy + the paper spotting drill.
 
 ## The method (why the trainer is a quiz, not notes)
 
