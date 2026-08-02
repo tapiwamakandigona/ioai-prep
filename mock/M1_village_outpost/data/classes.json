@@ -1,0 +1,34 @@
+{
+  "old_classes": [
+    "rain",
+    "wind",
+    "dog_bark",
+    "car_horn",
+    "footsteps",
+    "door_knock",
+    "birdsong",
+    "engine_idle"
+  ],
+  "new_classes": [
+    "chainsaw",
+    "gunshot",
+    "cricket",
+    "mosquito",
+    "glass_break"
+  ],
+  "all_classes": [
+    "rain",
+    "wind",
+    "dog_bark",
+    "car_horn",
+    "footsteps",
+    "door_knock",
+    "birdsong",
+    "engine_idle",
+    "chainsaw",
+    "gunshot",
+    "cricket",
+    "mosquito",
+    "glass_break"
+  ]
+}
