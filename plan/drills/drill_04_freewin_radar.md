@@ -2,7 +2,9 @@
 
 > Created 2026-08-02 after M1 attempt 1. Purpose: train the ONE skill that failed —
 > **detecting the free win in the statement and firing a targeted prompt** instead of
-> "improve this code". Interactive trainer (use this, it's the actual drill):
+> "improve this code". Interactive trainer v2 — multiple choice (tap the answer), plain-English cards, and a
+> "Read the cell" mode: real preprocessing/model cells where the trap lines highlight.
+> Use this, it's the actual drill:
 > **https://tapiwamakandigona.github.io/ioai-prep/freewin-radar.html**
 > (single self-contained file — you can also download `docs/freewin-radar.html` from
 > this repo and open it locally, works fully offline, e.g. on the flight).
@@ -13,8 +15,8 @@
 1. **Testing beats re-reading** (Rowland 2014 meta-analysis; Karpicke 2025). Reading the
    cram sheet again ≈ nothing sticks. Being forced to retrieve = memory. Expect to miss
    most cards in round 1 — that IS the method working, not you being dumb.
-2. **Say the answer out loud before flipping.** "Yeah I kinda know it" is familiarity,
-   not memory. Grade honestly; missed cards recycle until got.
+2. **Tap an answer even when unsure.** Wrong guesses followed by feedback teach hardest;
+   missed cards recycle until got. (v2 is multiple-choice — recognition, like the exam.)
 3. **Space the rounds** (Cepeda 2008; Kornell 2009 — even 1–2 spaced cycles inside
    3 days beat pure cramming by ~30–40 points): now → tonight before bed → Aug 3 before
    the 07:30 practice → Aug 3 evening → 5-min family-name pass on contest mornings.
