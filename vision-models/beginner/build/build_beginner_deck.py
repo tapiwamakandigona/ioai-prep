@@ -2,7 +2,7 @@
 """Build 'How Machines Learn to See' — beginner deck for IOAI 2026 Section 3.
 
 Audience: 14-18yo with zero coding/AI background, taught by a fellow student.
-1920x1080, Viktor profile, WeasyPrint. Run: uv run python build_beginner_deck.py
+1920x1080, Tapiwa profile, WeasyPrint. Run: uv run python build_beginner_deck.py
 """
 import json
 import html as html_mod
