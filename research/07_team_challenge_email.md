@@ -11,7 +11,7 @@
 ## 🤖 Team Challenge — At-Home Practice Round is LIVE
 - Platform: **https://simulation.galbot.com** (GALBOT robot-simulation environment).
 - Login is **per-country** (one shared "Zimbabwe" account) and **only one login can be active at a time** → the whole team should work together in one session for the practice round.
-- 🔒 Credentials were sent privately to the team leaders — **do not post them on Discord or anywhere public** (they are NOT in this repo; ask your team leader, or Viktor has them stored securely).
+- 🔒 Credentials were sent privately to the team leaders — **do not post them on Discord or anywhere public** (they are NOT in this repo; ask your team leader, or Tapiwa has them stored securely).
 - GALBOT will release **IOAILab** soon at: https://github.com/galbot-ioai/ioailab — watch this repo.
 - Implication for prep: the Team Challenge is a **robotics/simulation** event (GALBOT = humanoid robotics company). Expect embodied-AI flavored tasks; Home Task 2 (Robot Delivery / behavioral cloning) is clearly the warm-up.
 

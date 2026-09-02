@@ -2,7 +2,7 @@
 
 **Time box: 45 min. No studying. Follow the play, submit to Kaggle, log your score.**
 
-> Status: ✅ **VALIDATED 2026-07-11** — all prompts (P1–P5) tested live against **Gemma 4 (`gemma-4-31b-it`)** via the free Gemini API. P1/P2/P5 returned correct code on the first try; P3 and P4 each needed one rewrite (see "Validation notes"). Transcripts archived by Viktor.
+> Status: ✅ **VALIDATED 2026-07-11** — all prompts (P1–P5) tested live against **Gemma 4 (`gemma-4-31b-it`)** via the free Gemini API. P1/P2/P5 returned correct code on the first try; P3 and P4 each needed one rewrite (see "Validation notes"). Transcripts archived by Tapiwa.
 
 ## What the task is (30-second version)
 A robot on an 8×8 grid must walk to a depot, **pick up** a package, walk to another depot, and **drop it off**. You train it purely by copying expert demonstrations (`observation → action`, plain supervised learning). The baseline is an MLP on a flattened grid; the notebook itself tells you its weaknesses — your job is to fix them. Score = **episode Success Rate** (delivered within 120 steps). Actions 0–5 = south / north / east / west / pickup / dropoff.
@@ -59,14 +59,14 @@ A robot on an 8×8 grid must walk to a depot, **pick up** a package, walk to ano
 - **If you still have budget:** geometric augmentation (flipping/rotating existing trajectories, remapping the move actions to match) is the community consensus legal move ("the ban is on NEW trajectories") and reportedly helps — but there's **no official ruling yet**. Use it only after P1–P5 work, and be ready to drop it.
 - **Kaggle gotchas:** 20 subs/day. "Submission File Not Found" = wrong file/format — the Kaggle variant may expect the baseline's two dataframe columns combined; re-read the Kaggle data page before panicking. The GitHub `valid_scenarios` = Kaggle's test set; there's only a public leaderboard, no private split — your P4 number should track the LB closely. Deterministic predictions required (seeds already fixed in the notebook).
 
-## Validation notes (Viktor, 2026-07-11 — live run against `gemma-4-31b-it`)
+## Validation notes (Tapiwa, 2026-07-11 — live run against `gemma-4-31b-it`)
 - **P1, P2, P5: correct on the first try.** P2 computed the flatten size (64·8·8+13=4109) itself; P5 reused the notebook's own `generate_predictions`/`save_predictions_zip` and verified the jsonl format.
 - **P3 failed once, fixed by one rewrite.** The vague first version ("count each action in grid_dataset") made Gemma invent `grid_dataset.actions`, unpack the loader as 3 tensors instead of 4, and call `cnn_model(grids)` without the vector — plus it emitted a draft code block *and* a final one. Lesson: **spell out the batch tuple order and the forward signature in the prompt** (now baked into P3 above).
 - **P4 failed once, fixed by one rewrite.** The first version's three-part ask made Gemma draft, self-check line-by-line, redraft — and the final code block got **cut off at the 2000-token cap**. Lesson: on multi-part asks, shorten the wording, drop the limit to 25 lines, and extend the suffix with "no plan, no draft version, no self-check, no line counting. Write the final code directly." (now baked into P4 above).
 - **Quirk — rambling persists:** even with the suffix, Gemma 4 wraps the code in bullet-point plans and post-checks. Harmless as long as the code block itself is complete; if it truncates, say "shorter" or "Continue the code from the last line."
 - **Quirk — flaky API:** intermittent HTTP 500 on the free tier, including one ~10-minute full outage during validation. Not your prompt's fault — resend/retry before rewording.
 
-## Log it (2 min, in this file's table or DM Viktor)
+## Log it (2 min, in this file's table or DM Tapiwa)
 | Date | Baseline SR | Your SR (P4) | Fail before/after pickup | Kaggle LB | What broke | Prompts that saved you |
 |---|---|---|---|---|---|---|
 | 2026-07-14 | 0.21 (MLP, 100 val eps, CPU) | CNN 0.64 → +flips **0.80 local / 0.84 on-Kaggle** (replayed test SR 0.788) | v3: 7 before / 13 after | **0.83** (sub 54695459, `mukanya1994/ioai-ht2-robot-delivery-drill02` v2) | (1) T10 open-ended "ONE change" ask truncated twice at the 2000-token cap; (2) Gemma's flip fns swapped tuple elements in-place → aliasing bug, loss exploded, SR 0.02; (3) P5 invented `p['scenario']` key → KeyError | Prescriptive step-by-step split of T10 into two small asks (playbook recovery #2); T9 traceback-paste fixed both bugs first try (`.clone()` temps; correct scenario dict keys). Run artifacts: `plan/drills/runs/2026-07-14_drill02/` |

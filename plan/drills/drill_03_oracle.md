@@ -82,7 +82,7 @@ Run the notebook's own Step 4 cell (`my_dev = evaluate(MySolution(animals_pool, 
 - **Deterministic ≠ infallible.** Same (animal, question) always gives the same answer, but the answer itself can be "wrong" (the model's belief). That's why P3 never hard-eliminates.
 - **20-minute rule (Discord ruling):** train + inference must fit in 20 min for the official run — precompute in `__init__` with your own model copy is the intended approach; loading a table you computed offline into `__init__` is exactly the pattern the notebook teaches. Keep your `MySolution.__init__` fast at eval time (load the .npz, don't recompute).
 
-## Validation notes (Viktor, 2026-07-11 — live run against `gemma-4-31b-it`, fresh chat per prompt, P0 pasted first)
+## Validation notes (Tapiwa, 2026-07-11 — live run against `gemma-4-31b-it`, fresh chat per prompt, P0 pasted first)
 - **P1 (batched predictor): PASS.** Correct on the merits every attempt: left padding, per-prompt chat template, one batched generate, slicing off only new tokens, `startswith("yes")` parsing — even added `torch.no_grad()` unprompted.
 - **P2 (checkpointed precompute): PASS first try.** Drive mount, resume-from-`done`, save every 25 — exactly as asked.
 - **P3 (solver): PASS on iteration 3.** Iter 1 came back **completely empty** — Gemma spent all 2000 tokens on hidden deliberation before writing any visible code. Fix #1: start the prompt with "Answer immediately with code — do not deliberate." Iter 2 then produced clean code but looped over `questions_pool` (559) instead of `QUESTIONS` (120 table columns) — would have crashed on `table[:, j]`. Fix #2: spell out "loop j over range(len(QUESTIONS)) (the global QUESTIONS, NOT questions_pool)". Iter 3: correct, including the `best_j == -1` guard and soft ×0.9/×0.1 update.
@@ -91,7 +91,7 @@ Run the notebook's own Step 4 cell (`my_dev = evaluate(MySolution(animals_pool, 
 - **Flaky API:** repeated HTTP 500 storms during validation (one prompt needed 6+ retries). Not your prompt's fault — resend before rewording. The contest UI shouldn't have this, but the same rule applies: retry first.
 - Strategy logic double-checked offline in plain numpy (synthetic 1472×120 table, 5% injected noise): the greedy+soft-weights policy puts the true animal top-1 ~83% within 15 asks even under noise; with the deterministic real table it should be substantially better.
 
-## Log it (2 min, in this file's table or DM Viktor)
+## Log it (2 min, in this file's table or DM Tapiwa)
 | Date | Baseline (random) | P4 sim mean | Dev score | FINAL score | What broke | Prompts that saved you |
 |---|---|---|---|---|---|---|
 |  |  |  |  |  |  |  |

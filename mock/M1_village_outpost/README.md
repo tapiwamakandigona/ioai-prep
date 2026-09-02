@@ -1,7 +1,7 @@
 # 🌙 Mock Task M1 — Operation Night Watch: The Village Outpost
 
 A **format-faithful practice task** in the style of the IOAI 2026 At-Home Round (Home Task 1 family:
-continual learning / catastrophic forgetting). Built 2026-08-02 by Viktor for contest-condition practice.
+continual learning / catastrophic forgetting). Built 2026-08-02 by Tapiwa for contest-condition practice.
 
 ## How to run it (contest conditions)
 
@@ -10,7 +10,7 @@ continual learning / catastrophic forgetting). Built 2026-08-02 by Viktor for co
 3. Help allowed: **the Gemma chatbot only** — drive it with the prompt pack (`research/12`), just like contest day.
 4. Run the baseline top-to-bottom, note its validation score (~0.43), write `submission.csv` early.
 5. Improve it (the mission section lists the intended paths), one change at a time, log every score.
-6. Send the **updated notebook + `submission.csv`** to Viktor on Slack for grading against the hidden test set.
+6. Send the **updated notebook + `submission.csv`** to Tapiwa on Slack for grading against the hidden test set.
 
 ## Facts
 

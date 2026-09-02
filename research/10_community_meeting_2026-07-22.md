@@ -2,7 +2,7 @@
 
 > Sources: (1) meeting notes relayed by Tapiwa (joined late, so partial), 2026-07-22;
 > (2) **first-hand verified exploration of the official contestant chatbot** at
-> https://chat.ioai2026.kz/ (Viktor, 2026-07-22). Credentials are NOT in this repo.
+> https://chat.ioai2026.kz/ (Tapiwa, 2026-07-22). Credentials are NOT in this repo.
 
 ## 🚨 Was due Jul 22 — confirm with team leaders that it happened
 

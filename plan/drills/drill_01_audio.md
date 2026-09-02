@@ -47,18 +47,18 @@ You get a trained 16-class audio classifier (AST) + data for 13 new classes. Mak
 - 20 submissions/day limit. Community score to beat: **~87%**.
 - New classes have only 24–60 clips each — replay mixing (P3) is the whole game.
 
-## Validation notes (Viktor, 2026-07-11 — live run against `gemma-4-31b-it`)
+## Validation notes (Tapiwa, 2026-07-11 — live run against `gemma-4-31b-it`)
 - **All 5 prompts produced correct code.** Highlights: P1 did proper weight-slicing head surgery (`new.weight[:16] = old.weight`) and remembered `model.config.num_labels = 29`; P3 got the dual learning rates and per-epoch replay sampling right; P4 masked old/new accuracy exactly as the metric demands.
 - **Quirk 1 — rambling:** without the "ONLY a single code block" suffix, P3's reply hit the 2000-token cap mid-code. The suffix (now baked into the play above) is mandatory.
 - **Quirk 2 — flaky API:** the free API threw intermittent HTTP 500s. Not your prompt's fault — just resend. In the actual contest UI this shouldn't apply, but if the chatbot errors, retry before rewording.
 - One thing to watch: Gemma sometimes assumes `processor`/`train_df` already exist. If a snippet references an undefined variable, ask: "Define X too. Code only."
 
-## Log it (2 min, in this file's table or DM Viktor)
+## Log it (2 min, in this file's table or DM Tapiwa)
 | Date | Baseline score | Your score | Kaggle LB | What broke | Prompts that saved you |
 |---|---|---|---|---|---|
-| 2026-07-12 (Viktor, full end-to-end) | — (dummy sub = all zeros) | val: old 93.3% / new 93.6% / **mean 93.5%** | **0.80773** (public) | 4 things (see run notes) | "Fix this. Code only." with full traceback — fixed every bug first try |
+| 2026-07-12 (Tapiwa, full end-to-end) | — (dummy sub = all zeros) | val: old 93.3% / new 93.6% / **mean 93.5%** | **0.80773** (public) | 4 things (see run notes) | "Fix this. Code only." with full traceback — fixed every bug first try |
 
-## End-to-end Kaggle run notes (Viktor, 2026-07-12 — the play works, submission made)
+## End-to-end Kaggle run notes (Tapiwa, 2026-07-12 — the play works, submission made)
 The whole drill was run for real: every line of modeling code written by `gemma-4-31b-it` under the 2000-token cap (fresh chat per prompt, via `tools/gemma_contest.py`), assembled into a Kaggle notebook, trained on GPU, submitted. Full prompt/reply transcript + notebook: `plan/drills/runs/2026-07-12_drill01/`.
 
 **Result: val mean accuracy 93.5% (old 93.3 / new 93.6) after 3 epochs, ~7 min training — beats the ~87% community bar. Public LB: 0.80773** (submission 54602732; the val→LB gap is expected — the known label-noise pairs 3/7 and 11/15 plus hidden-split shift eat ~13 points. Next lever: label-noise handling — relabel/merge the confused pairs or use soft targets — before adding epochs.)

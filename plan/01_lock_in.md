@@ -50,7 +50,7 @@ Everything else in the repo is reference. Do not "study" it.
 | **Jul 27** | Yandex example task (new.contest.yandex.ru/contests/93047) — the real on-site platform. Get comfortable with the interface. |
 | **Jul 28** | Rest / catch-up day (life happens; this slot absorbs slippage). |
 | **Jul 29** | **Timed mock, 3 h:** one home task from scratch, contest rules, real bot, ≤60 messages total. Baseline on the board in 30 min or you failed the mock. |
-| **Jul 30** | Review the mock with me (Viktor): what broke, ≤3 corrections. Update `plan/snippets.md`. |
+| **Jul 30** | Review the mock: what broke, ≤3 corrections. Update `plan/snippets.md`. |
 | **Jul 31** | Second playbook self-test + logistics: pack, download offline copies of the hub pages, charge everything. |
 | **Aug 1** | Rest. Seriously. |
 | **Aug 2** | Travel / opening ceremony. Watch Discord + email for GALBOT window reopening + quota announcements. |

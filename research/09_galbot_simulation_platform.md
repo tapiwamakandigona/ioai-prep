@@ -1,7 +1,7 @@
 # GALBOT Simulation Platform — Full First-Hand Walkthrough
 
 > Source: **logged into https://simulation.galbot.com with the Zimbabwe team account and explored every
-> page + the built-in Player User Guide + the full ioailab docs** (Viktor, 2026-07-22). Everything below
+> page + the built-in Player User Guide + the full ioailab docs** (Tapiwa, 2026-07-22). Everything below
 > is VERIFIED first-hand unless marked otherwise. Credentials are NOT in this repo — ask the team leaders.
 
 ## ⚠️ Status as of 2026-07-22 (evening)

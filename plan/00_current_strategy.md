@@ -11,14 +11,14 @@
 ## The strategy: train the operator, not the engineer
 The single skill being trained: **driving Gemma to a scoring submission**. No theory, no lessons.
 
-### Step 1 — Viktor validates the route (Jul 11–14)
-Viktor solves all 3 At-Home Tasks using **only prompts to Gemma 4** (`gemma-4-31b-it` — the actual contest-bot family, available on the free Gemini API), no expert knowledge injected. Output: **prompt scripts** per task — "paste this → then this → if you see error X, paste that." Any spot that can't be cheesed gets a scripted workaround.
+### Step 1 — Tapiwa validates the route (Jul 11–14)
+Tapiwa solves all 3 At-Home Tasks using **only prompts to Gemma 4** (`gemma-4-31b-it` — the actual contest-bot family, available on the free Gemini API), no expert knowledge injected. Output: **prompt scripts** per task — "paste this → then this → if you see error X, paste that." Any spot that can't be cheesed gets a scripted workaround.
 
 ### Step 2 — One-page playbook (Jul 14) ✅ DONE (Jul 13)
 **`plan/playbook.md`** — 10 prompt templates + 5 recovery moves + the two magic strings, all distilled from the live-validated drills and the real Kaggle run. Short enough to memorize. This is THE cheat sheet for self-practice; everything else is reference.
 
 ### Step 3 — Drills, 2–3×/week, ~45 min (Jul 14 → Aug 1)
-Colab + Gemma + drill card → submit to the **Kaggle leaderboard** (Home Tasks 1–2 are live, 20 subs/day). No studying — run the play. Viktor reviews the notebook + score afterwards, gives **max 3 corrections**. Leaderboard = honest signal whether the cheese works, weeks before the flight.
+Colab + Gemma + drill card → submit to the **Kaggle leaderboard** (Home Tasks 1–2 are live, 20 subs/day). No studying — run the play. Tapiwa reviews the notebook + score afterwards, gives **max 3 corrections**. Leaderboard = honest signal whether the cheese works, weeks before the flight.
 
 ### Step 4 — Dry runs (late Jul)
 - The official **Yandex Contest example task**: https://new.contest.yandex.ru/contests/93047 (the real on-site platform).
